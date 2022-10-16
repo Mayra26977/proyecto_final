@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="734.0" prefWidth="1423.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.TabUsuariosController">
+   <children>
+      <AnchorPane layoutY="-2.0" prefHeight="695.0" prefWidth="337.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TableView fx:id="tblUsuarios" layoutX="14.0" layoutY="14.0" prefHeight="500.0" prefWidth="335.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                
+               <columns>
+                  <TableColumn fx:id="colUsuario" editable="false" prefWidth="166.0" text="Usuario" />
+                  <TableColumn fx:id="colRol" editable="false" prefWidth="172.0" text="Rol" />
+               </columns>            
+            </TableView>
+         </children>         
+      </AnchorPane>
+      <AnchorPane layoutX="344.0" layoutY="4.0" prefHeight="756.0" prefWidth="1079.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="200.0" layoutY="55.0" prefHeight="252.0" prefWidth="771.0" spacing="100.0" AnchorPane.bottomAnchor="451.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="108.0" AnchorPane.topAnchor="55.0">
+               <children>
+                  <ImageView fitHeight="250.0" fitWidth="311.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../imagenes/Usuarios.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="252.0" prefWidth="372.0" text="Datos usuario">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="627.0" layoutY="457.0" prefHeight="288.0" prefWidth="959.0" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="627.0" AnchorPane.rightAnchor="-163.0" AnchorPane.topAnchor="457.0">
+         <children>
+            <VBox prefHeight="332.0" prefWidth="959.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox fillHeight="false" prefHeight="98.0" prefWidth="959.0" spacing="50.0">
+                     <children>
+                        <Label text="Usuario" />
+                        <TextField fx:id="txtUsuario" prefHeight="31.0" prefWidth="386.0">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Label text="Contraseña" />
+                        <TextField fx:id="txtContrasenia" prefHeight="31.0" prefWidth="382.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="121.0" prefWidth="844.0" spacing="50.0">
+                     <children>
+                        <Label text="Rol" />
+                        <ComboBox fx:id="cmbRol" prefHeight="31.0" prefWidth="377.0" promptText="Rol">
+                           <HBox.margin>
+                              <Insets left="55.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" fillHeight="false" layoutX="14.0" layoutY="756.0" prefHeight="52.0" prefWidth="1404.0" spacing="100.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="756.0">
+         <children>
+            <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" text="Insertar" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" text="Actualizar" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" text="Borrar" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
