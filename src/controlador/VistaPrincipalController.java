@@ -1,13 +1,10 @@
 package controlador;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import modelo.Global;
@@ -40,11 +37,8 @@ public class VistaPrincipalController implements Initializable {
                 break;
             case "Administrativo":
                 comprobarTabs(pestaniasAdministrativo);
-                break;            
-              
+                break;           
         }
-        
-
     }
 
     public void comprobarTabs(String[] lista) {
