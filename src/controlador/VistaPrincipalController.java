@@ -19,7 +19,9 @@ public class VistaPrincipalController implements Initializable {
     @FXML
     private TabPane tabPane;
     private ObservableList<Tab> listaTabs;
+    //array de tabs que se verá el rol operario
     private String[] pestaniasOperario = {"Productos", "Pedidos compra", "Orden fabricación"};
+    //array de tabs que se verá el rol Administrativo
     private String[] pestaniasAdministrativo = {"Productos", "Pedidos compra", "Pedidos venta","Facturas compra","Facturas venta","Proveedores","Clientes"};
 
     /**
@@ -27,12 +29,11 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(Global.usuarioLoginRol);
-        System.out.println(Global.usuarioLogueadoNombre);
+        
         listaTabs = tabPane.getTabs();
         switch (Global.usuarioLoginRol) {
             case "Operario":
-                comprobarTabs(pestaniasOperario);
+                comprobarTabs(pestaniasOperario);//lo llamamos y comprobamos las tabs
                 
                 break;
             case "Administrativo":
@@ -40,9 +41,9 @@ public class VistaPrincipalController implements Initializable {
                 break;           
         }
     }
-
+//metodo que comprueba las tabs visibles en funcion del rol al que le pasamos un array
     public void comprobarTabs(String[] lista) {
-        
+        //para borrar tabs 
         for (int i = 0; i < listaTabs.size(); i++) {
             boolean existe = false;
             Tab tab = listaTabs.get(i);
@@ -52,7 +53,7 @@ public class VistaPrincipalController implements Initializable {
                 }
             }
             if(!existe){
-                //si no pongo el i-- se saltaria una posición 
+                //si no pongo el i-- se saltaria una posición cuando se van borrando
                 listaTabs.remove(tab);
                 i--;
             }

@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane prefHeight="705.0" prefWidth="1551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="705.0" prefWidth="1551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
    <content>
       <AnchorPane id="AnchorPane" prefHeight="756.0" prefWidth="1537.0">
          <children>

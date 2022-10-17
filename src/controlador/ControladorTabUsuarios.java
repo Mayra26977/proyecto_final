@@ -95,10 +95,11 @@ public class ControladorTabUsuarios implements Initializable {
 
     @FXML
     private void Actualizar(ActionEvent event) {
+
         String contrasenia = txtContrasenia.getText();
         String usuario = txtUsuario.getText();
         String rolUsuario = (String) cmbRol.getValue();
-        uSeleccionado = new Usuario(Usuario.obtenerId(txtUsuario.getText()), txtContrasenia.getText(), cmbRol.getValue());
+
         Usuario uActualizado = new Usuario(uSeleccionado.getUsuario_id(), usuario, rolUsuario);
         if (!contrasenia.equals("")) {
             //se actualiza el usuario y la contraseña
@@ -115,7 +116,7 @@ public class ControladorTabUsuarios implements Initializable {
 
         } else {
             //se actualiza el usuario sin contraseña
-            Usuario.modificarUsuario(uActualizado);            
+            Usuario.modificarUsuario(uActualizado);
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlert.setTitle("Actualizar Usuario");
             dialogoAlert.setHeaderText("Informacion actualización");
@@ -130,7 +131,7 @@ public class ControladorTabUsuarios implements Initializable {
 
     @FXML
     private void borrar(ActionEvent event) {
-        
+
         Usuario uSelecionado = tblUsuarios.getSelectionModel().getSelectedItem();
 //                posicionUsuarioTabla = tblUsuarios.getSelectionModel().getSelectedIndex();
 //                System.out.println(posicionUsuarioTabla);

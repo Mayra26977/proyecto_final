@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.StageStyle;
 import modelo.Cliente;
-import modelo.Global;
 
 /**
  * FXML Controller class
@@ -70,10 +69,9 @@ public class ControladorTabClientes implements Initializable {
         clienteSeleccionado();//metodo que añade escuchador a la tabla
     }
 //método que tiene asociado el botón de insertar en el fxml
+
     @FXML
     private void insertar(ActionEvent event) {
-        System.out.println("que cree y guarde en cliente");
-        System.out.println(Global.usuarioLogueadoId);
         String nif = txtNif.getText();
         String nombre = txtNombre.getText();
         String apellidos = txtApellidos.getText();
@@ -104,6 +102,7 @@ public class ControladorTabClientes implements Initializable {
         }
     }
 //método que tiene asociado el botón de actualizar en el fxml
+
     @FXML
     private void Actualizar(ActionEvent event) {
 
@@ -113,9 +112,6 @@ public class ControladorTabClientes implements Initializable {
         String direccion = txtDireccion.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-
-        cSeleccionado = new Cliente(Cliente.obtenerId(txtNombre.getText()), txtNif.getText(), txtNombre.getText(), txtApellidos.getText(),
-                txtDireccion.getText(), txtEmail.getText(), txtTelefono.getText());
         Cliente cActualizado = new Cliente(cSeleccionado.getId_cliente(), nif, nombre, apellidos, direccion, email, telefono);
 
         //se actualiza el cliente
@@ -130,12 +126,11 @@ public class ControladorTabClientes implements Initializable {
         cargarTablaClientes();
     }
 //método que tiene asociado el botón de borrar en el fxml
+
     @FXML
     private void borrar(ActionEvent event) {
 
         Cliente cSelecionado = tblClientes.getSelectionModel().getSelectedItem();
-        System.out.println("que borren usuarios");
-        System.out.println(Global.usuarioLogueadoId);
 
         if (cSelecionado == null) {
             // ventana de hay que seleccionar usuario en la tabla si no no se puede borrar
@@ -172,6 +167,7 @@ public class ControladorTabClientes implements Initializable {
         }
     }
 //metodo que actualiza la tabla de los clientes
+
     public void cargarTablaClientes() {
 
         colNif.setCellValueFactory(new PropertyValueFactory("nif"));
@@ -184,6 +180,7 @@ public class ControladorTabClientes implements Initializable {
         tblClientes.setItems(clientes);
     }
 //método para limpiar el formulario de clientes
+
     public void limpiar() {
 
         txtNif.clear();
