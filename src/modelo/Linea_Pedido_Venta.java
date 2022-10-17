@@ -2,7 +2,7 @@ package modelo;
 
 /**
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class Linea_Pedido_Venta {
     

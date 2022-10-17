@@ -37,6 +37,9 @@ public class Main extends Application {
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
+            System.out.println("Ocurrió un error al cargar la vista");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
 

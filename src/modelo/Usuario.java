@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class Usuario {
 
@@ -55,7 +55,7 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
-//metodo para obtener todos los usuarios que no tienen el eliminado
+//metodo para obtener todos los usuarios que no tienen el eliminado a 1
 
     public static ObservableList obtenerUsuarios() {
         ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
@@ -72,6 +72,9 @@ public class Usuario {
                 listaUsuarios.add(new Usuario(id,nombre, rol));
             }
         } catch (SQLException ex) {
+             System.out.println("Ocurrió un error al obtener los usuarios");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
         return listaUsuarios;
@@ -93,9 +96,13 @@ public class Usuario {
             }
 
         } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al loguearse");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
+            return false;
         }
-        return false;
+        
     }
 //metodo para obtener la id de los usuarios con ese nombre
 
@@ -112,6 +119,9 @@ public class Usuario {
             }
 
         } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener el id del usuario");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
 
@@ -131,6 +141,9 @@ public class Usuario {
             }
 
         } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener el rol del usuario");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
         return rolU;
@@ -149,6 +162,9 @@ public class Usuario {
             return stmt.execute(sql);
 
         } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al insertar el usuario");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
             ex.printStackTrace();
             return false;
         }
@@ -174,7 +190,8 @@ public class Usuario {
         }
 
     }
-
+    
+    //método para modificar usuario
     public static boolean modificarUsuario(Usuario usuario) {
         Statement stmt = null;
         try {
@@ -194,6 +211,7 @@ public class Usuario {
         }
     }
 
+    //método para modificar usuario y contraseña
     public static boolean modificarUsuario(Usuario usuario, String contrasenia) {
          Statement stmt = null;
         try {

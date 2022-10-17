@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane prefHeight="705.0" prefWidth="1551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
+   <content>
+      <AnchorPane id="AnchorPane" prefHeight="756.0" prefWidth="1537.0">
+         <children>
+            <AnchorPane prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columns>
+                        <TableColumn fx:id="colNif" editable="false" prefWidth="82.0" text="NIF" />
+                        <TableColumn fx:id="colNombre" editable="false" prefWidth="83.0" text="Nombre" />
+                        <TableColumn fx:id="colApellidos" editable="false" prefWidth="181.0" text="Apellidos" />
+                        <TableColumn fx:id="colDireccion" editable="false" prefWidth="202.0" text="Dirección" />
+                        <TableColumn fx:id="colEmail" editable="false" prefWidth="196.0" text="Email" />
+                        <TableColumn fx:id="colTelefono" editable="false" prefWidth="106.0" text="Teléfono" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="804.0" prefHeight="756.0" prefWidth="733.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="804.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox layoutX="139.0" layoutY="63.0" prefHeight="250.0" prefWidth="656.0" spacing="50.0" AnchorPane.bottomAnchor="443.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="-34.0" AnchorPane.topAnchor="63.0">
+                     <children>
+                        <ImageView fitHeight="250.0" fitWidth="311.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../imagenes/cliente.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="250.0" prefWidth="313.0" text="Datos cliente">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <AnchorPane layoutX="154.0" layoutY="353.0" prefHeight="227.0" prefWidth="493.0" AnchorPane.bottomAnchor="176.0" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="353.0">
+                     <children>
+                        <VBox layoutX="-6.0" prefHeight="227.0" prefWidth="614.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox prefHeight="30.0" prefWidth="850.0">
+                                 <children>
+                                    <Label text="NIF" />
+                                    <TextField fx:id="txtNif" prefHeight="25.0" prefWidth="240.0">
+                                       <HBox.margin>
+                                          <Insets left="100.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox fillHeight="false" prefHeight="30.0" prefWidth="850.0" spacing="50.0">
+                                 <children>
+                                    <Label text="Nombre" />
+                                    <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="386.0">
+                                       <tooltip>
+                                          <Tooltip text="Escribe el nombre del usuario" />
+                                       </tooltip>
+                                       <HBox.margin>
+                                          <Insets left="25.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="30.0" prefWidth="850.0" spacing="50.0">
+                                 <children>
+                                    <Label text="Apellidos" />
+                                    <TextField fx:id="txtApellidos" prefHeight="31.0" prefWidth="387.0">
+                                       <tooltip>
+                                          <Tooltip text="Escribe la contraseña del usuario" />
+                                       </tooltip>
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="40.0" prefWidth="850.0">
+                                 <children>
+                                    <Label text="Dirección" />
+                                    <TextField fx:id="txtDireccion" prefHeight="25.0" prefWidth="386.0">
+                                       <HBox.margin>
+                                          <Insets left="70.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="40.0" prefWidth="850.0">
+                                 <children>
+                                    <Label text="Email" />
+                                    <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="387.0">
+                                       <HBox.margin>
+                                          <Insets left="90.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="40.0" prefWidth="850.0">
+                                 <children>
+                                    <Label text="Teléfono" />
+                                    <TextField fx:id="txtTelefono" prefHeight="25.0" prefWidth="245.0">
+                                       <HBox.margin>
+                                          <Insets left="70.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                  <HBox alignment="CENTER" fillHeight="false" layoutX="139.0" layoutY="620.0" prefHeight="84.0" prefWidth="576.0" spacing="100.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="620.0">
+                     <children>
+                        <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="25.0" prefWidth="100.0" text="Actualizar" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

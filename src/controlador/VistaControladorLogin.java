@@ -1,12 +1,12 @@
 package controlador;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -14,14 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import modelo.Global;
-import static modelo.Global.usuarioLogueadoNombre;
+import javafx.stage.StageStyle;
 import modelo.Usuario;
 
 /**
  * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class VistaControladorLogin implements Initializable {
 
@@ -44,7 +43,6 @@ public class VistaControladorLogin implements Initializable {
     private String contrasenia;
     private Stage stage;
     private FXMLLoader loader;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,7 +50,7 @@ public class VistaControladorLogin implements Initializable {
         btnLogin.setDisable(true);
         txtContrasenia.setDisable(true);
     }
-
+//se van habilitando botones y campos de texto según se van rellenando datos
     @FXML
     private void habilitarBoton(KeyEvent event) {
         usuario = txtUsuario.getText();
@@ -73,18 +71,25 @@ public class VistaControladorLogin implements Initializable {
     private void entrar(ActionEvent event) {
 
         if (Usuario.obtenerUsuarioCorrecto(txtUsuario.getText(), txtContrasenia.getText())) {
-            
-            loader = new FXMLLoader(getClass().getResource("/vista/vistaPrincipal.fxml"));            
-            modelo.Utils.abrirVentana(loader, stage); 
-            modelo.Utils.cerrarVentana(event);          
+            //si se introduce un usuario y contraseña que coinciden en la bd 
+            loader = new FXMLLoader(getClass().getResource("/vista/vistaPrincipal.fxml"));
+            modelo.Utils.abrirVentana(loader, stage);
+            modelo.Utils.cerrarVentana(event);
 
         } else {
-            //TODO avisar usuario no existe
+            //si algún dato es erroneo 
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Comprobación usuario");
+            dialogoAlert.setHeaderText("Datos erroneos");
+            dialogoAlert.setContentText("Usuario o contraseña incorrecto");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
         }
     }
 
     @FXML
     private void salir(ActionEvent event) {
+        //cierra la aplicacion
         System.exit(0);
     }
 

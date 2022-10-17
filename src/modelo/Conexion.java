@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 
 /**
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class Conexion {
 

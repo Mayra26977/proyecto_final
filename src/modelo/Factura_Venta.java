@@ -4,7 +4,7 @@ import java.sql.Date;
 
 /**
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class Factura_Venta {
     

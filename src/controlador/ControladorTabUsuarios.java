@@ -50,14 +50,17 @@ public class ControladorTabUsuarios implements Initializable {
     private int posicionUsuarioTabla;
     private FXMLLoader loader = new FXMLLoader();
     private ObservableList<Usuario> usuarios;
+    private Usuario uSeleccionado;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarTablaUsuarios();
-        cargarCombo();
+        cargarTablaUsuarios();//se carga la tabla de usuarios        
+        usuarioSeleccionado();//cuando se selecciona un usuario en la tabla
+        cargarCombo();//se carga el combobox
+
     }
 
     @FXML
@@ -95,24 +98,39 @@ public class ControladorTabUsuarios implements Initializable {
         String contrasenia = txtContrasenia.getText();
         String usuario = txtUsuario.getText();
         String rolUsuario = (String) cmbRol.getValue();
-        
-        Usuario uSelecionado = tblUsuarios.getSelectionModel().getSelectedItem();
-        Usuario uActualizado = new Usuario(uSelecionado.getUsuario_id(),usuario,rolUsuario);
-        txtUsuario.setText(uSelecionado.getNombre_usuario());
+        uSeleccionado = new Usuario(Usuario.obtenerId(txtUsuario.getText()), txtContrasenia.getText(), cmbRol.getValue());
+        Usuario uActualizado = new Usuario(uSeleccionado.getUsuario_id(), usuario, rolUsuario);
         if (!contrasenia.equals("")) {
-            if(Usuario.modificarUsuario(uActualizado, contrasenia)){
-                //uSelecionado = uActualizado;  
-                cargarTablaUsuarios();
-            }
+            //se actualiza el usuario y la contraseña
+            Usuario.modificarUsuario(uActualizado, contrasenia);
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Actualizar Usuario");
+            dialogoAlert.setHeaderText("Informacion actualización");
+            dialogoAlert.setContentText("Se actualizo el usuario y la contraseña.");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+            cargarCombo();
+            limpiar();
+            cargarTablaUsuarios();
+
         } else {
-            Usuario.modificarUsuario(uActualizado);
-                 //uSelecionado = uActualizado;
-                 cargarTablaUsuarios();            
+            //se actualiza el usuario sin contraseña
+            Usuario.modificarUsuario(uActualizado);            
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Actualizar Usuario");
+            dialogoAlert.setHeaderText("Informacion actualización");
+            dialogoAlert.setContentText("Se actualizo el usuario.");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+            cargarCombo();
+            limpiar();
+            cargarTablaUsuarios();
         }
     }
 
     @FXML
     private void borrar(ActionEvent event) {
+        
         Usuario uSelecionado = tblUsuarios.getSelectionModel().getSelectedItem();
 //                posicionUsuarioTabla = tblUsuarios.getSelectionModel().getSelectedIndex();
 //                System.out.println(posicionUsuarioTabla);
@@ -172,6 +190,16 @@ public class ControladorTabUsuarios implements Initializable {
         txtUsuario.clear();
         txtContrasenia.clear();
         cmbRol.getItems().clear();
+        cargarCombo();//se carga el combobox
+    }
+
+    public void usuarioSeleccionado() {
+        //funcion lambda para que seleccione de la tabla y rellene los textfield
+        tblUsuarios.setOnMouseClicked(event -> {
+            uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
+            txtUsuario.setText(uSeleccionado.getNombre_usuario());
+            cmbRol.setValue(uSeleccionado.getRol());
+        });
     }
 
 }
