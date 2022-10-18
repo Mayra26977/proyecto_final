@@ -1,13 +1,14 @@
 package modelo;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.Reader;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -30,11 +31,9 @@ public class Producto {
     private double cantidad;
     private boolean eliminado;
     private Blob imagen;
+    private Image imagenProducto;
 
-    public Producto() {
-    }
-
-    public Producto(int id_producto, String nombre, String descripcion, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen) {
+    public Producto(int id_producto, String nombre, String descripcion, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -48,15 +47,16 @@ public class Producto {
         this.cantidad = cantidad;
         this.eliminado = eliminado;
         this.imagen = imagen;
+        this.imagenProducto = imagenProducto;
     }
 
-    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Blob imagen) {
+    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Image imagen) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidad = cantidad;
-        this.imagen = imagen;
+        this.imagenProducto = imagen;
     }
 
     public int getId_producto() {
@@ -163,22 +163,33 @@ public class Producto {
         this.imagen = imagen;
     }
 
+    public Image getImagenProducto() {
+        return imagenProducto;
+    }
+
+    public void setImagenProducto(Image imagenProducto) {
+        this.imagenProducto = imagenProducto;
+    }
+
     //metodo para obtener todos los usuarios que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+        ImageView imagenProducto = null;
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0")) {
 
             while (result.next()) {
+                byte byteImage[] = null;
                 int id = result.getInt("id_producto");
                 String nombre = result.getString("nombre");
                 String descripcion = result.getString("descripcion");
                 double precio = result.getDouble("precio");
                 double cantidad = result.getDouble("cantidad");
                 Blob imagen = result.getBlob("imagen");
-          
-
-                //Usuario u = new Usuario(nombre, rol);
-                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, imagen));
+                byteImage = imagen.getBytes(1, (int) imagen.length());
+                // crear el Image y mostrarlo en el ImageView
+                Image img = new Image(new ByteArrayInputStream(byteImage));
+                ImageView imageView = new ImageView(img);
+                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img));
             }
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener los usuarios");

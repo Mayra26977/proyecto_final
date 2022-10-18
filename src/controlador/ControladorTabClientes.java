@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
 import modelo.Cliente;
 
@@ -194,7 +195,7 @@ public class ControladorTabClientes implements Initializable {
 //método para que se rellenen los campos cuando se seleccione un cliente de la tabla
     public void clienteSeleccionado() {
         //funcion lambda para que seleccione de la tabla y rellene los textfield
-        tblClientes.setOnMouseClicked(event -> {
+        tblClientes.setOnMouseClicked((MouseEvent event) -> {
             cSeleccionado = tblClientes.getSelectionModel().getSelectedItem();
 
             txtNif.setText(cSeleccionado.getNif());

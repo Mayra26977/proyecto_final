@@ -1,11 +1,8 @@
 package controlador;
 
 import com.mysql.cj.jdbc.Blob;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +12,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import modelo.Producto;
 
 /**
@@ -35,7 +35,7 @@ public class ControladorTabProductos implements Initializable {
     @FXML
     private TableColumn<Producto, Double> colCantidad;
     @FXML
-    private TableColumn<Producto, Blob> colImagen;
+    private TableColumn<Producto, Image> colImagen;
     @FXML
     private TextField txtNombre;
     @FXML
@@ -52,17 +52,20 @@ public class ControladorTabProductos implements Initializable {
     private Button btnBorrar;
 
     private ObservableList<Producto> productos;
+    @FXML
+    private ImageView imagen;
+    
+    Producto pSeleccionado;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
             // TODO
             cargarTablaProductos();
-        
-
+            clienteSeleccionado();
+            
     }
 
     @FXML
@@ -78,14 +81,30 @@ public class ControladorTabProductos implements Initializable {
     }
 
     public void cargarTablaProductos() {
-
+        productos = Producto.obtenerProductos();
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory("descripcion"));
         colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         colCantidad.setCellValueFactory(new PropertyValueFactory("cantidad"));
-        //colImagen.setCellValueFactory(new PropertyValueFactory("imagen"));
-        productos = Producto.obtenerProductos();
+        colImagen.setCellValueFactory(new PropertyValueFactory<Producto, Image>("imagen"));
+        
+        //productos = Producto.obtenerProductos();
         tblProductos.setItems(productos);
     }
+    //método para que se rellenen los campos cuando se seleccione un cliente de la tabla
+    public void clienteSeleccionado() {
+        //funcion lambda para que seleccione de la tabla y rellene los textfield
+        tblProductos.setOnMouseClicked((MouseEvent event) -> {
+            pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
 
+            txtNombre.setText(pSeleccionado.getNombre());
+            txtDescripcion.setText(pSeleccionado.getDescripcion());
+            txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
+            txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
+            imagen.setImage(pSeleccionado.getImagenProducto());
+
+        });
+
+    }
+  
 }
