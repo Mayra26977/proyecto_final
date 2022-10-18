@@ -22,9 +22,9 @@
       </AnchorPane>
       <AnchorPane prefHeight="600.0" prefWidth="700.0">
          <children>
-            <VBox fx:id="panelDatos" prefHeight="600.0" prefWidth="686.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="panelDatos" prefHeight="600.0" prefWidth="686.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="lblUsuario" text="USUARIO">
+                  <Label fx:id="lblUsuario" alignment="TOP_LEFT" text="USUARIO">
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -58,7 +58,7 @@
                         <Insets left="25.0" right="25.0" />
                      </VBox.margin>
                   </PasswordField>
-                  <HBox onKeyPressed="#habilitarBoton" prefHeight="349.0" prefWidth="483.0">
+                  <HBox alignment="CENTER" onKeyPressed="#habilitarBoton" prefHeight="182.0" prefWidth="686.0">
                      <children>
                         <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#entrar" style="-fx-background-color: #68B3FF;" text="ENTRAR" textFill="WHITE">
                            <font>
@@ -94,7 +94,7 @@
                   </HBox>
                </children>
                <padding>
-                  <Insets top="150.0" />
+                  <Insets top="175.0" />
                </padding>
             </VBox>
          </children>

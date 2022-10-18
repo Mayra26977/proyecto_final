@@ -26,7 +26,7 @@
                         </Tab>
                         <Tab closable="false" text="Productos">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <fx:include source="tabProductos.fxml" />
                            </content>
                         </Tab>
                         <Tab closable="false" text="Pedidos compra">

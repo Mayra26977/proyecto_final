@@ -1,13 +1,22 @@
 package modelo;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author maria.enriquez
  */
 public class Producto {
+
     private int id_producto;
     private String nombre;
     private String descripcion;
@@ -38,6 +47,15 @@ public class Producto {
         this.precio = precio;
         this.cantidad = cantidad;
         this.eliminado = eliminado;
+        this.imagen = imagen;
+    }
+
+    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Blob imagen) {
+        this.id_producto = id_producto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidad = cantidad;
         this.imagen = imagen;
     }
 
@@ -144,7 +162,31 @@ public class Producto {
     public void setImagen(Blob imagen) {
         this.imagen = imagen;
     }
-    
-    
-    
+
+    //metodo para obtener todos los usuarios que no tienen el eliminado a 1
+    public static ObservableList obtenerProductos() {
+        ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0")) {
+
+            while (result.next()) {
+                int id = result.getInt("id_producto");
+                String nombre = result.getString("nombre");
+                String descripcion = result.getString("descripcion");
+                double precio = result.getDouble("precio");
+                double cantidad = result.getDouble("cantidad");
+                Blob imagen = result.getBlob("imagen");
+          
+
+                //Usuario u = new Usuario(nombre, rol);
+                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, imagen));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los usuarios");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return listaProductos;
+    }
+
 }
