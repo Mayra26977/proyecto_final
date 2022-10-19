@@ -8,12 +8,17 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
 /**
  *
  * @author Mayra
  */
 public class Cliente {
+
+    public static void insertarCliente(String nombre, String descripcion, Double precio, Double cantidad, Image imagenRecogida) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     private int id_cliente;
     private String nif;
@@ -240,7 +245,7 @@ public class Cliente {
             return stmt.execute(sql);
 
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al insertar el usuario");
+            System.out.println("Ocurrió un error al insertar el cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();

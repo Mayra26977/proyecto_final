@@ -13,20 +13,20 @@
    <content>
       <AnchorPane id="AnchorPane" prefHeight="756.0" prefWidth="1538.0">
          <children>
-            <AnchorPane layoutY="-7.0" prefHeight="756.0" prefWidth="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutY="-1.0" prefHeight="775.0" prefWidth="549.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-1.0">
                <children>
-                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="26.0" prefHeight="763.0" prefWidth="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="-1.0" prefHeight="776.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-1.0">
                      <columns>
-                        <TableColumn fx:id="colNombre" editable="false" prefWidth="82.0" text="Nombre" />
-                        <TableColumn fx:id="colDescripcion" editable="false" prefWidth="83.0" text="Descripción" />
-                        <TableColumn fx:id="colPrecio" editable="false" prefWidth="181.0" text="Precio" />
-                        <TableColumn fx:id="colCantidad" editable="false" prefWidth="202.0" text="Cantidad" />
-                        <TableColumn fx:id="colImagen" editable="false" prefWidth="208.0" text="Imagen" />
+                        <TableColumn fx:id="colNombre" editable="false" prefWidth="96.0" text="Nombre" />
+                        <TableColumn fx:id="colDescripcion" editable="false" prefWidth="275.0" text="Descripción" />
+                        <TableColumn fx:id="colPrecio" editable="false" prefWidth="120.0" text="Precio" />
+                        <TableColumn fx:id="colImagen" editable="false" prefWidth="208.0" text="Imagen" visible="false" />
+                        <TableColumn fx:id="colCantidad" editable="false" minWidth="0.0" prefWidth="108.0" text="Cantidad" />
                      </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="757.0" prefHeight="756.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="757.0" AnchorPane.rightAnchor="-75.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="550.0" prefHeight="774.0" prefWidth="1063.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="-75.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox layoutX="139.0" layoutY="63.0" prefHeight="250.0" prefWidth="656.0" spacing="50.0" AnchorPane.bottomAnchor="443.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="-34.0" AnchorPane.topAnchor="63.0">
                      <children>
@@ -92,10 +92,21 @@
                                     </TextField>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="40.0" prefWidth="850.0" spacing="100.0">
+                              <HBox prefHeight="40.0" prefWidth="850.0" spacing="50.0">
                                  <children>
                                     <Label text="Image" />
-                                    <ImageView fx:id="imagen" fitHeight="105.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imagen" fitHeight="125.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="55.0" />
+                                       </HBox.margin></ImageView>
+                                    <Button fx:id="btnCargar" mnemonicParsing="false" onAction="#filechooser" prefHeight="25.0" prefWidth="119.0" text="Cargar imagen para guardar..." HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets top="100.0" />
+                                       </HBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="Boton para cargar una imagen del producto insertar en la base de datos" />
+                                       </tooltip>
+                                    </Button>
                                  </children>
                               </HBox>
                            </children>

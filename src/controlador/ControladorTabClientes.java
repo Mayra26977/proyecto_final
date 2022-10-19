@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,12 +42,7 @@ public class ControladorTabClientes implements Initializable {
     private TextField txtNombre;
     @FXML
     private TextField txtApellidos;
-    @FXML
-    private Button btnInsertar;
-    @FXML
-    private Button btnActualizar;
-    @FXML
-    private Button btnBorrar;
+
     @FXML
     private TextField txtNif;
     @FXML
