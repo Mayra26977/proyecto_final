@@ -81,7 +81,7 @@ public class Usuario {
     }
 //metodo para verificar que usuario y contraseña coinciden para hacer login
 
-    public static boolean obtenerUsuarioCorrecto(String usuario, String pass) {
+    public static boolean obtenerUsuarioLogueado(String usuario, String pass) {
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM usuario WHERE nombre_usuario = '" + usuario + "' AND password = sha1('" + pass + "') AND eliminado = 0")) {

@@ -70,7 +70,7 @@ public class VistaControladorLogin implements Initializable {
     @FXML
     private void entrar(ActionEvent event) {
 
-        if (Usuario.obtenerUsuarioCorrecto(txtUsuario.getText(), txtContrasenia.getText())) {
+        if (Usuario.obtenerUsuarioLogueado(txtUsuario.getText(), txtContrasenia.getText())) {
             //si se introduce un usuario y contraseña que coinciden en la bd 
             loader = new FXMLLoader(getClass().getResource("/vista/vistaPrincipal.fxml"));
             modelo.Utils.abrirVentana(loader, stage);
