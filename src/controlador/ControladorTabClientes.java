@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,6 +55,14 @@ public class ControladorTabClientes implements Initializable {
 
     private ObservableList<Cliente> clientes;
     private Cliente cSeleccionado;
+    @FXML
+    private Button btnNuevo;
+    @FXML
+    private Button btnInsertar;
+    @FXML
+    private Button btnActualizar;
+    @FXML
+    private Button btnBorrar;
 
     /**
      * Initializes the controller class.
@@ -63,7 +72,7 @@ public class ControladorTabClientes implements Initializable {
         cargarTablaClientes();//se carga la tabla de usuarios  
         clienteSeleccionado();//metodo que añade escuchador a la tabla
     }
-//método que tiene asociado el botón de insertar en el fxml
+//método insertar cliente
 
     @FXML
     private void insertar(ActionEvent event) {
@@ -96,7 +105,7 @@ public class ControladorTabClientes implements Initializable {
             limpiar();
         }
     }
-//método que tiene asociado el botón de actualizar en el fxml
+//método actualizar cliente
 
     @FXML
     private void Actualizar(ActionEvent event) {
@@ -120,14 +129,14 @@ public class ControladorTabClientes implements Initializable {
         limpiar();
         cargarTablaClientes();
     }
-//método que tiene asociado el botón de borrar en el fxml
+//método borrar cliente
 
     @FXML
     private void borrar(ActionEvent event) {
 
-        Cliente cSelecionado = tblClientes.getSelectionModel().getSelectedItem();
+        Cliente cSeleccionado = tblClientes.getSelectionModel().getSelectedItem();
 
-        if (cSelecionado == null) {
+        if (cSeleccionado == null) {
             // ventana de hay que seleccionar usuario en la tabla si no no se puede borrar
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlert.setTitle("Borrar cliente");
@@ -146,7 +155,7 @@ public class ControladorTabClientes implements Initializable {
             Optional<ButtonType> action = alert.showAndWait();
             //segun lo que respondas en el alert
             if (action.get() == ButtonType.OK) {
-                Cliente.borrarCliente(cSelecionado);
+                Cliente.borrarCliente(cSeleccionado);
                 Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
                 dialogoAlert.setTitle("Borrar cliente");
                 dialogoAlert.setHeaderText(null);
@@ -201,5 +210,10 @@ public class ControladorTabClientes implements Initializable {
 
         });
 
+    }
+
+    @FXML
+    private void nuevo(ActionEvent event) {
+        limpiar();
     }
 }

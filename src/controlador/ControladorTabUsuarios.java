@@ -51,6 +51,8 @@ public class ControladorTabUsuarios implements Initializable {
     private FXMLLoader loader = new FXMLLoader();
     private ObservableList<Usuario> usuarios;
     private Usuario uSeleccionado;
+    @FXML
+    private Button btnNuevo;
 
     /**
      * Initializes the controller class.
@@ -132,13 +134,13 @@ public class ControladorTabUsuarios implements Initializable {
     @FXML
     private void borrar(ActionEvent event) {
 
-        Usuario uSelecionado = tblUsuarios.getSelectionModel().getSelectedItem();
+        Usuario uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
 //                posicionUsuarioTabla = tblUsuarios.getSelectionModel().getSelectedIndex();
 //                System.out.println(posicionUsuarioTabla);
         System.out.println("que borren usuarios");
         System.out.println(Global.usuarioLogueadoId);
 
-        if (uSelecionado == null) {
+        if (uSeleccionado == null) {
             // ventana de hay que seleccionar usuario en la tabla si no no se puede borrar
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlert.setTitle("Borrar usuario");
@@ -157,7 +159,7 @@ public class ControladorTabUsuarios implements Initializable {
             Optional<ButtonType> action = alert.showAndWait();
             //segun lo que respondas en el alert
             if (action.get() == ButtonType.OK) {
-                Usuario.borrarUsuario(uSelecionado);
+                Usuario.borrarUsuario(uSeleccionado);
                 Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
                 dialogoAlert.setTitle("Borrar usuario");
                 dialogoAlert.setHeaderText(null);
@@ -201,6 +203,11 @@ public class ControladorTabUsuarios implements Initializable {
             txtUsuario.setText(uSeleccionado.getNombre_usuario());
             cmbRol.setValue(uSeleccionado.getRol());
         });
+    }
+
+    @FXML
+    private void nuevo(ActionEvent event) {
+        limpiar();
     }
 
 }
