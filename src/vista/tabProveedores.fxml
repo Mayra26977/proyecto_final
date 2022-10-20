@@ -9,14 +9,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<ScrollPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.TabProveedoresController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabProveedores">
    <content>
       <AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1907.0">
          <children>
             <AnchorPane prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblProveedores" layoutX="43.0" layoutY="26.0" prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="colNif" editable="false" prefWidth="82.0" text="NIF" />
                         <TableColumn fx:id="colNombre" editable="false" prefWidth="83.0" text="Nombre" />

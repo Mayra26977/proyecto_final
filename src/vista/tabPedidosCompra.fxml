@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="705.0" prefWidth="1551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControlladorTabPedidosCompra">
+   <content>
+      <AnchorPane id="AnchorPane" prefHeight="756.0" prefWidth="1537.0">
+         <children>
+            <DatePicker layoutX="115.0" layoutY="55.0" />
+            <Label layoutX="39.0" layoutY="60.0" text="Fecha" />
+            <Label layoutX="404.0" layoutY="60.0" text="Proveedor" />
+            <TextField layoutX="500.0" layoutY="55.0" prefHeight="31.0" prefWidth="954.0" />
+            <Label layoutX="41.0" layoutY="122.0" text="Código pedido" />
+            <TextField editable="false" layoutX="166.0" layoutY="117.0" />
+            <Separator layoutX="-4.0" layoutY="148.0" prefHeight="33.0" prefWidth="1544.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label layoutX="22.0" layoutY="181.0" text="Código producto" />
+            <TextField layoutX="146.0" layoutY="176.0" prefHeight="31.0" prefWidth="104.0" />
+            <Label layoutX="624.0" layoutY="181.0" text="Descripcion" />
+            <TextField layoutX="745.0" layoutY="176.0" prefHeight="31.0" prefWidth="513.0" />
+            <Label layoutX="22.0" layoutY="225.0" text="Cantidad" />
+            <TextField layoutX="148.0" layoutY="220.0" prefHeight="31.0" prefWidth="100.0" />
+            <Label layoutX="286.0" layoutY="225.0" text="Precio/Unidad" />
+            <TextField editable="false" layoutX="404.0" layoutY="220.0" prefHeight="31.0" prefWidth="110.0" />
+            <TextField layoutX="366.0" layoutY="176.0" prefHeight="31.0" prefWidth="214.0" />
+            <Label layoutX="299.0" layoutY="181.0" text="Nombre" />
+            <Separator layoutY="286.0" prefHeight="18.0" prefWidth="1540.0" AnchorPane.bottomAnchor="399.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="286.0" />
+            <TreeTableView layoutX="52.0" layoutY="322.0" prefHeight="318.0" prefWidth="1461.0" AnchorPane.bottomAnchor="63.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="322.0">
+              <columns>
+                  <TreeTableColumn prefWidth="116.0" text="Código" />
+                <TreeTableColumn prefWidth="148.0" text="Nombre" />
+                <TreeTableColumn minWidth="0.0" prefWidth="799.0" text="Descripcion" />
+                  <TreeTableColumn minWidth="0.0" prefWidth="122.0" text="Cantidad" />
+                  <TreeTableColumn prefWidth="147.0" text="Precio/Uni" />
+                  <TreeTableColumn prefWidth="128.0" text="Total" />
+              </columns>
+            </TreeTableView>
+            <Label layoutX="1304.0" layoutY="658.0" text="Total" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="1304.0" />
+            <TextField layoutX="1374.0" layoutY="653.0" prefHeight="31.0" prefWidth="136.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="1374.0" AnchorPane.rightAnchor="27.0" />
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

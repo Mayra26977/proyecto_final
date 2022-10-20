@@ -15,11 +15,7 @@ import javafx.scene.image.Image;
  * @author Mayra
  */
 public class Cliente {
-
-    public static void insertarCliente(String nombre, String descripcion, Double precio, Double cantidad, Image imagenRecogida) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
     private int id_cliente;
     private String nif;
     private String nombre;

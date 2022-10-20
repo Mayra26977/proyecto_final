@@ -1,6 +1,13 @@
 package modelo;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -42,6 +49,18 @@ public class Proveedor {
         this.usuario_borra = usuario_borra;
         this.usuario_mod = usuario_mod;
     }
+
+    public Proveedor(int id_proveedor, String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
+        this.id_proveedor = id_proveedor;
+        this.nif = nif;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.direccion = direccion; 
+        this.email = email;
+        this.telefono = telefono;
+    }
+    
+    
 
     public int getId_proveedor() {
         return id_proveedor;
@@ -153,6 +172,118 @@ public class Proveedor {
 
     public void setUsuario_mod(int usuario_mod) {
         this.usuario_mod = usuario_mod;
+    }
+       //metodo para obtener todos los proveedores que no tienen el eliminado a 1
+    public static ObservableList obtenerProveedores() {
+        ObservableList<Proveedor> listaProveedores = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM proveedor WHERE eliminado = 0")) {
+
+            while (result.next()) {
+
+                int id = result.getInt("id_proveedor");
+                String nif = result.getString("nif");
+                String nombre = result.getString("nombre");
+                String apellidos = result.getString("apellidos");
+                String direccion = result.getString("direccion");
+                String email = result.getString("email");
+                String telefono = result.getString("telefono");
+               
+                listaProveedores.add(new Proveedor(id, nif, nombre, apellidos, direccion, email, telefono));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los proveedor");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return listaProveedores;
+    }
+
+    //metodo para obtener la id de los proveedores con ese nombre
+    public static int obtenerId(String proveedor) {
+        int id_proveedor = 0;
+
+        try {
+            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                    "SELECT id_proveedor FROM proveedor WHERE nombre = '" + proveedor + "'")) {
+                while (result.next()) {
+                    id_proveedor = result.getInt("id_proveedor");
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener el id del proveedor");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+
+        return id_proveedor;
+    }
+
+    //metodo insertar proveedor en la tabla
+    public static boolean insertarProveedor(String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
+        try {
+            Statement stmt = Conexion.obtenerConexion().createStatement();
+            String sql = "INSERT INTO proveedor (id_proveedor,nif, nombre, apellidos, direccion, email, telefono, "
+                    + "fecha_aniade, fecha_borra, fecha_mod, eliminado, usuario_aniade, usuario_borra, usuario_mod) "
+                    + "VALUES (NULL, '" + nif + "', '" + nombre + "', '" + apellidos
+                    + "', '" + direccion + "', '" + email + "', '" + telefono
+                    + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', NULL, NULL, DEFAULT, " + Global.usuarioLogueadoId
+                    + ", NULL, NULL)";
+
+            return stmt.execute(sql);
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al insertar el proveedor");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+            return false;
+        }
+
+    }
+
+    //metodo borrar proveedor seleccionado en la tabla
+    public static boolean borrarProveedor(Proveedor proveedor) {
+       
+        try {
+            int id = Proveedor.obtenerId(proveedor.getNombre());
+            Statement stmt = Conexion.obtenerConexion().createStatement();
+            String sql = "UPDATE proveedor SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
+                    + " WHERE id_proveedor = " + id;
+            return stmt.execute(sql);
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al borrar el proveedor");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+            return false;
+        }
+
+    }
+    
+    //método para modificar proveedor
+    public static boolean modificarProveedor(Proveedor proveedor) {
+        Statement stmt = null;
+        try {
+            String sql = "UPDATE proveedor SET nif = '" + proveedor.getNif() + "', nombre = '" + proveedor.getNombre()
+                    + "', apellidos = '" + proveedor.getApellidos() + "' , direccion =  '" + proveedor.getDireccion() 
+                    + "', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
+                    + "', usuario_mod = " + Global.usuarioLogueadoId 
+                    + " WHERE id_proveedor = " + proveedor.getId_proveedor();
+            stmt = Conexion.obtenerConexion().createStatement();
+            return stmt.execute(sql);
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al actualizar el proveedor");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+            return false;
+        }
     }
    
    
