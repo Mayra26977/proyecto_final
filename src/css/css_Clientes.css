@@ -1,0 +1,135 @@
+
+/* formato para las celdas del tableview*/
+.table-cell {     
+    -fx-padding: 0.5em 0.5em 0.1em 0.3em;
+    -fx-border-color: -fx-box-border -fx-box-border transparent transparent;  
+    -fx-font: 15px "Segoe UI";    
+    -fx-border-insets: 0;
+}
+
+/* color de fondo para cuando el raton este sobre la celda */
+.table-cell:hover {
+    -fx-background-color: darkgray;
+    -fx-text-fill: white;
+}
+
+/* color para filas vacias,*/ 
+/* aplicar el mismo color cuando el raton este sobre una celda de una fila vacia */ 
+.table-row-cell:empty, .table-cell:empty:hover {
+    -fx-background-color: whitesmoke;
+}
+ 
+/* eliminar borde de celdas en las filas vacias*/
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+
+/* color de una fila cuando en raton se encuentra sobre la misma */ 
+.table-view:row-selection .table-row-cell:filled:hover { 
+    -fx-background-color: rgba(28, 183, 236, 0.25);
+}
+
+/* color de una fila cuando en raton se encuentra sobre una fila que esta seleccionada */
+.table-view:row-selection .table-row-cell:filled:selected:hover { 
+    -fx-background-color: rgba(228, 183, 236, 0.90);
+}
+
+/* color de una fila seleccionada por el usuario */
+.table-view:row-selection .table-row-cell:filled:selected { 
+    -fx-background-color: rgba(28, 183, 236, 0.65);
+}
+
+/* eliminar border del table que aparece cuando el mismo tiene el foco */
+.table-view, .table-view:focused {
+  -fx-background-color: transparent,-fx-box-border,-fx-control-inner-background;
+  -fx-background-insets: -1.4, 0, 1;
+  -fx-background-radius: 1.4, 0, 0;
+}
+ 
+/* centrar y cambiar color de los titulos de columnas */
+.table-view .column-header .label{
+    -fx-text-fill: #52677A;
+    -fx-alignment: CENTER;
+}
+
+/* color de fondo del titulo de columna cuando en roton esta sobre ella */
+.table-view .column-header:hover {
+    -fx-background-color: whitesmoke;
+}
+
+/*  tamaño, bordes y color de fondo de los titulos */
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: white;    
+    -fx-size: 45;
+    -fx-border-color: -fx-box-border;
+    -fx-border-width: 0 1 3 0;
+    -fx-border-insets: 0;
+}
+
+/* hacer transparente el fondo de los titulos */
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+/* estylo para el boton que permite ocultar o mostrar las columnas */
+.table-view .show-hide-columns-button {
+    -fx-background-color: white;
+    -fx-border-color: -fx-box-border;
+    -fx-border-insets: 0;
+}
+/*Para cambiar el color de fondo de las filas por colores alternados, (una fila de un color, la siguiente de otro), la pseudo clase :odd aplicara el estilo a las filas impares, mientras que :even a las filas restantes la primera fila entra en esta pseudo clase*/
+table-row-cell:odd {
+    -fx-background-color: whitesmoke;
+}
+.button {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #b5cce4 0%, #77bcfb 100%),
+        #309eff,
+        #309eff,
+        radial-gradient(center 50% 50%, radius 100%, #9bc8ff, #2e8cff);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.button:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, whitesmoke 0%, white 100%),
+        white,
+        grey,
+        radial-gradient(center 50% 50%, radius 100%, cadetblue, white);
+}
+.button:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.button-text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+* {
+	-fx-primary-color: #007acc;
+	-fx-secondary-color: #4B6EAF;
+	-fx-grey-color: #b9b9b9;
+    
+	-fx-focus-color: -fx-secondary-color;
+}
+
+.text-field {
+	-fx-accent: -fx-primary-color;
+	-fx-background-color: grey, white;
+	-fx-background-insets: 0, 0 0 1 0;
+	-fx-background-radius: 0;
+}
+.text-field:focused {
+	-fx-background-color: -fx-primary-color, white;
+}
+
+.error{
+	-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);
+}
+.bien{
+	-fx-background-color: greenyellow,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);
+}

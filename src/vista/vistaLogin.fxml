@@ -20,7 +20,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="600.0" prefWidth="700.0">
+      <AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../css/css_Login.css">
          <children>
             <VBox fx:id="panelDatos" prefHeight="600.0" prefWidth="686.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>

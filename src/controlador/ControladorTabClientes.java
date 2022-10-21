@@ -91,6 +91,13 @@ public class ControladorTabClientes implements Initializable {
         if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
                 || txtDireccion.getText().isEmpty() || txtEmail.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
             // ventana de los datos no en blanco
+            txtNif.getStyleClass().add("error");
+            txtNombre.getStyleClass().add("error");
+            txtApellidos.getStyleClass().add("error");
+            txtDireccion.getStyleClass().add("error");
+            txtEmail.getStyleClass().add("error");
+            txtTelefono.getStyleClass().add("error");
+
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlert.setTitle("Insertar cliente");
             dialogoAlert.setHeaderText(null);
@@ -99,6 +106,10 @@ public class ControladorTabClientes implements Initializable {
             dialogoAlert.showAndWait();
             cargarTablaClientes();
         } else {
+            
+            txtNif.getStyleClass().remove("error");
+            txtNif.getStyleClass().add("bien");
+            
             Cliente.insertarCliente(nif, nombre, apellidos, direccion, email, telefono);
             // ventana de los datos se insertaron correctamente
             Alert alert;
