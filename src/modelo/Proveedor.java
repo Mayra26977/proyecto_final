@@ -59,6 +59,10 @@ public class Proveedor {
         this.email = email;
         this.telefono = telefono;
     }
+
+    public Proveedor(int proveedor) {
+        this.id_proveedor = proveedor;
+    }
     
     
 
@@ -173,6 +177,14 @@ public class Proveedor {
     public void setUsuario_mod(int usuario_mod) {
         this.usuario_mod = usuario_mod;
     }
+
+    @Override
+    public String toString() {
+        
+        return this.nombre;        
+    }
+    
+    
        //metodo para obtener todos los proveedores que no tienen el eliminado a 1
     public static ObservableList obtenerProveedores() {
         ObservableList<Proveedor> listaProveedores = FXCollections.observableArrayList();

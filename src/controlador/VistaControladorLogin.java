@@ -46,9 +46,11 @@ public class VistaControladorLogin implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        btnLogin.setDisable(true);
-        txtContrasenia.setDisable(true);
+        
+        //btnLogin.setDisable(true);
+        //txtContrasenia.setDisable(true);
+        txtUsuario.setText("Pablo");
+        txtContrasenia.setText("1234");
     }
 //se van habilitando botones y campos de texto según se van rellenando datos
     @FXML

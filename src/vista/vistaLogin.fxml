@@ -97,7 +97,6 @@
                   <Insets top="175.0" />
                </padding>
             </VBox>
-         </children>
-      </AnchorPane>
+         </children></AnchorPane>
    </children>
 </HBox>

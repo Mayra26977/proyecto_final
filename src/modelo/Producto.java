@@ -3,10 +3,7 @@ package modelo;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import static java.nio.file.Files.size;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -17,19 +14,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.beans.binding.Bindings.size;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.image.WritablePixelFormat;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
-import static javax.swing.Spring.width;
 
 /**
  *
@@ -51,8 +41,9 @@ public class Producto {
     private boolean eliminado;
     private Blob imagen;
     private Image imagenProducto;
+    private int idProveedor;
 
-    public Producto(int id_producto, String nombre, String descripcion, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto) {
+    public Producto(int id_producto, String nombre, String descripcion, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto, int idProveedor) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -67,23 +58,28 @@ public class Producto {
         this.eliminado = eliminado;
         this.imagen = imagen;
         this.imagenProducto = imagenProducto;
+        this.idProveedor = idProveedor;
+        
     }
 
-    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Image imagen) {
+    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Image imagen, int idProveedor) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidad = cantidad;
         this.imagenProducto = imagen;
+        this.idProveedor = idProveedor;
     }
 
-    public Producto(String nombre, String descripcion, Double precio, Double cantidad, Image imagenRecogida) {
+    public Producto(String nombre, String descripcion, Double precio, Double cantidad, Image imagenRecogida, int idProveedor) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidad = cantidad;
         this.imagenProducto = imagenRecogida;
+        this.idProveedor = idProveedor;
+        
 
     }
 
@@ -199,6 +195,21 @@ public class Producto {
         this.imagenProducto = imagenProducto;
     }
 
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+    
+    
+    
+
+   
+    
+    
+
     //metodo para obtener todos los productos que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
@@ -213,6 +224,7 @@ public class Producto {
                 double precio = result.getDouble("precio");
                 double cantidad = result.getDouble("cantidad");                
                 Blob imagen = result.getBlob("imagen");
+                int idProveedor = result.getInt("id_proveedor");
                 if (imagen == null){
                  img = null;
                 }else{
@@ -220,7 +232,8 @@ public class Producto {
                 //crear el Image y mostrarlo en el ImageView
                  img = new Image(new ByteArrayInputStream(byteImage));
                 }
-                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img));
+                
+                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));
             }
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener los productos");
@@ -255,10 +268,10 @@ public class Producto {
     }
     //metodo insertar producto en la tabla
 
-    public static boolean insertarProducto(Producto producto) throws IOException {
+    public static boolean insertarProducto(Producto producto, Proveedor proveedor) throws IOException {
         try {
-
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO producto ( nombre, descripcion, precio, cantidad, imagen, fecha_aniade, usuario_aniade ) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+            
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO producto ( nombre, descripcion, precio, cantidad, imagen, fecha_aniade, usuario_aniade, id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 //            String sql = "INSERT INTO producto (id_producto, nombre, descripcion, precio, cantidad, imagen, "
 //                    + "fecha_aniade, fecha_borra, fecha_mod, usuario_aniade, usuario_borra, usuario_mod, eliminado) "
 //                    + "VALUES (NULL, '" + nombre + "', '" + descripcion + "', '" + precio
@@ -278,7 +291,7 @@ public class Producto {
             
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
-//            return stmt.execute(sql);
+            ps.setInt(8, proveedor.getId_proveedor());
             return ps.execute();
 
         } catch (SQLException ex) {
@@ -311,7 +324,7 @@ public class Producto {
     }
     //metodo insertar producto en la tabla
 
-    public static int modificarProducto(Producto producto) throws IOException {
+    public static int modificarProducto(Producto producto, Proveedor proveedor) throws IOException {
         Statement stmt = null;
         try {
 //            String sql = "UPDATE producto SET nombre = '" + producto.getNombre() + "', descripcion = '" + producto.getDescripcion()
@@ -322,7 +335,7 @@ public class Producto {
 //            stmt = Conexion.obtenerConexion().createStatement();
 //            return stmt.execute(sql);
            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE producto SET nombre = ?, "
-                   + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ? "
+                   + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ?, id_proveedor = ? "
                    + "WHERE id_producto = ?");
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
@@ -332,7 +345,8 @@ public class Producto {
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
             ps.setInt(8, producto.getId_producto());
-//            return stmt.execute(sql);
+            ps.setInt(9, proveedor.getId_proveedor());
+
             return ps.executeUpdate();
 
         } catch (SQLException ex) {
@@ -361,6 +375,36 @@ public class Producto {
             return false;
         }
 
+    }
+    public static ObservableList obtenerProductosProveedor(int idProveedor) {
+        ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+        Image img ;
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0 AND id_proveedor" + idProveedor)) {
+
+            while (result.next()) {
+                byte byteImage[];
+                int id = result.getInt("id_producto");
+                String nombre = result.getString("nombre");
+                String descripcion = result.getString("descripcion");
+                double precio = result.getDouble("precio");
+                double cantidad = result.getDouble("cantidad");                
+                Blob imagen = result.getBlob("imagen"); 
+                if (imagen == null){
+                 img = null;
+                }else{
+                byteImage = imagen.getBytes(1, (int) imagen.length());
+                //crear el Image y mostrarlo en el ImageView
+                 img = new Image(new ByteArrayInputStream(byteImage));
+                }
+                listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los productos");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return listaProductos;
     }
 
 }

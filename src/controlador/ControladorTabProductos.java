@@ -4,14 +4,8 @@ import com.mysql.cj.jdbc.Blob;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,10 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
-import modelo.Cliente;
-import modelo.Conexion;
-import modelo.Global;
 import modelo.Producto;
+import modelo.Proveedor;
 
 /**
  * FXML Controller class
@@ -61,8 +54,6 @@ public class ControladorTabProductos implements Initializable {
     private TextField txtPrecio;
     @FXML
     private TextField txtCantidad;
-
-    private ObservableList<Producto> productos;
     @FXML
     private ImageView imagen;
     @FXML
@@ -75,12 +66,18 @@ public class ControladorTabProductos implements Initializable {
     private Button btnActualizar;
     @FXML
     private Button btnBorrar;
+    @FXML
+    private Button btnNuevo;
+    @FXML
+    private ComboBox<Proveedor> cmbProveedor;
 
     private Producto pSeleccionado;
     private FileChooser filechooser;
     private File rutaArchivo;
+    private ObservableList<Producto> productos;
+    private ObservableList<Proveedor> proveedores;
     @FXML
-    private Button btnNuevo;
+    private TableColumn<Producto, Integer> colProveedor;
 
     /**
      * Initializes the controller class.
@@ -91,6 +88,7 @@ public class ControladorTabProductos implements Initializable {
         limpiar();
         cargarTablaProductos();
         productoSeleccionado();
+        cargarComboProveedores();
 
     }
 
@@ -111,6 +109,7 @@ public class ControladorTabProductos implements Initializable {
         }
         Double cantidad = Double.parseDouble(txtCantidad.getText());
         Image imagenRecogida = imagen.getImage();
+        int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor();
 
         if (txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtPrecio.getText().isEmpty()
                 || txtCantidad.getText().isEmpty()) {
@@ -125,7 +124,7 @@ public class ControladorTabProductos implements Initializable {
             cargarTablaProductos();
         } else {
 
-            Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida));
+            Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida,cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor()),cmbProveedor.getSelectionModel().getSelectedItem());
             // ventana de los datos se insertaron correctamente            
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
@@ -171,16 +170,17 @@ public class ControladorTabProductos implements Initializable {
         if (this.imagen.getImage().equals(null)) {
             this.imagen.setImage(null);
         }
+        int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor();
         if (precio != null) {
-            Producto pActualizado = new Producto(pSeleccionado.getId_producto(), nombre, descripcion, precio, cantidad, imagen);
+            Producto pActualizado = new Producto(pSeleccionado.getId_producto(), nombre, descripcion, precio, cantidad, imagen, idProveedor);
             try {
-                //se actualiza el cliente
-                Producto.modificarProducto(pActualizado);
+                //se actualiza el producto
+                Producto.modificarProducto(pActualizado,cmbProveedor.getSelectionModel().getSelectedItem());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
             try {
-                if (Producto.modificarProducto(pActualizado) == 1) {
+                if (Producto.modificarProducto(pActualizado, cmbProveedor.getSelectionModel().getSelectedItem()) == 1) {
                     Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
                     dialogoAlert.setTitle("Actualizar Producto");
                     dialogoAlert.setHeaderText("Informacion actualización");
@@ -252,6 +252,7 @@ public class ControladorTabProductos implements Initializable {
         colCantidad.setCellValueFactory(new PropertyValueFactory("cantidad"));
         //no muestro la columna de la imagen aunque si esta para cargarla de la bd
         colImagen.setCellValueFactory(new PropertyValueFactory<Producto, Blob>("imagen"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("id_proveedor"));
         tblProductos.setItems(productos);
     }
 
@@ -266,6 +267,7 @@ public class ControladorTabProductos implements Initializable {
             txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
             txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
             imagen.setImage(pSeleccionado.getImagenProducto());
+            cmbProveedor.setValue(cmbProveedor.getSelectionModel().getSelectedItem());
 
         });
 
@@ -294,6 +296,7 @@ public class ControladorTabProductos implements Initializable {
         txtPrecio.clear();
         txtCantidad.clear();
         imagen.setImage(null);
+        cmbProveedor.getItems().clear();
 
     }
 
@@ -302,6 +305,10 @@ public class ControladorTabProductos implements Initializable {
         limpiar();
     }
 
+    private void cargarComboProveedores() {
+        proveedores = Proveedor.obtenerProveedores();
+        cmbProveedor.setItems(proveedores);
 
+    }
 
 }
