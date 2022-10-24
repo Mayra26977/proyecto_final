@@ -9,167 +9,168 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="1107.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
-   <children>
-      <AnchorPane prefHeight="1061.0" prefWidth="891.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-         <children>
-            <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="1048.0" prefWidth="881.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-               <columns>
-                  <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" styleClass="cabeceraCol" text="NIF" />
-                  <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" styleClass="cabeceraCol" text="Nombre" />
-                  <TableColumn fx:id="colApellidos" editable="false" prefWidth="182.0" styleClass="cabeceraCol" text="Apellidos" />
-                  <TableColumn fx:id="colDireccion" editable="false" prefWidth="190.0" styleClass="cabeceraCol" text="Dirección" />
-                  <TableColumn fx:id="colEmail" editable="false" prefWidth="199.0" styleClass="cabeceraCol" text="Email" />
-                  <TableColumn fx:id="colTelefono" editable="false" prefWidth="121.0" styleClass="cabeceraCol" text="Teléfono" />
-               </columns>
-            </TableView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="906.0" layoutY="-7.0" prefHeight="1131.0" prefWidth="1014.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="906.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox layoutX="69.0" layoutY="254.0" prefHeight="431.0" prefWidth="972.0" spacing="50.0" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="254.0">
-               <children>
-                  <AnchorPane prefHeight="420.0" prefWidth="1040.0" HBox.hgrow="ALWAYS">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="844.0" prefWidth="1684.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
+    <content>
+        <AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="773.0" prefWidth="1920.0" stylesheets="@../css/css_Clientes.css">
+            <children>
+                <AnchorPane prefHeight="1061.0" prefWidth="891.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                    <children>
+                        <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="1048.0" prefWidth="881.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                            <columns>
+                                <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" styleClass="cabeceraCol" text="NIF" />
+                                <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" styleClass="cabeceraCol" text="Nombre" />
+                                <TableColumn fx:id="colApellidos" editable="false" prefWidth="182.0" styleClass="cabeceraCol" text="Apellidos" />
+                                <TableColumn fx:id="colDireccion" editable="false" prefWidth="190.0" styleClass="cabeceraCol" text="Dirección" />
+                                <TableColumn fx:id="colEmail" editable="false" prefWidth="199.0" styleClass="cabeceraCol" text="Email" />
+                                <TableColumn fx:id="colTelefono" editable="false" prefWidth="121.0" styleClass="cabeceraCol" text="Teléfono" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutX="864.0" prefHeight="813.0" prefWidth="1041.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="901.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                  <HBox layoutX="18.0" layoutY="72.0" prefHeight="240.0" prefWidth="1033.0" spacing="50.0" AnchorPane.bottomAnchor="803.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
                      <children>
-                        <VBox layoutX="82.0" layoutY="112.0" prefHeight="276.0" prefWidth="959.0" spacing="20.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="112.0">
-                           <children>
-                              <HBox prefHeight="30.0" prefWidth="850.0">
-                                 <children>
-                                    <Label text="NIF" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="txtNif" prefHeight="25.0" prefWidth="240.0">
-                                       <HBox.margin>
-                                          <Insets left="110.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox fillHeight="false" prefHeight="30.0" prefWidth="850.0" spacing="50.0">
-                                 <children>
-                                    <Label text="Nombre" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="386.0">
-                                       <tooltip>
-                                          <Tooltip text="Escribe el nombre del usuario" />
-                                       </tooltip>
-                                       <HBox.margin>
-                                          <Insets left="25.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="30.0" prefWidth="850.0" spacing="50.0">
-                                 <children>
-                                    <Label text="Apellidos" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="txtApellidos" prefHeight="30.0" prefWidth="492.0">
-                                       <tooltip>
-                                          <Tooltip text="Escribe la contraseña del usuario" />
-                                       </tooltip>
-                                       <HBox.margin>
-                                          <Insets left="20.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="40.0" prefWidth="850.0">
-                                 <children>
-                                    <Label text="Dirección" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="txtDireccion" prefHeight="30.0" prefWidth="491.0">
-                                       <HBox.margin>
-                                          <Insets left="70.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="40.0" prefWidth="850.0">
-                                 <children>
-                                    <Label text="Email" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="387.0">
-                                       <HBox.margin>
-                                          <Insets left="100.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="40.0" prefWidth="850.0">
-                                 <children>
-                                    <Label text="Teléfono" textFill="#3b86ff">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets top="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txtTelefono" prefHeight="25.0" prefWidth="245.0">
-                                       <HBox.margin>
-                                          <Insets left="75.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
+                              <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="914.0" text="Datos cliente" textFill="#1d579d">
+                                  <font>
+                                      <Font name="Arial" size="48.0" />
+                                  </font>
+                              </Label>
                      </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" fillHeight="false" layoutX="10.0" layoutY="886.0" prefHeight="96.0" prefWidth="1023.0" spacing="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0">
-               <children>
-                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="111.0" text="Nuevo" />
-                  <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="47.0" prefWidth="120.0" text="Insertar" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="140.0" text="Actualizar" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="47.0" prefWidth="110.0" text="Borrar" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="88.0" layoutY="124.0" prefHeight="124.0" prefWidth="907.0" text="Datos cliente" textFill="#2e8cff">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </children>
-</AnchorPane>
+                  </HBox>
+                          <AnchorPane layoutX="178.0" layoutY="322.0" prefHeight="398.0" prefWidth="944.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="322.0">
+                              <children>
+                                  <VBox layoutX="82.0" layoutY="112.0" prefHeight="354.0" prefWidth="862.0" spacing="10.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                          <HBox prefHeight="30.0" prefWidth="850.0">
+                                              <children>
+                                                  <Label text="NIF" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </Label>
+                                                  <TextField fx:id="txtNif" prefHeight="25.0" prefWidth="240.0">
+                                                      <HBox.margin>
+                                                          <Insets left="110.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                          <HBox fillHeight="false" prefHeight="30.0" prefWidth="850.0" spacing="50.0">
+                                              <children>
+                                                  <Label text="Nombre" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </Label>
+                                                  <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="386.0">
+                                                      <tooltip>
+                                                          <Tooltip text="Escribe el nombre del usuario" />
+                                                      </tooltip>
+                                                      <HBox.margin>
+                                                          <Insets left="25.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                          <HBox prefHeight="30.0" prefWidth="850.0" spacing="50.0">
+                                              <children>
+                                                  <Label text="Apellidos" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </Label>
+                                                  <TextField fx:id="txtApellidos" prefHeight="30.0" prefWidth="492.0">
+                                                      <tooltip>
+                                                          <Tooltip text="Escribe la contraseña del usuario" />
+                                                      </tooltip>
+                                                      <HBox.margin>
+                                                          <Insets left="20.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                          <HBox prefHeight="40.0" prefWidth="850.0">
+                                              <children>
+                                                  <Label text="Dirección" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </Label>
+                                                  <TextField fx:id="txtDireccion" prefHeight="30.0" prefWidth="491.0">
+                                                      <HBox.margin>
+                                                          <Insets left="70.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                          <HBox prefHeight="40.0" prefWidth="850.0">
+                                              <children>
+                                                  <Label text="Email" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                      <HBox.margin>
+                                                          <Insets top="5.0" />
+                                                      </HBox.margin>
+                                                  </Label>
+                                                  <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="387.0">
+                                                      <HBox.margin>
+                                                          <Insets left="100.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                          <HBox prefHeight="40.0" prefWidth="850.0">
+                                              <children>
+                                                  <Label text="Teléfono" textFill="#3b86ff">
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                      <HBox.margin>
+                                                          <Insets top="10.0" />
+                                                      </HBox.margin>
+                                                  </Label>
+                                                  <TextField fx:id="txtTelefono" prefHeight="25.0" prefWidth="245.0">
+                                                      <HBox.margin>
+                                                          <Insets left="75.0" />
+                                                      </HBox.margin>
+                                                      <font>
+                                                          <Font size="18.0" />
+                                                      </font>
+                                                  </TextField>
+                                              </children>
+                                          </HBox>
+                                      </children>
+                                  </VBox>
+                              </children>
+                          </AnchorPane>
+                        <HBox alignment="CENTER" fillHeight="false" layoutX="36.0" layoutY="741.0" prefHeight="81.0" prefWidth="716.0" spacing="100.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="741.0">
+                            <children>
+                                <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="151.0" text="Limpiar formulario" textFill="WHITE" />
+                                <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="47.0" prefWidth="120.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="140.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="47.0" prefWidth="110.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -47,6 +48,9 @@ public class ControladorTabProductos implements Initializable {
     @FXML
     private TableColumn<Producto, Blob> colImagen;
     @FXML
+    private TableColumn<Producto, String> colProveedor;
+
+    @FXML
     private TextField txtNombre;
     @FXML
     private TextField txtDescripcion;
@@ -72,12 +76,11 @@ public class ControladorTabProductos implements Initializable {
     private ComboBox<Proveedor> cmbProveedor;
 
     private Producto pSeleccionado;
+    private Proveedor proveedorTabla;
     private FileChooser filechooser;
     private File rutaArchivo;
     private ObservableList<Producto> productos;
     private ObservableList<Proveedor> proveedores;
-    @FXML
-    private TableColumn<Producto, Integer> colProveedor;
 
     /**
      * Initializes the controller class.
@@ -85,123 +88,10 @@ public class ControladorTabProductos implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        limpiar();
+
         cargarTablaProductos();
         productoSeleccionado();
         cargarComboProveedores();
-
-    }
-
-    @FXML
-    private void insertar(ActionEvent event) throws IOException {
-        Double precio = null;
-        String nombre = txtNombre.getText();
-        String descripcion = txtDescripcion.getText();
-        if (txtPrecio.getText().isEmpty()) {
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Campo obligatorio");
-            dialogoAlert.setHeaderText("Informacion");
-            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-        } else {
-            precio = Double.parseDouble(txtPrecio.getText());
-        }
-        Double cantidad = Double.parseDouble(txtCantidad.getText());
-        Image imagenRecogida = imagen.getImage();
-        int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor();
-
-        if (txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtPrecio.getText().isEmpty()
-                || txtCantidad.getText().isEmpty()) {
-
-            // ventana de los datos no en blanco
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Insertar Producto");
-            dialogoAlert.setHeaderText(null);
-            dialogoAlert.setContentText("Rellene todos los campos por favor.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarTablaProductos();
-        } else {
-
-            Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida,cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor()),cmbProveedor.getSelectionModel().getSelectedItem());
-            // ventana de los datos se insertaron correctamente            
-            Alert alert;
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Insercción de producto");
-            alert.setContentText("El producto se introdujo en la tabla");
-            alert.showAndWait();
-            cargarTablaProductos();
-            limpiar();
-        }
-    }
-
-    @FXML
-    private void Actualizar() {
-        Double precio = null, cantidad;
-
-        String nombre = txtNombre.getText();
-        if (txtNombre.getText().isEmpty()) {
-            nombre = "";
-        }
-        String descripcion = txtDescripcion.getText();
-        if (txtDescripcion.getText().isEmpty()) {
-            descripcion = "";
-        }
-        //en caso de al actualizar este el campo del formulario vacio
-        if (txtPrecio.getText().isEmpty()) {
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Campo obligatorio");
-            dialogoAlert.setHeaderText("Informacion");
-            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-        } else {
-            precio = Double.parseDouble(txtPrecio.getText());
-        }
-        if (txtCantidad.getText().isEmpty()) {
-            txtCantidad.setText("0.0");
-            cantidad = Double.parseDouble(txtCantidad.getText());
-        } else {
-            cantidad = Double.parseDouble(txtCantidad.getText());
-        }
-
-        Image imagen = this.imagen.getImage();
-        if (this.imagen.getImage().equals(null)) {
-            this.imagen.setImage(null);
-        }
-        int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem().getId_proveedor();
-        if (precio != null) {
-            Producto pActualizado = new Producto(pSeleccionado.getId_producto(), nombre, descripcion, precio, cantidad, imagen, idProveedor);
-            try {
-                //se actualiza el producto
-                Producto.modificarProducto(pActualizado,cmbProveedor.getSelectionModel().getSelectedItem());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                if (Producto.modificarProducto(pActualizado, cmbProveedor.getSelectionModel().getSelectedItem()) == 1) {
-                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAlert.setTitle("Actualizar Producto");
-                    dialogoAlert.setHeaderText("Informacion actualización");
-                    dialogoAlert.setContentText("Se actualizo el producto correctamente.");
-                    dialogoAlert.initStyle(StageStyle.UTILITY);
-                    dialogoAlert.showAndWait();
-                    limpiar();
-                    cargarTablaProductos();
-                } else {
-                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAlert.setTitle("Actualizar Producto");
-                    dialogoAlert.setHeaderText("Informacion actualización");
-                    dialogoAlert.setContentText("El producto no se actualizo");
-                    dialogoAlert.initStyle(StageStyle.UTILITY);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-
-        }
 
     }
 
@@ -245,30 +135,37 @@ public class ControladorTabProductos implements Initializable {
     }
 
     public void cargarTablaProductos() {
-        productos = Producto.obtenerProductos();
+
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory("descripcion"));
         colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         colCantidad.setCellValueFactory(new PropertyValueFactory("cantidad"));
         //no muestro la columna de la imagen aunque si esta para cargarla de la bd
         colImagen.setCellValueFactory(new PropertyValueFactory<Producto, Blob>("imagen"));
-        colProveedor.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("id_proveedor"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory("id_proveedor"));
+        productos = Producto.obtenerProductos();
         tblProductos.setItems(productos);
     }
 
     //método para que se rellenen los campos cuando se seleccione un producto de la tabla
     public void productoSeleccionado() {
+
         //funcion lambda para que seleccione de la tabla y rellene los textfield
-        tblProductos.setOnMouseClicked((MouseEvent event) -> {
-            pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
-
-            txtNombre.setText(pSeleccionado.getNombre());
-            txtDescripcion.setText(pSeleccionado.getDescripcion());
-            txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
-            txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
-            imagen.setImage(pSeleccionado.getImagenProducto());
-            cmbProveedor.setValue(cmbProveedor.getSelectionModel().getSelectedItem());
-
+        tblProductos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
+                System.out.println(tblProductos.getSelectionModel().getSelectedItem().getIdProveedor());
+                proveedorTabla = new Proveedor(tblProductos.getSelectionModel().getSelectedItem().getIdProveedor());
+                
+                txtNombre.setText(pSeleccionado.getNombre());
+                txtDescripcion.setText(pSeleccionado.getDescripcion());
+                txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
+                txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
+                imagen.setImage(pSeleccionado.getImagenProducto());
+                cmbProveedor.setValue(proveedorTabla);
+                
+            }
         });
 
     }
@@ -309,6 +206,120 @@ public class ControladorTabProductos implements Initializable {
         proveedores = Proveedor.obtenerProveedores();
         cmbProveedor.setItems(proveedores);
 
+    }
+
+    @FXML
+    private void insertar(ActionEvent event) {
+
+        Double precio = null;
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        if (txtPrecio.getText().isEmpty()) {
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Campo obligatorio");
+            dialogoAlert.setHeaderText("Informacion");
+            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+        } else {
+            precio = Double.parseDouble(txtPrecio.getText());
+        }
+        Double cantidad = Double.parseDouble(txtCantidad.getText());
+        Image imagenRecogida = imagen.getImage();
+        // int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem();
+
+        if (txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtPrecio.getText().isEmpty()
+                || txtCantidad.getText().isEmpty()) {
+
+            // ventana de los datos no en blanco
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Insertar Producto");
+            dialogoAlert.setHeaderText(null);
+            dialogoAlert.setContentText("Rellene todos los campos por favor.");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+            cargarTablaProductos();
+        } else {
+
+            System.out.println(cmbProveedor.getValue());
+            Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida, cmbProveedor.getValue().getId_proveedor()));
+            // ventana de los datos se insertaron correctamente            
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Insercción de producto");
+            alert.setContentText("El producto se introdujo en la tabla");
+            alert.showAndWait();
+            cargarTablaProductos();
+            limpiar();
+        }
+    }
+
+    @FXML
+    private void Actualizar(ActionEvent event) {
+        Double precio = null, cantidad;
+
+        String nombre = txtNombre.getText();
+        if (txtNombre.getText().isEmpty()) {
+            nombre = "";
+        }
+        String descripcion = txtDescripcion.getText();
+        if (txtDescripcion.getText().isEmpty()) {
+            descripcion = "";
+        }
+        //en caso de al actualizar este el campo del formulario vacio
+        if (txtPrecio.getText().isEmpty()) {
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Campo obligatorio");
+            dialogoAlert.setHeaderText("Informacion");
+            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+        } else {
+            precio = Double.parseDouble(txtPrecio.getText());
+        }
+        if (txtCantidad.getText().isEmpty()) {
+            txtCantidad.setText("0.0");
+            cantidad = Double.parseDouble(txtCantidad.getText());
+        } else {
+            cantidad = Double.parseDouble(txtCantidad.getText());
+        }
+
+        Image imagen = this.imagen.getImage();
+        if (this.imagen.getImage().equals(null)) {
+            this.imagen.setImage(null);
+        }
+        Proveedor proveedor = cmbProveedor.getValue();
+        if (precio != null) {
+            Producto pActualizado = new Producto(pSeleccionado.getId_producto(), nombre, descripcion, precio, cantidad, imagen, pSeleccionado.getIdProveedor());
+            try {
+                //se actualiza el producto
+                Producto.modificarProducto(pActualizado);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (Producto.modificarProducto(pActualizado) == 1) {
+                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAlert.setTitle("Actualizar Producto");
+                    dialogoAlert.setHeaderText("Informacion actualización");
+                    dialogoAlert.setContentText("Se actualizo el producto correctamente.");
+                    dialogoAlert.initStyle(StageStyle.UTILITY);
+                    dialogoAlert.showAndWait();
+                    limpiar();
+                    cargarTablaProductos();
+                } else {
+                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAlert.setTitle("Actualizar Producto");
+                    dialogoAlert.setHeaderText("Informacion actualización");
+                    dialogoAlert.setContentText("El producto no se actualizo");
+                    dialogoAlert.initStyle(StageStyle.UTILITY);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+
+        }
     }
 
 }

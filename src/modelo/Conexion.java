@@ -15,11 +15,15 @@ public class Conexion {
 
     private static Connection conexion;
 
-    private static final String USUARIO = "RFJ3qnBgMz";
-    private static final String CONTRASENIA = "NalD47cqVk";
-    private static final String SERVIDOR = "remotemysql.com";
+    //private static final String USUARIO = "RFJ3qnBgMz";
+    private static final String USUARIO = "sql8528704";
+    //private static final String CONTRASENIA = "NalD47cqVk";
+    private static final String CONTRASENIA = "XYZ3N4I4Pu";
+    //private static final String SERVIDOR = "remotemysql.com";
+    private static final String SERVIDOR = "sql8.freemysqlhosting.net";
     private static final String PUERTO = "3306";
-    private static final String NOMBRE_DB = "RFJ3qnBgMz";
+    //private static final String NOMBRE_DB = "RFJ3qnBgMz";
+    private static final String NOMBRE_DB = "sql8528704";
 
     private static final String url = "jdbc:mysql://" + SERVIDOR + ":" + PUERTO + "/" + NOMBRE_DB;
 

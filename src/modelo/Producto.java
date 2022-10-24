@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 
+
 /**
  *
  * @author Mayra
@@ -199,16 +200,9 @@ public class Producto {
         return idProveedor;
     }
 
-    public void setIdProveedor(int idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-    
-    
-    
-
-   
-    
-    
+    public void setIdProveedor(int proveedor) {
+        this.idProveedor = proveedor;
+    }   
 
     //metodo para obtener todos los productos que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
@@ -223,8 +217,7 @@ public class Producto {
                 String descripcion = result.getString("descripcion");
                 double precio = result.getDouble("precio");
                 double cantidad = result.getDouble("cantidad");                
-                Blob imagen = result.getBlob("imagen");
-                int idProveedor = result.getInt("id_proveedor");
+                Blob imagen = result.getBlob("imagen");                
                 if (imagen == null){
                  img = null;
                 }else{
@@ -232,6 +225,7 @@ public class Producto {
                 //crear el Image y mostrarlo en el ImageView
                  img = new Image(new ByteArrayInputStream(byteImage));
                 }
+                int idProveedor = result.getInt("id_proveedor");
                 
                 listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));
             }
@@ -268,7 +262,7 @@ public class Producto {
     }
     //metodo insertar producto en la tabla
 
-    public static boolean insertarProducto(Producto producto, Proveedor proveedor) throws IOException {
+    public static boolean insertarProducto(Producto producto)  {
         try {
             
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO producto ( nombre, descripcion, precio, cantidad, imagen, fecha_aniade, usuario_aniade, id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -291,7 +285,7 @@ public class Producto {
             
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
-            ps.setInt(8, proveedor.getId_proveedor());
+            ps.setInt(8, producto.getIdProveedor());
             return ps.execute();
 
         } catch (SQLException ex) {
@@ -324,7 +318,7 @@ public class Producto {
     }
     //metodo insertar producto en la tabla
 
-    public static int modificarProducto(Producto producto, Proveedor proveedor) throws IOException {
+    public static int modificarProducto(Producto producto) throws IOException {
         Statement stmt = null;
         try {
 //            String sql = "UPDATE producto SET nombre = '" + producto.getNombre() + "', descripcion = '" + producto.getDescripcion()
@@ -345,7 +339,7 @@ public class Producto {
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
             ps.setInt(8, producto.getId_producto());
-            ps.setInt(9, proveedor.getId_proveedor());
+            ps.setInt(9, producto.getIdProveedor());
 
             return ps.executeUpdate();
 
@@ -396,6 +390,7 @@ public class Producto {
                 //crear el Image y mostrarlo en el ImageView
                  img = new Image(new ByteArrayInputStream(byteImage));
                 }
+                idProveedor = result.getInt("id_proveedor");
                 listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));
             }
         } catch (SQLException ex) {
