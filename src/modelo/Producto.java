@@ -21,7 +21,6 @@ import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 
-
 /**
  *
  * @author Mayra
@@ -60,7 +59,7 @@ public class Producto {
         this.imagen = imagen;
         this.imagenProducto = imagenProducto;
         this.idProveedor = idProveedor;
-        
+
     }
 
     public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Image imagen, int idProveedor) {
@@ -80,7 +79,6 @@ public class Producto {
         this.cantidad = cantidad;
         this.imagenProducto = imagenRecogida;
         this.idProveedor = idProveedor;
-        
 
     }
 
@@ -202,12 +200,12 @@ public class Producto {
 
     public void setIdProveedor(int proveedor) {
         this.idProveedor = proveedor;
-    }   
+    }
 
     //metodo para obtener todos los productos que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
-        Image img ;
+        Image img;
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0")) {
 
             while (result.next()) {
@@ -216,17 +214,17 @@ public class Producto {
                 String nombre = result.getString("nombre");
                 String descripcion = result.getString("descripcion");
                 double precio = result.getDouble("precio");
-                double cantidad = result.getDouble("cantidad");                
-                Blob imagen = result.getBlob("imagen");                
-                if (imagen == null){
-                 img = null;
-                }else{
-                byteImage = imagen.getBytes(1, (int) imagen.length());
-                //crear el Image y mostrarlo en el ImageView
-                 img = new Image(new ByteArrayInputStream(byteImage));
+                double cantidad = result.getDouble("cantidad");
+                Blob imagen = result.getBlob("imagen");
+                if (imagen == null) {
+                    img = null;
+                } else {
+                    byteImage = imagen.getBytes(1, (int) imagen.length());
+                    //crear el Image y mostrarlo en el ImageView
+                    img = new Image(new ByteArrayInputStream(byteImage));
                 }
                 int idProveedor = result.getInt("id_proveedor");
-                
+
                 listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));
             }
         } catch (SQLException ex) {
@@ -262,9 +260,9 @@ public class Producto {
     }
     //metodo insertar producto en la tabla
 
-    public static boolean insertarProducto(Producto producto)  {
+    public static boolean insertarProducto(Producto producto) {
         try {
-            
+
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO producto ( nombre, descripcion, precio, cantidad, imagen, fecha_aniade, usuario_aniade, id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 //            String sql = "INSERT INTO producto (id_producto, nombre, descripcion, precio, cantidad, imagen, "
 //                    + "fecha_aniade, fecha_borra, fecha_mod, usuario_aniade, usuario_borra, usuario_mod, eliminado) "
@@ -272,17 +270,17 @@ public class Producto {
 //                    + "', '" + cantidad + "', '" + imagen + "', '"
 //                    + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', NULL, NULL, DEFAULT, " + Global.usuarioLogueadoId
 //                    + ", NULL, NULL)";
-            
+
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setDouble(3, producto.getPrecio());
             ps.setDouble(4, producto.getCantidad());
-            if(producto.getImagenProducto() == null){
-                ps.setBlob(5,(Blob) null);
-            }else{
+            if (producto.getImagenProducto() == null) {
+                ps.setBlob(5, (Blob) null);
+            } else {
                 ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
             }
-            
+
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
             ps.setInt(8, producto.getIdProveedor());
@@ -328,14 +326,19 @@ public class Producto {
 //                    + " WHERE id_producto = " + producto.getId_producto();
 //            stmt = Conexion.obtenerConexion().createStatement();
 //            return stmt.execute(sql);
-           PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE producto SET nombre = ?, "
-                   + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ?, id_proveedor = ? "
-                   + "WHERE id_producto = ?");
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE producto SET nombre = ?, "
+                    + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ?, id_proveedor = ? "
+                    + "WHERE id_producto = ?");
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setDouble(3, producto.getPrecio());
             ps.setDouble(4, producto.getCantidad());
-            ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
+            if (producto.getImagenProducto() == null) {
+                ps.setNull(5, 0);
+            } else {
+                ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
+            }
+
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
             ps.setInt(8, producto.getId_producto());
@@ -351,7 +354,8 @@ public class Producto {
             return 0;
         }
     }
-        //metodo borrar producto seleccionado en la tabla
+    //metodo borrar producto seleccionado en la tabla
+
     public static boolean borrarProducto(Producto producto) {
 
         try {
@@ -370,10 +374,11 @@ public class Producto {
         }
 
     }
+
     public static ObservableList obtenerProductosProveedor(int idProveedor) {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
-        Image img ;
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0 AND id_proveedor" + idProveedor)) {
+        Image img;
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0 AND id_proveedor =" + idProveedor)) {
 
             while (result.next()) {
                 byte byteImage[];
@@ -381,14 +386,14 @@ public class Producto {
                 String nombre = result.getString("nombre");
                 String descripcion = result.getString("descripcion");
                 double precio = result.getDouble("precio");
-                double cantidad = result.getDouble("cantidad");                
-                Blob imagen = result.getBlob("imagen"); 
-                if (imagen == null){
-                 img = null;
-                }else{
-                byteImage = imagen.getBytes(1, (int) imagen.length());
-                //crear el Image y mostrarlo en el ImageView
-                 img = new Image(new ByteArrayInputStream(byteImage));
+                double cantidad = result.getDouble("cantidad");
+                Blob imagen = result.getBlob("imagen");
+                if (imagen == null) {
+                    img = null;
+                } else {
+                    byteImage = imagen.getBytes(1, (int) imagen.length());
+                    //crear el Image y mostrarlo en el ImageView
+                    img = new Image(new ByteArrayInputStream(byteImage));
                 }
                 idProveedor = result.getInt("id_proveedor");
                 listaProductos.add(new Producto(id, nombre, descripcion, precio, cantidad, img, idProveedor));

@@ -48,7 +48,7 @@ public class ControladorTabProductos implements Initializable {
     @FXML
     private TableColumn<Producto, Blob> colImagen;
     @FXML
-    private TableColumn<Producto, String> colProveedor;
+    private TableColumn<Producto, Integer> colProveedor;
 
     @FXML
     private TextField txtNombre;
@@ -142,8 +142,9 @@ public class ControladorTabProductos implements Initializable {
         colCantidad.setCellValueFactory(new PropertyValueFactory("cantidad"));
         //no muestro la columna de la imagen aunque si esta para cargarla de la bd
         colImagen.setCellValueFactory(new PropertyValueFactory<Producto, Blob>("imagen"));
-        colProveedor.setCellValueFactory(new PropertyValueFactory("id_proveedor"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory("idProveedor"));
         productos = Producto.obtenerProductos();
+        System.out.println(productos);
         tblProductos.setItems(productos);
     }
 
@@ -155,15 +156,17 @@ public class ControladorTabProductos implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
-                System.out.println(tblProductos.getSelectionModel().getSelectedItem().getIdProveedor());
-                proveedorTabla = new Proveedor(tblProductos.getSelectionModel().getSelectedItem().getIdProveedor());
+                //funcion lambda como si hiciera un for
+                proveedorTabla = proveedores.stream().filter(proveedor -> 
+                        proveedor.getId_proveedor() == tblProductos.getSelectionModel().getSelectedItem().getIdProveedor())
+                        .findFirst().orElse(null);
                 
                 txtNombre.setText(pSeleccionado.getNombre());
                 txtDescripcion.setText(pSeleccionado.getDescripcion());
                 txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
                 txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
                 imagen.setImage(pSeleccionado.getImagenProducto());
-                cmbProveedor.setValue(proveedorTabla);
+                cmbProveedor.getSelectionModel().select(proveedorTabla);
                 
             }
         });
@@ -255,7 +258,7 @@ public class ControladorTabProductos implements Initializable {
     }
 
     @FXML
-    private void Actualizar(ActionEvent event) {
+    private void actualizar(ActionEvent event) {
         Double precio = null, cantidad;
 
         String nombre = txtNombre.getText();
@@ -285,7 +288,7 @@ public class ControladorTabProductos implements Initializable {
         }
 
         Image imagen = this.imagen.getImage();
-        if (this.imagen.getImage().equals(null)) {
+        if (imagen == null) {
             this.imagen.setImage(null);
         }
         Proveedor proveedor = cmbProveedor.getValue();

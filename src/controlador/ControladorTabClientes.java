@@ -69,8 +69,9 @@ public class ControladorTabClientes implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarTablaClientes();//se carga la tabla de usuarios  
+        cargarTablaClientes();//se carga la tabla de usuarios 
         clienteSeleccionado();//metodo que añade escuchador a la tabla
+
     }
 
     @FXML
@@ -106,10 +107,10 @@ public class ControladorTabClientes implements Initializable {
             dialogoAlert.showAndWait();
             cargarTablaClientes();
         } else {
-            
+
             txtNif.getStyleClass().remove("error");
             txtNif.getStyleClass().add("bien");
-            
+
             Cliente.insertarCliente(nif, nombre, apellidos, direccion, email, telefono);
             // ventana de los datos se insertaron correctamente
             Alert alert;

@@ -17,13 +17,16 @@
                     <children>
                         <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="1048.0" prefWidth="881.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                             <columns>
-                                <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" styleClass="cabeceraCol" text="NIF" />
-                                <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" styleClass="cabeceraCol" text="Nombre" />
-                                <TableColumn fx:id="colApellidos" editable="false" prefWidth="182.0" styleClass="cabeceraCol" text="Apellidos" />
-                                <TableColumn fx:id="colDireccion" editable="false" prefWidth="190.0" styleClass="cabeceraCol" text="Dirección" />
-                                <TableColumn fx:id="colEmail" editable="false" prefWidth="199.0" styleClass="cabeceraCol" text="Email" />
-                                <TableColumn fx:id="colTelefono" editable="false" prefWidth="121.0" styleClass="cabeceraCol" text="Teléfono" />
+                                <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" resizable="false" styleClass="cabeceraCol" text="NIF" />
+                                <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" resizable="false" styleClass="cabeceraCol" text="Nombre" />
+                                <TableColumn fx:id="colApellidos" editable="false" prefWidth="182.0" resizable="false" styleClass="cabeceraCol" text="Apellidos" />
+                                <TableColumn fx:id="colDireccion" editable="false" prefWidth="190.0" resizable="false" styleClass="cabeceraCol" text="Dirección" />
+                                <TableColumn fx:id="colEmail" editable="false" prefWidth="194.0" resizable="false" styleClass="cabeceraCol" text="Email" />
+                                <TableColumn fx:id="colTelefono" editable="false" prefWidth="126.0" resizable="false" styleClass="cabeceraCol" text="Teléfono" />
                             </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                         </TableView>
                     </children>
                 </AnchorPane>
