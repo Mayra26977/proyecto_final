@@ -23,17 +23,17 @@
             <Button fx:id="btnSalir" layoutX="309.0" layoutY="653.0" mnemonicParsing="false" text="Salir" />
             <Button fx:id="btnAniadirProd" disable="true" layoutX="1384.0" layoutY="628.0" mnemonicParsing="false" onAction="#aniadirLinea" text="Añadir producto" />
             <ComboBox fx:id="cmbProveedores" layoutX="504.0" layoutY="55.0" onAction="#seleccionar" prefHeight="31.0" prefWidth="271.0" />
-            <TableView layoutX="59.0" layoutY="252.0" prefHeight="374.0" prefWidth="816.0">
+            <TableView fx:id="tblLineas" layoutX="59.0" layoutY="252.0" prefHeight="374.0" prefWidth="816.0">
               <columns>
-                <TableColumn fx:id="tblLineas" prefWidth="527.0" text="Nombre" />
-                  <TableColumn minWidth="0.0" prefWidth="108.0" text="Precio/Unidad" />
-                  <TableColumn prefWidth="98.0" text="Unidades" />
-                  <TableColumn prefWidth="82.0" text="Total" />
+                <TableColumn fx:id="colNombreLinea" prefWidth="300.0" text="Nombre" />
+                  <TableColumn fx:id="colPrecioUnidad" minWidth="0.0" prefWidth="335.0" text="Precio/Unidad" />
+                  <TableColumn fx:id="colUnidades" prefWidth="98.0" text="Unidades" />
+                  <TableColumn fx:id="colTotalLinea" prefWidth="82.0" text="Total" />
               </columns>
             </TableView>
             <TableView fx:id="tblProductos" layoutX="1058.0" layoutY="246.0" prefHeight="367.0" prefWidth="455.0">
               <columns>
-                <TableColumn fx:id="colNombre" prefWidth="346.0" text="Nombre" />
+                <TableColumn fx:id="colNombreProducto" prefWidth="346.0" text="Nombre" />
                 <TableColumn fx:id="colPrecio" minWidth="0.0" prefWidth="108.0" text="Precio" />
               </columns>
             </TableView>

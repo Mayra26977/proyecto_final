@@ -2,6 +2,7 @@ package controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modelo.LineaPedidoCompra;
 import modelo.Producto;
 import modelo.Proveedor;
 
@@ -40,27 +42,36 @@ public class ControladorPedidoCompra implements Initializable {
     @FXML
     private ComboBox<Proveedor> cmbProveedores;
     @FXML
-    private TableColumn<?, ?> tblLineas;
+    private TableView<LineaPedidoCompra> tblLineas;
     @FXML
     private TableView<Producto> tblProductos;
     @FXML
-    private TableColumn<Producto, String> colNombre;
+    private TableColumn<Producto, String> colNombreProducto;
     @FXML
     private TableColumn<Producto, Double> colPrecio;
     @FXML
     private TextField txtUnidades;
     @FXML
     private Button btnEliminarLinea;
-
     private ObservableList<Proveedor> proveedores;
     private ObservableList<Producto> productos;
     private Proveedor proveedorSelec;
+    private ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList(); ;
+    @FXML
+    private TableColumn<LineaPedidoCompra, Double> colPrecioUnidad;
+    @FXML
+    private TableColumn<LineaPedidoCompra, Double> colUnidades;
+    @FXML
+    private TableColumn<LineaPedidoCompra, Double> colTotalLinea;
+    @FXML
+    private TableColumn<LineaPedidoCompra, String> colNombreLinea;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cargarLineas();
         System.out.println("Hola");
         cargarProveedores();
         txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -91,17 +102,35 @@ public class ControladorPedidoCompra implements Initializable {
 
     private void cargarProductos() {
         productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
-        colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
+        PropertyValueFactory p = new PropertyValueFactory("nombre");
+        colNombreProducto.setCellValueFactory(p);
         colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         tblProductos.setItems(productos);
     }
 
     @FXML
     private void aniadirLinea(ActionEvent event) {
+        
+         
+        Producto producto = tblProductos.getSelectionModel().getSelectedItem();
+        int cantidad = Integer.parseInt(txtUnidades.getText());
+        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad*producto.getPrecio(), producto.getNombre());
+        
+        lineas.add(linea);
+        
     }
 
     private void comprobarUnidades() {
 
+    }
+    
+    private void cargarLineas() {
+        
+        colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
+        //colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precio"));
+        colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
+        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));        
+        tblLineas.setItems(lineas);
     }
 
 }
