@@ -12,15 +12,17 @@ public class LineaPedidoCompra {
     private Double cantidad;
     private Double importeTotalLinea;
     private String nombreProducto;
+    private Double precioUnidad;
 
     public LineaPedidoCompra() {
     }
 
-    public LineaPedidoCompra(int id_producto, Double cantidad, Double importeTotalLinea, String nombreProducto) {
+    public LineaPedidoCompra(int id_producto, Double cantidad, Double importeTotalLinea, String nombreProducto, Double precioUnidad) {
         this.id_producto = id_producto;
         this.cantidad = cantidad;
         this.importeTotalLinea = importeTotalLinea;
         this.nombreProducto = nombreProducto;
+        this.precioUnidad = precioUnidad;
     }
     
 
@@ -81,6 +83,15 @@ public class LineaPedidoCompra {
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
+
+    public Double getPrecioUnidad() {
+        return precioUnidad;
+    }
+
+    public void setPrecioUnidad(Double precioUnidad) {
+        this.precioUnidad = precioUnidad;
+    }
+    
     
     
     

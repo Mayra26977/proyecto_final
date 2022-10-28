@@ -102,7 +102,7 @@ public class ControladorTabUsuarios implements Initializable {
         String usuario = txtUsuario.getText();
         String rolUsuario = (String) cmbRol.getValue();
 
-        Usuario uActualizado = new Usuario(uSeleccionado.getUsuario_id(), usuario, rolUsuario);
+        Usuario uActualizado = new Usuario(uSeleccionado.getUsuarioId(), usuario, rolUsuario);
         if (!contrasenia.equals("")) {
             //se actualiza el usuario y la contraseña
             Usuario.modificarUsuario(uActualizado, contrasenia);
@@ -183,7 +183,7 @@ public class ControladorTabUsuarios implements Initializable {
 
     public void cargarTablaUsuarios() {
 
-        colUsuario.setCellValueFactory(new PropertyValueFactory("nombre_usuario"));
+        colUsuario.setCellValueFactory(new PropertyValueFactory("nombreUsuario"));
         colRol.setCellValueFactory(new PropertyValueFactory("rol"));
         usuarios = Usuario.obtenerUsuarios();
         tblUsuarios.setItems(usuarios);
@@ -200,7 +200,7 @@ public class ControladorTabUsuarios implements Initializable {
         //funcion lambda para que seleccione de la tabla y rellene los textfield
         tblUsuarios.setOnMouseClicked(event -> {
             uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
-            txtUsuario.setText(uSeleccionado.getNombre_usuario());
+            txtUsuario.setText(uSeleccionado.getNombreUsuario());
             cmbRol.setValue(uSeleccionado.getRol());
         });
     }

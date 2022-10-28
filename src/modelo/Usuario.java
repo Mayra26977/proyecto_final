@@ -14,38 +14,38 @@ import javafx.collections.ObservableList;
  */
 public class Usuario {
 
-    private int usuario_id;
-    private String nombre_usuario;
+    private int usuarioId;
+    private String nombreUsuario;
     private String rol;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre_usuario, String rol) {
-        this.nombre_usuario = nombre_usuario;
+    public Usuario(String nombreUsuario, String rol) {
+        this.nombreUsuario = nombreUsuario;
         this.rol = rol;
     }
 
-    public Usuario(int usuario_id, String nombre_usuario, String rol) {
-        this.usuario_id = usuario_id;
-        this.nombre_usuario = nombre_usuario;
+    public Usuario(int usuarioId, String nombreUsuario, String rol) {
+        this.usuarioId = usuarioId;
+        this.nombreUsuario = nombreUsuario;
         this.rol = rol;
     }
 
-    public int getUsuario_id() {
-        return usuario_id;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getRol() {
@@ -59,14 +59,14 @@ public class Usuario {
 
     public static ObservableList obtenerUsuarios() {
         ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM usuario WHERE eliminado = 0")) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.usuario WHERE eliminado = 0")) {
             //String sql = "SELECT * FROM usuario WHERE eliminado = 0";
             // ResultSet result = (ResultSet) Conexion.obtenerConexion().createStatement().executeQuery(sql);
 
             while (result.next()) {
                 String nombre = result.getString("nombre_usuario");
                 String rol = result.getString("rol");
-                int id = result.getInt("usuario_id");
+                int id = result.getInt("id_usuario");
 
                 //Usuario u = new Usuario(nombre, rol);
                 listaUsuarios.add(new Usuario(id,nombre, rol));
@@ -84,12 +84,13 @@ public class Usuario {
     public static boolean obtenerUsuarioLogueado(String usuario, String pass) {
 
         try {
-            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM usuario WHERE nombre_usuario = '" + usuario + "' AND password = sha1('" + pass + "') AND eliminado = 0")) {
+            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.usuario WHERE nombre_usuario = '" 
+                    + usuario + "' AND password = sha1('" + pass + "') AND eliminado = 0")) {
                 int contadorResult = 0;
                 while (result.next()) {
                     Global.usuarioLoginRol = result.getString("rol");
                     Global.usuarioLogueadoNombre = result.getString("nombre_usuario");
-                    Global.usuarioLogueadoId = result.getInt("usuario_id");
+                    Global.usuarioLogueadoId = result.getInt("id_usuario");
                     contadorResult++;
                 }
                 return contadorResult > 0;
@@ -111,9 +112,9 @@ public class Usuario {
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT usuario_id FROM usuario WHERE nombre_usuario = '" + usuario + "'")) {
+                    "SELECT usuario_id FROM backup21_mayra.usuario WHERE nombre_usuario = '" + usuario + "'")) {
                 while (result.next()) {
-                    id_usuario = result.getInt("usuario_id");
+                    id_usuario = result.getInt("usuarioId");
 
                 }
             }
@@ -133,7 +134,7 @@ public class Usuario {
         String rolU = "";
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT rol FROM usuario WHERE usuario_id = '" + id + "'")) {
+                    "SELECT rol FROM backup21_mayra.usuario WHERE usuario_id = '" + id + "'")) {
                 while (result.next()) {
                     rolU = result.getString("rol");
 
@@ -150,12 +151,12 @@ public class Usuario {
     }
 //metodo insertar usuario en la tabla
 
-    public static boolean insertarUsuario(String nombre_usuario, String contrasenia, String rol) {
+    public static boolean insertarUsuario(String nombreUsuario, String contrasenia, String rol) {
         try {
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "INSERT INTO usuario (usuario_id, nombre_usuario, password, rol, usuario_aniade, "
+            String sql = "INSERT INTO backup21_mayra.usuario (usuario_id, nombre_usuario, password, rol, usuario_aniade, "
                     + "usuario_borra, usuario_mod, fecha_aniade, fecha_borra, fecha_mod, eliminado) "
-                    + "VALUES (NULL, '" + nombre_usuario + "', SHA1('" + contrasenia + "'), '" + rol
+                    + "VALUES (NULL, '" + nombreUsuario + "', SHA1('" + contrasenia + "'), '" + rol
                     + "', " + Global.usuarioLogueadoId + ", NULL, NULL, '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', NULL, NULL, DEFAULT)";
 
@@ -175,9 +176,9 @@ public class Usuario {
     public static boolean borrarUsuario(Usuario usuario) {
         //UPDATE `usuario` SET `usuario_mod` = '7', `fecha_borra` = '2022-10-13 12:49:00', `eliminado` = '1' WHERE `usuario`.`usuario_id` = 20;
         try {
-            int id = Usuario.obtenerId(usuario.getNombre_usuario());
+            int id = Usuario.obtenerId(usuario.getNombreUsuario());
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "UPDATE usuario SET usuario_borra = '" + Global.usuarioLogueadoId + "', fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "'"
+            String sql = "UPDATE backup21_mayra.usuario SET usuario_borra = '" + Global.usuarioLogueadoId + "', fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "'"
                     + ", eliminado = '1' WHERE usuario_id = " + id;
             return stmt.execute(sql);
 
@@ -195,10 +196,10 @@ public class Usuario {
     public static boolean modificarUsuario(Usuario usuario) {
         Statement stmt = null;
         try {
-            String sql = "UPDATE usuario SET nombre_usuario = '" + usuario.getNombre_usuario()
+            String sql = "UPDATE backup21_mayra.usuario SET nombre_usuario = '" + usuario.getNombreUsuario()
                     + "' ,rol = '" + usuario.getRol() + "', usuario_mod = " + Global.usuarioLogueadoId
                     + ", fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now()) + "'"
-                    + " WHERE usuario_id = " + usuario.getUsuario_id();
+                    + " WHERE usuario_id = " + usuario.getUsuarioId();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
 
@@ -215,11 +216,11 @@ public class Usuario {
     public static boolean modificarUsuario(Usuario usuario, String contrasenia) {
          Statement stmt = null;
         try {
-            String sql = "UPDATE usuario SET nombre_usuario = '" + usuario.getNombre_usuario()
+            String sql = "UPDATE backup21_mayra.usuario SET nombre_usuario = '" + usuario.getNombreUsuario()
                     + "' , password = sha1('" + contrasenia + "')"
                     + ", rol = '" + usuario.getRol() + "', usuario_mod = " + Global.usuarioLogueadoId
                     + ", fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now()) + "'"
-                    + " WHERE usuario_id = " + usuario.getUsuario_id();
+                    + " WHERE usuario_id = " + usuario.getUsuarioId();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
 

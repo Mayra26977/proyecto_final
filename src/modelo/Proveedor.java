@@ -183,7 +183,7 @@ public class Proveedor {
        //metodo para obtener todos los proveedores que no tienen el eliminado a 1
     public static ObservableList obtenerProveedores() {
         ObservableList<Proveedor> listaProveedores = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM proveedor WHERE eliminado = 0")) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.proveedores WHERE eliminado = 0")) {
 
             while (result.next()) {
 
@@ -212,7 +212,7 @@ public class Proveedor {
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT id_proveedor FROM proveedor WHERE nombre = '" + proveedor + "'")) {
+                    "SELECT id_proveedor FROM backup21_mayra.proveedores WHERE nombre = '" + proveedor + "'")) {
                 while (result.next()) {
                     id_proveedor = result.getInt("id_proveedor");
 
@@ -233,7 +233,7 @@ public class Proveedor {
     public static boolean insertarProveedor(String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
         try {
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "INSERT INTO proveedor (id_proveedor,nif, nombre, apellidos, direccion, email, telefono, "
+            String sql = "INSERT INTO backup21_mayra.proveedores (id_proveedor,nif, nombre, apellidos, direccion, email, telefono, "
                     + "fecha_aniade, fecha_borra, fecha_mod, eliminado, usuario_aniade, usuario_borra, usuario_mod) "
                     + "VALUES (NULL, '" + nif + "', '" + nombre + "', '" + apellidos
                     + "', '" + direccion + "', '" + email + "', '" + telefono
@@ -258,7 +258,7 @@ public class Proveedor {
         try {
             int id = Proveedor.obtenerId(proveedor.getNombre());
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "UPDATE proveedor SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
+            String sql = "UPDATE backup21_mayra.proveedores SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_proveedor = " + id;
             return stmt.execute(sql);
 
@@ -276,7 +276,7 @@ public class Proveedor {
     public static boolean modificarProveedor(Proveedor proveedor) {
         Statement stmt = null;
         try {
-            String sql = "UPDATE proveedor SET nif = '" + proveedor.getNif() + "', nombre = '" + proveedor.getNombre()
+            String sql = "UPDATE backup21_mayra.proveedores SET nif = '" + proveedor.getNif() + "', nombre = '" + proveedor.getNombre()
                     + "', apellidos = '" + proveedor.getApellidos() + "' , direccion =  '" + proveedor.getDireccion() 
                     + "', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', usuario_mod = " + Global.usuarioLogueadoId 

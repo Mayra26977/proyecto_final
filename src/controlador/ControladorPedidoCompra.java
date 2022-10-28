@@ -42,8 +42,6 @@ public class ControladorPedidoCompra implements Initializable {
     @FXML
     private ComboBox<Proveedor> cmbProveedores;
     @FXML
-    private TableView<LineaPedidoCompra> tblLineas;
-    @FXML
     private TableView<Producto> tblProductos;
     @FXML
     private TableColumn<Producto, String> colNombreProducto;
@@ -53,10 +51,6 @@ public class ControladorPedidoCompra implements Initializable {
     private TextField txtUnidades;
     @FXML
     private Button btnEliminarLinea;
-    private ObservableList<Proveedor> proveedores;
-    private ObservableList<Producto> productos;
-    private Proveedor proveedorSelec;
-    private ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList(); ;
     @FXML
     private TableColumn<LineaPedidoCompra, Double> colPrecioUnidad;
     @FXML
@@ -64,7 +58,15 @@ public class ControladorPedidoCompra implements Initializable {
     @FXML
     private TableColumn<LineaPedidoCompra, Double> colTotalLinea;
     @FXML
+    private TableView<LineaPedidoCompra> tblLineas;
+    @FXML
     private TableColumn<LineaPedidoCompra, String> colNombreLinea;
+    private ObservableList<Proveedor> proveedores;
+    private ObservableList<Producto> productos;
+    private Proveedor proveedorSelec;
+    private ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList();
+
+    ;
 
     /**
      * Initializes the controller class.
@@ -87,7 +89,7 @@ public class ControladorPedidoCompra implements Initializable {
     }
 
     private void cargarProveedores() {
-        
+
         proveedores = Proveedor.obtenerProveedores();
         cmbProveedores.setItems(proveedores);
 
@@ -110,26 +112,25 @@ public class ControladorPedidoCompra implements Initializable {
 
     @FXML
     private void aniadirLinea(ActionEvent event) {
-        
-         
+
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
         int cantidad = Integer.parseInt(txtUnidades.getText());
-        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad*producto.getPrecio(), producto.getNombre());
-        
+        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(),producto.getPrecio());
+
         lineas.add(linea);
-        
+
     }
 
     private void comprobarUnidades() {
 
     }
-    
+
     private void cargarLineas() {
-        
+
         colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
-        //colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precio"));
         colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
-        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));        
+        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));
+        colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precio"));
         tblLineas.setItems(lineas);
     }
 

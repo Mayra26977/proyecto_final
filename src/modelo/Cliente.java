@@ -176,7 +176,7 @@ public class Cliente {
     //metodo para obtener todos los clientes que no tienen el eliminado a 1
     public static ObservableList obtenerClientes() {
         ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM cliente WHERE eliminado = 0")) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.clientes WHERE eliminado = 0")) {
 
             while (result.next()) {
 
@@ -206,7 +206,7 @@ public class Cliente {
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT id_cliente FROM cliente WHERE nombre = '" + cliente + "'")) {
+                    "SELECT id_cliente FROM backup21_mayra.clientes WHERE nombre = '" + cliente + "'")) {
                 while (result.next()) {
                     id_cliente = result.getInt("id_cliente");
 
@@ -231,7 +231,7 @@ public class Cliente {
             //`fecha_aniade`, `fecha_borra`, `fecha_mod`, `eliminado`, `usuario_aniade`, `usuario_borra`, 
             //`usuario_mod`) VALUES (NULL, '12345678A', 'Maria', 'Gonzalez Ferrer', 'C/ Angel 12', 
             //'mariagonzalez@gmail.com', '123456789', '2022-10-17 15:00:00', NULL, NULL, '0', '7', NULL, NULL);
-            String sql = "INSERT INTO cliente (id_cliente, nif, nombre, apellidos, direccion, email, telefono, "
+            String sql = "INSERT INTO backup21_mayra.clientes (id_cliente, nif, nombre, apellidos, direccion, email, telefono, "
                     + "fecha_aniade, fecha_borra, fecha_mod, eliminado, usuario_aniade, usuario_borra, usuario_mod) "
                     + "VALUES (NULL, '" + nif + "', '" + nombre + "', '" + apellidos
                     + "', '" + direccion + "', '" + email + "', '" + telefono
@@ -256,7 +256,7 @@ public class Cliente {
         try {
             int id = Cliente.obtenerId(cliente.getNombre());
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "UPDATE cliente SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
+            String sql = "UPDATE backup21_mayra.clientes SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_cliente = " + id;
             return stmt.execute(sql);
 
@@ -274,7 +274,7 @@ public class Cliente {
     public static boolean modificarCliente(Cliente cliente) {
         Statement stmt = null;
         try {
-            String sql = "UPDATE cliente SET nif = '" + cliente.getNif() + "', nombre = '" + cliente.getNombre()
+            String sql = "UPDATE backup21_mayra.clientes SET nif = '" + cliente.getNif() + "', nombre = '" + cliente.getNombre()
                     + "', apellidos = '" + cliente.getApellidos() + "' , direccion =  '" + cliente.getDireccion() 
                     + "', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', usuario_mod = " + Global.usuarioLogueadoId 
