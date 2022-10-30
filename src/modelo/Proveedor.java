@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
  * @author maria.enriquez
  */
 public class Proveedor {
+ 
     
    private int id_proveedor; 
    private String nif;

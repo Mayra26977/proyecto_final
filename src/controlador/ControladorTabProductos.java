@@ -159,8 +159,7 @@ public class ControladorTabProductos implements Initializable {
                 //funcion lambda como si hiciera un for
                 proveedorTabla = proveedores.stream().filter(proveedor -> 
                         proveedor.getId_proveedor() == tblProductos.getSelectionModel().getSelectedItem().getIdProveedor())
-                        .findFirst().orElse(null);
-                
+                        .findFirst().orElse(null);                
                 txtNombre.setText(pSeleccionado.getNombre());
                 txtDescripcion.setText(pSeleccionado.getDescripcion());
                 txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
@@ -213,7 +212,7 @@ public class ControladorTabProductos implements Initializable {
 
     @FXML
     private void insertar(ActionEvent event) {
-
+        
         Double precio = null;
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
@@ -244,7 +243,7 @@ public class ControladorTabProductos implements Initializable {
             cargarTablaProductos();
         } else {
 
-            System.out.println(cmbProveedor.getValue());
+            System.out.println(cmbProveedor.getValue().getId_proveedor());
             Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida, cmbProveedor.getValue().getId_proveedor()));
             // ventana de los datos se insertaron correctamente            
             Alert alert;
@@ -259,6 +258,7 @@ public class ControladorTabProductos implements Initializable {
 
     @FXML
     private void actualizar(ActionEvent event) {
+        cargarComboProveedores();
         Double precio = null, cantidad;
 
         String nombre = txtNombre.getText();

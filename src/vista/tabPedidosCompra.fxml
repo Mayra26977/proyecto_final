@@ -16,7 +16,7 @@
         </columns>
       </TableView>
       <Button fx:id="btnNuevo" layoutX="48.0" layoutY="354.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
-      <Button fx:id="btnModificar" layoutX="222.0" layoutY="354.0" mnemonicParsing="false" text="Modificar" />
+      <Button fx:id="btnVer" layoutX="222.0" layoutY="354.0" mnemonicParsing="false" onAction="#verPedido" text="Ver" />
       <Button fx:id="btnBorrar" layoutX="395.0" layoutY="354.0" mnemonicParsing="false" text="Borrar" />
    </children>
 </AnchorPane>

@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,9 +29,9 @@ public class Producto {
     private int id_producto;
     private String nombre;
     private String descripcion;
-    private Date fecha_aniade;
-    private Date fecha_borra;
-    private Date fecha_mod;
+    private Timestamp fecha_aniade;
+    private Timestamp fecha_borra;
+    private Timestamp fecha_mod;
     private int usuario_aniade;
     private int usuario_borra;
     private int usuario_mod;
@@ -43,7 +42,7 @@ public class Producto {
     private Image imagenProducto;
     private int idProveedor;
 
-    public Producto(int id_producto, String nombre, String descripcion, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto, int idProveedor) {
+    public Producto(int id_producto, String nombre, String descripcion, Timestamp fecha_aniade, Timestamp fecha_borra, Timestamp fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto, int idProveedor) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -106,27 +105,27 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha_aniade() {
+    public Timestamp getFecha_aniade() {
         return fecha_aniade;
     }
 
-    public void setFecha_aniade(Date fecha_aniade) {
+    public void setFecha_aniade(Timestamp fecha_aniade) {
         this.fecha_aniade = fecha_aniade;
     }
 
-    public Date getFecha_borra() {
+    public Timestamp getFecha_borra() {
         return fecha_borra;
     }
 
-    public void setFecha_borra(Date fecha_borra) {
+    public void setFecha_borra(Timestamp fecha_borra) {
         this.fecha_borra = fecha_borra;
     }
 
-    public Date getFecha_mod() {
+    public Timestamp getFecha_mod() {
         return fecha_mod;
     }
 
-    public void setFecha_mod(Date fecha_mod) {
+    public void setFecha_mod(Timestamp fecha_mod) {
         this.fecha_mod = fecha_mod;
     }
 
@@ -206,7 +205,7 @@ public class Producto {
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
         Image img;
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0")) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.producto WHERE eliminado = 0")) {
 
             while (result.next()) {
                 byte byteImage[];
@@ -242,7 +241,7 @@ public class Producto {
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT id_prodcuto FROM producto WHERE nombre = '" + producto + "'")) {
+                    "SELECT id_prodcuto FROM backup21_mayra.producto WHERE nombre = '" + producto + "'")) {
                 while (result.next()) {
                     id_producto = result.getInt("id_producto");
 
@@ -263,7 +262,7 @@ public class Producto {
     public static boolean insertarProducto(Producto producto) {
         try {
 
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO producto ( nombre, descripcion, precio, cantidad, imagen, fecha_aniade, usuario_aniade, id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.producto ( nombre, descripcion, precio, cantidad, imagen, usuario_aniade, fecha_aniade,  id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 //            String sql = "INSERT INTO producto (id_producto, nombre, descripcion, precio, cantidad, imagen, "
 //                    + "fecha_aniade, fecha_borra, fecha_mod, usuario_aniade, usuario_borra, usuario_mod, eliminado) "
 //                    + "VALUES (NULL, '" + nombre + "', '" + descripcion + "', '" + precio
@@ -280,9 +279,8 @@ public class Producto {
             } else {
                 ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
             }
-
-            ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setInt(7, Global.usuarioLogueadoId);
+            ps.setInt(6, Global.usuarioLogueadoId);
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));            
             ps.setInt(8, producto.getIdProveedor());
             return ps.execute();
 
@@ -326,7 +324,7 @@ public class Producto {
 //                    + " WHERE id_producto = " + producto.getId_producto();
 //            stmt = Conexion.obtenerConexion().createStatement();
 //            return stmt.execute(sql);
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE producto SET nombre = ?, "
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET nombre = ?, "
                     + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ?, id_proveedor = ? "
                     + "WHERE id_producto = ?");
             ps.setString(1, producto.getNombre());
@@ -361,7 +359,7 @@ public class Producto {
         try {
             int id = producto.getId_producto();
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "UPDATE producto SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
+            String sql = "UPDATE backup21_mayra.producto SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_producto = " + id;
             return stmt.execute(sql);
 
@@ -378,7 +376,7 @@ public class Producto {
     public static ObservableList obtenerProductosProveedor(int idProveedor) {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
         Image img;
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM producto WHERE eliminado = 0 AND id_proveedor =" + idProveedor)) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.producto WHERE eliminado = 0 AND id_proveedor =" + idProveedor)) {
 
             while (result.next()) {
                 byte byteImage[];

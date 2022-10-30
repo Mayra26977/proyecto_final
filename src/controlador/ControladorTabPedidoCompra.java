@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import modelo.Pedido_Compra;
+import modelo.PedidoCompra;
 import modelo.Utils;
 
 /**
@@ -21,21 +21,21 @@ import modelo.Utils;
 public class ControladorTabPedidoCompra implements Initializable {
 
     @FXML
-    private TableView<Pedido_Compra> tblPedidos;
+    private TableView<PedidoCompra> tblPedidos;
     @FXML
-    private TableColumn<Pedido_Compra, ?> colId;
+    private TableColumn<PedidoCompra, ?> colId;
     @FXML
-    private TableColumn<Pedido_Compra, ?> colFecha;
+    private TableColumn<PedidoCompra, ?> colFecha;
     @FXML
-    private TableColumn<Pedido_Compra, ?> colProveedor;
+    private TableColumn<PedidoCompra, ?> colProveedor;
     @FXML
     private Button btnNuevo;
-    @FXML
-    private Button btnModificar;
     @FXML
     private Button btnBorrar;
     private Stage stage;
     private FXMLLoader loader;
+    @FXML
+    private Button btnVer;
 
     /**
      * Initializes the controller class.
@@ -49,6 +49,10 @@ public class ControladorTabPedidoCompra implements Initializable {
     private void nuevo(ActionEvent event) {
         loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoCompra.fxml"));
         Utils.abrirVentana(loader, stage);
+    }
+
+    @FXML
+    private void verPedido(ActionEvent event) {
     }
 
 }

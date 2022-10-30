@@ -1,6 +1,5 @@
 package modelo;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,7 +7,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 
 /**
  *
@@ -16,7 +14,7 @@ import javafx.scene.image.Image;
  */
 public class Cliente {
     
-    private int id_cliente;
+    private int idCliente;
     private String nif;
     private String nombre;
     private String apellidos;
@@ -24,18 +22,18 @@ public class Cliente {
     private String email;
     private String telefono;
     private boolean eliminado;
-    private Date fecha_aniade;
-    private Date fecha_borra;
-    private Date fecha_mod;
-    private int usaurio_aniade;
-    private int usaurio_borra;
-    private int usaurio_mod;
+    private Timestamp fechaAniade;
+    private Timestamp fechaBorra;
+    private Timestamp fechaMod;
+    private int usaurioAniade;
+    private int usaurioBorra;
+    private int usaurioMod;
 
     public Cliente() {
     }
 
-    public Cliente(int id_cliente, String nif, String nombre, String apellidos, String direccion, String email, String telefono, boolean eliminado, Date fecha_aniade, Date fecha_borra, Date fecha_mod, int usaurio_aniade, int usaurio_borra, int usaurio_mod) {
-        this.id_cliente = id_cliente;
+    public Cliente(int idCliente, String nif, String nombre, String apellidos, String direccion, String email, String telefono, boolean eliminado, Timestamp fechaAniade, Timestamp fechaBorra, Timestamp fechaMod, int usaurioAniade, int usaurioBorra, int usaurioMod) {
+        this.idCliente = idCliente;
         this.nif = nif;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -43,16 +41,16 @@ public class Cliente {
         this.email = email;
         this.telefono = telefono;
         this.eliminado = eliminado;
-        this.fecha_aniade = fecha_aniade;
-        this.fecha_borra = fecha_borra;
-        this.fecha_mod = fecha_mod;
-        this.usaurio_aniade = usaurio_aniade;
-        this.usaurio_borra = usaurio_borra;
-        this.usaurio_mod = usaurio_mod;
+        this.fechaAniade = fechaAniade;
+        this.fechaBorra = fechaBorra;
+        this.fechaMod = fechaMod;
+        this.usaurioAniade = usaurioAniade;
+        this.usaurioBorra = usaurioBorra;
+        this.usaurioMod = usaurioMod;
     }
 
-    public Cliente(int id_cliente, String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
-        this.id_cliente = id_cliente;
+    public Cliente(int idCliente, String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
+        this.idCliente = idCliente;
         this.nif = nif;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -61,12 +59,12 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {
@@ -109,28 +107,28 @@ public class Cliente {
         this.eliminado = eliminado;
     }
 
-    public Date getFecha_aniade() {
-        return fecha_aniade;
+    public Timestamp getFechaAniade() {
+        return fechaAniade;
     }
 
-    public void setFecha_aniade(Date fecha_aniade) {
-        this.fecha_aniade = fecha_aniade;
+    public void setFechaAniade(Timestamp fechaAniade) {
+        this.fechaAniade = fechaAniade;
     }
 
-    public Date getFecha_borra() {
-        return fecha_borra;
+    public Timestamp getFechaBorra() {
+        return fechaBorra;
     }
 
-    public void setFecha_borra(Date fecha_borra) {
-        this.fecha_borra = fecha_borra;
+    public void setFechaBorra(Timestamp fechaBorra) {
+        this.fechaBorra = fechaBorra;
     }
 
-    public Date getFecha_mod() {
-        return fecha_mod;
+    public Timestamp getFechaMod() {
+        return fechaMod;
     }
 
-    public void setFecha_mod(Date fecha_mod) {
-        this.fecha_mod = fecha_mod;
+    public void setFechaMod(Timestamp fechaMod) {
+        this.fechaMod = fechaMod;
     }
 
     public String getNif() {
@@ -141,28 +139,28 @@ public class Cliente {
         this.nif = nif;
     }
 
-    public int getUsaurio_aniade() {
-        return usaurio_aniade;
+    public int getUsaurioAniade() {
+        return usaurioAniade;
     }
 
-    public void setUsaurio_aniade(int usaurio_aniade) {
-        this.usaurio_aniade = usaurio_aniade;
+    public void setUsaurioAniade(int usaurioAniade) {
+        this.usaurioAniade = usaurioAniade;
     }
 
-    public int getUsaurio_borra() {
-        return usaurio_borra;
+    public int getUsaurioBorra() {
+        return usaurioBorra;
     }
 
-    public void setUsaurio_borra(int usaurio_borra) {
-        this.usaurio_borra = usaurio_borra;
+    public void setUsaurioBorra(int usaurioBorra) {
+        this.usaurioBorra = usaurioBorra;
     }
 
-    public int getUsaurio_mod() {
-        return usaurio_mod;
+    public int getUsaurioMod() {
+        return usaurioMod;
     }
 
-    public void setUsaurio_mod(int usaurio_mod) {
-        this.usaurio_mod = usaurio_mod;
+    public void setUsaurioMod(int usaurioMod) {
+        this.usaurioMod = usaurioMod;
     }
 
     public String getTelefono() {
@@ -227,8 +225,8 @@ public class Cliente {
     public static boolean insertarCliente(String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
         try {
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            //INSERT INTO `cliente` (`id_cliente`, `nif`, `nombre`, `apellidos`, `direccion`, `email`, `telefono`, 
-            //`fecha_aniade`, `fecha_borra`, `fecha_mod`, `eliminado`, `usuario_aniade`, `usuario_borra`, 
+            //INSERT INTO `cliente` (`idCliente`, `nif`, `nombre`, `apellidos`, `direccion`, `email`, `telefono`, 
+            //`fechaAniade`, `fechaBorra`, `fechaMod`, `eliminado`, `usuario_aniade`, `usuario_borra`, 
             //`usuario_mod`) VALUES (NULL, '12345678A', 'Maria', 'Gonzalez Ferrer', 'C/ Angel 12', 
             //'mariagonzalez@gmail.com', '123456789', '2022-10-17 15:00:00', NULL, NULL, '0', '7', NULL, NULL);
             String sql = "INSERT INTO backup21_mayra.clientes (id_cliente, nif, nombre, apellidos, direccion, email, telefono, "
@@ -252,7 +250,7 @@ public class Cliente {
 
     //metodo borrar cliente seleccionado en la tabla
     public static boolean borrarCliente(Cliente cliente) {
-        //UPDATE `cliente` SET `fecha_borra` = '2022-10-17 15:32:00', `eliminado` = '1', `usuario_borra` = '7' WHERE `cliente`.`id_cliente` = 2;
+        //UPDATE `cliente` SET `fechaBorra` = '2022-10-17 15:32:00', `eliminado` = '1', `usuario_borra` = '7' WHERE `cliente`.`idCliente` = 2;
         try {
             int id = Cliente.obtenerId(cliente.getNombre());
             Statement stmt = Conexion.obtenerConexion().createStatement();
@@ -278,7 +276,7 @@ public class Cliente {
                     + "', apellidos = '" + cliente.getApellidos() + "' , direccion =  '" + cliente.getDireccion() 
                     + "', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', usuario_mod = " + Global.usuarioLogueadoId 
-                    + " WHERE id_cliente = " + cliente.getId_cliente();
+                    + " WHERE id_cliente = " + cliente.getIdCliente();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
 

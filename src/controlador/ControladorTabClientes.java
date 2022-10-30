@@ -133,7 +133,7 @@ public class ControladorTabClientes implements Initializable {
         String direccion = txtDireccion.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-        Cliente cActualizado = new Cliente(cSeleccionado.getId_cliente(), nif, nombre, apellidos, direccion, email, telefono);
+        Cliente cActualizado = new Cliente(cSeleccionado.getIdCliente(), nif, nombre, apellidos, direccion, email, telefono);
 
         //se actualiza el cliente
         Cliente.modificarCliente(cActualizado);
