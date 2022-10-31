@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidosVentas">
+   <children>
+      <TableView fx:id="tblPedidos" layoutY="6.0" prefHeight="354.0" prefWidth="642.0">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="106.0" text="Id Pedido" />
+            <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="195.0" text="Fecha" />
+            <TableColumn fx:id="colCliente" prefWidth="338.0" text="Cliente" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnBorrar" layoutX="381.0" layoutY="360.0" mnemonicParsing="false" text="Borrar" />
+      <Button fx:id="btnVer" layoutX="226.0" layoutY="360.0" mnemonicParsing="false" onAction="#verPedido" text="Ver" />
+      <Button fx:id="btnNuevo" layoutX="54.0" layoutY="360.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorVistaPedidoVenta">
+   <content>
+      <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0">
+         <children>
+            <Button fx:id="btnLimpiar" layoutX="294.0" layoutY="165.0" mnemonicParsing="false" onAction="#limpiarPantalla" text="Limpiar pantalla" />
+            <Button fx:id="btnEliminarLinea" layoutX="269.0" layoutY="735.0" mnemonicParsing="false" onAction="#eliminarLinea" text="Eliminar linea" />
+            <Label layoutX="910.0" layoutY="724.0" text="Unidades" />
+            <TextField fx:id="txtUnidades" layoutX="977.0" layoutY="717.0" prefHeight="31.0" prefWidth="115.0" />
+            <TableView fx:id="tblProductos" layoutX="881.0" layoutY="319.0" prefHeight="367.0" prefWidth="455.0">
+               <columns>
+                  <TableColumn fx:id="colNombreProducto" prefWidth="346.0" text="Nombre" />
+                  <TableColumn fx:id="colPrecio" minWidth="0.0" prefWidth="108.0" text="Precio" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tblLineas" layoutX="20.0" layoutY="319.0" prefHeight="374.0" prefWidth="816.0">
+               <columns>
+                  <TableColumn fx:id="colNombreLinea" prefWidth="300.0" text="Nombre" />
+                  <TableColumn fx:id="colPrecioUnidad" minWidth="0.0" prefWidth="335.0" text="Precio/Unidad" />
+                  <TableColumn fx:id="colUnidades" prefWidth="98.0" text="Unidades" />
+                  <TableColumn fx:id="colTotalLinea" prefWidth="82.0" text="Total" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnAniadirProd" disable="true" layoutX="1147.0" layoutY="720.0" mnemonicParsing="false" onAction="#aniadirLinea" text="Añadir producto" />
+            <Button fx:id="btnSalir" layoutX="428.0" layoutY="735.0" mnemonicParsing="false" onAction="#salirPedidoCompra" text="Salir" />
+            <Button fx:id="btnGuardar" layoutX="165.0" layoutY="735.0" mnemonicParsing="false" onAction="#guardarPedidoCompra" text="Guardar" />
+            <Button fx:id="btnImprimir" layoutX="44.0" layoutY="735.0" mnemonicParsing="false" text="Imprimir" />
+            <TextField fx:id="txtTotal" editable="false" layoutX="717.0" layoutY="705.0" prefHeight="31.0" prefWidth="116.0" />
+            <Label layoutX="680.0" layoutY="715.0" text="Total" />
+            <Separator layoutY="210.0" prefHeight="33.0" prefWidth="1544.0" />
+            <TextField fx:id="txtIDPedido" editable="false" layoutX="44.0" layoutY="165.0" prefHeight="25.0" prefWidth="112.0" />
+            <Label layoutX="47.0" layoutY="135.0" text="Código pedido" />
+            <Label layoutX="52.0" layoutY="57.0" text="Fecha" />
+            <DatePicker fx:id="fecha" editable="false" layoutX="48.0" layoutY="88.0" />
+            <Label layoutX="294.0" layoutY="92.0" text="Cliente" />
+            <ComboBox fx:id="cmbClientes" layoutX="365.0" layoutY="88.0" onAction="#seleccionar" prefWidth="150.0" promptText="Cliientes" />
+            <Label layoutX="882.0" layoutY="291.0" text="Productos" />
+            <Label layoutX="20.0" layoutY="291.0" text="Lineas de pedido" />
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

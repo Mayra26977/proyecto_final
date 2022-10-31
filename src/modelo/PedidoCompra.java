@@ -1,6 +1,6 @@
 package modelo;
 
-import com.mysql.cj.protocol.Resultset;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -17,55 +17,61 @@ import java.util.logging.Logger;
  */
 public class PedidoCompra {
 
-    private int id_pedido;
-    private int id_proveedor;
+    private int idPedido;
+    private int idProveedor;
     private Timestamp fecha;
-    private Timestamp fecha_aniade;
-    private Timestamp fecha_borra;
-    private Timestamp fecha_mod;
-    private int usuario_aniade;
-    private int usuario_borra;
-    private int usuario_mod;
+    private Timestamp fechaAniade;
+    private Timestamp fechaBorra;
+    private Timestamp fechaMod;
+    private int usuarioAniade;
+    private int usuarioBorra;
+    private int usuarioMod;
     private boolean eliminado;
     private double totalPedido;
 
     public PedidoCompra() {
     }
 
-    public PedidoCompra(int id_pedido, int id_proveedor, boolean eliminado, Timestamp fecha, Timestamp fecha_aniade, Timestamp fecha_borra, Timestamp fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double totalPedido) {
-        this.id_pedido = id_pedido;
-        this.id_proveedor = id_proveedor;
+    public PedidoCompra(int idPedido, int idProveedor, boolean eliminado, Timestamp fecha, Timestamp fechaAniade, Timestamp fechaBorra, Timestamp fechaMod, int usuarioAniade, int usuarioBorra, int usuarioMod, double totalPedido) {
+        this.idPedido = idPedido;
+        this.idProveedor = idProveedor;
         this.eliminado = eliminado;
         this.fecha = fecha;
-        this.fecha_aniade = fecha_aniade;
-        this.fecha_borra = fecha_borra;
-        this.fecha_mod = fecha_mod;
-        this.usuario_aniade = usuario_aniade;
-        this.usuario_borra = usuario_borra;
-        this.usuario_mod = usuario_mod;
+        this.fechaAniade = fechaAniade;
+        this.fechaBorra = fechaBorra;
+        this.fechaMod = fechaMod;
+        this.usuarioAniade = usuarioAniade;
+        this.usuarioBorra = usuarioBorra;
+        this.usuarioMod = usuarioMod;
         this.totalPedido = totalPedido;
     }
 
-    public PedidoCompra(Timestamp fecha, int id_proveedor, double totalPedido) {
-        this.id_proveedor = id_proveedor;
+    public PedidoCompra(Timestamp fecha, int idProveedor, double totalPedido) {
+        this.idProveedor = idProveedor;
+        this.fecha = fecha;
+        this.totalPedido = totalPedido;
+    }
+    public PedidoCompra(int idPedido, Timestamp fecha, int idProveedor, double totalPedido) {
+        this.idPedido = idPedido;
+        this.idProveedor = idProveedor;
         this.fecha = fecha;
         this.totalPedido = totalPedido;
     }
 
-    public int getId_pedido() {
-        return id_pedido;
+    public int getIdPedido() {
+        return idPedido;
     }
 
-    public void setId_pedido(int id_pedido) {
-        this.id_pedido = id_pedido;
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
     }
 
-    public int getId_proveedor() {
-        return id_proveedor;
+    public int getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setId_proveedor(int id_proveedor) {
-        this.id_proveedor = id_proveedor;
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     public boolean isEliminado() {
@@ -84,52 +90,52 @@ public class PedidoCompra {
         this.fecha = fecha;
     }
 
-    public Timestamp getFecha_aniade() {
-        return fecha_aniade;
+    public Timestamp getFechaAniade() {
+        return fechaAniade;
     }
 
-    public void setFecha_aniade(Timestamp fecha_aniade) {
-        this.fecha_aniade = fecha_aniade;
+    public void setFechaAniade(Timestamp fechaAniade) {
+        this.fechaAniade = fechaAniade;
     }
 
-    public Timestamp getFecha_borra() {
-        return fecha_borra;
+    public Timestamp getFechaBorra() {
+        return fechaBorra;
     }
 
-    public void setFecha_borra(Timestamp fecha_borra) {
-        this.fecha_borra = fecha_borra;
+    public void setFechaBorra(Timestamp fechaBorra) {
+        this.fechaBorra = fechaBorra;
     }
 
-    public Timestamp getFecha_mod() {
-        return fecha_mod;
+    public Timestamp getFechaMod() {
+        return fechaMod;
     }
 
-    public void setFecha_mod(Timestamp fecha_mod) {
-        this.fecha_mod = fecha_mod;
+    public void setFechaMod(Timestamp fechaMod) {
+        this.fechaMod = fechaMod;
     }
 
-    public int getUsuario_aniade() {
-        return usuario_aniade;
+    public int getUsuarioAniade() {
+        return usuarioAniade;
     }
 
-    public void setUsuario_aniade(int usuario_aniade) {
-        this.usuario_aniade = usuario_aniade;
+    public void setUsuarioAniade(int usuarioAniade) {
+        this.usuarioAniade = usuarioAniade;
     }
 
-    public int getUsuario_borra() {
-        return usuario_borra;
+    public int getUsuarioBorra() {
+        return usuarioBorra;
     }
 
-    public void setUsuario_borra(int usuario_borra) {
-        this.usuario_borra = usuario_borra;
+    public void setUsuarioBorra(int usuarioBorra) {
+        this.usuarioBorra = usuarioBorra;
     }
 
-    public int getUsuario_mod() {
-        return usuario_mod;
+    public int getUsuarioMod() {
+        return usuarioMod;
     }
 
-    public void setUsuario_mod(int usuario_mod) {
-        this.usuario_mod = usuario_mod;
+    public void setUsuarioMod(int usuarioMod) {
+        this.usuarioMod = usuarioMod;
     }
 
     public double getTotalPedido() {
@@ -191,6 +197,29 @@ public class PedidoCompra {
             return false;
         }
 
+    }
+    
+     public static ObservableList obtenerPedidos() {
+        ObservableList<PedidoCompra> pedidos = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.pedidos_compras WHERE eliminado = 0")) {
+
+            while (result.next()) {
+
+                int id = result.getInt("id_pedido_compra");
+                Timestamp fecha = result.getTimestamp("fecha");
+                int proveedor = result.getInt("id_proveedor");
+                double total_pedido = result.getDouble("total_pedido");
+               
+
+                pedidos.add(new PedidoCompra(id, fecha, proveedor, total_pedido));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los clientes");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return pedidos;
     }
 
 }

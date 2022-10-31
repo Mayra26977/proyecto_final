@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
  * @author Mayra
  */
 public class Cliente {
-    
+
     private int idCliente;
     private String nif;
     private String nombre;
@@ -186,7 +186,6 @@ public class Cliente {
                 String email = result.getString("email");
                 String telefono = result.getString("telefono");
 
-                //Usuario u = new Usuario(nombre, rol);
                 listaClientes.add(new Cliente(id, nif, nombre, apellidos, direccion, email, telefono));
             }
         } catch (SQLException ex) {
@@ -267,15 +266,15 @@ public class Cliente {
         }
 
     }
-    
+
     //método para modificar cliente
     public static boolean modificarCliente(Cliente cliente) {
         Statement stmt = null;
         try {
             String sql = "UPDATE backup21_mayra.clientes SET nif = '" + cliente.getNif() + "', nombre = '" + cliente.getNombre()
-                    + "', apellidos = '" + cliente.getApellidos() + "' , direccion =  '" + cliente.getDireccion() 
+                    + "', apellidos = '" + cliente.getApellidos() + "' , direccion =  '" + cliente.getDireccion()
                     + "', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
-                    + "', usuario_mod = " + Global.usuarioLogueadoId 
+                    + "', usuario_mod = " + Global.usuarioLogueadoId
                     + " WHERE id_cliente = " + cliente.getIdCliente();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
@@ -287,6 +286,12 @@ public class Cliente {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+
+        return this.nombre;
     }
 
 }
