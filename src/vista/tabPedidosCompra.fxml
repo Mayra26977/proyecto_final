@@ -6,45 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidoCompra">
-   <content>
-      <AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="1223.0" stylesheets="@../css/css_Pedidos.css">
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1676.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidoCompra">
+   <children>
+      <AnchorPane layoutY="3.0" prefHeight="701.0" prefWidth="1662.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="3.0">
          <children>
-            <AnchorPane layoutX="14.0" prefHeight="686.0" prefWidth="1178.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-               <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="14.600000381469727" layoutY="19.600000381469727" prefHeight="669.0" prefViewportHeight="664.800048828125" prefViewportWidth="1134.800048828125" prefWidth="1179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <TableView fx:id="tblPedidos" layoutX="16.0" layoutY="21.0" prefHeight="662.0" prefWidth="1176.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="21.0">
-                          <columns>
-                            <TableColumn fx:id="colId" prefWidth="193.0" resizable="false" text="Id Pedido" />
-                            <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="848.0" resizable="false" text="Fecha" />
-                              <TableColumn fx:id="colProveedor" prefWidth="149.0" resizable="false" text="Proveedor" />
-                              <TableColumn fx:id="colImporte" editable="false" prefWidth="150.0" resizable="false" text="Importe" />
-                          </columns>
-                        </TableView>
-                     </content>
-                  </ScrollPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="109.0" prefWidth="1165.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-               <children>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="64.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="90.0" prefWidth="1114.0" spacing="300.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
-                        <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver" />
-                        <Button fx:id="btnBorrar" mnemonicParsing="false" text="Borrar" />
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
-                  </HBox>
-               </children>
-               <cursor>
-                  <Cursor fx:constant="DEFAULT" />
-               </cursor>
-            </AnchorPane>
+            <TableView fx:id="tblPedidos" layoutX="133.0" layoutY="21.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="21.0">
+              <columns>
+                <TableColumn fx:id="colId" prefWidth="272.0" resizable="false" text="Id Pedido" />
+                <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="1026.0" resizable="false" text="Fecha" />
+                  <TableColumn fx:id="colProveedor" prefWidth="160.0" resizable="false" text="Proveedor" />
+                  <TableColumn fx:id="colImporte" editable="false" minWidth="0.0" prefWidth="180.0" resizable="false" text="Importe" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
-   </content>
-</ScrollPane>
+      <HBox alignment="CENTER" layoutX="6.0" layoutY="719.0" prefHeight="59.0" prefWidth="1200.0" spacing="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0">
+         <children>
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." />
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." />
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedido" text="Borrar" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

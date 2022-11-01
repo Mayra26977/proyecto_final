@@ -30,20 +30,23 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="864.0" prefHeight="813.0" prefWidth="1041.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="901.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane layoutX="864.0" layoutY="142.0" prefHeight="1095.0" prefWidth="1122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="901.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
                     <children>
-                  <HBox layoutX="18.0" layoutY="72.0" prefHeight="240.0" prefWidth="1033.0" spacing="50.0" AnchorPane.bottomAnchor="803.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
+                  <HBox layoutX="86.0" layoutY="188.0" prefHeight="240.0" prefWidth="1033.0" spacing="50.0" AnchorPane.bottomAnchor="687.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="-68.0" AnchorPane.topAnchor="188.0">
                      <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="914.0" text="Datos cliente" textFill="#1d579d">
+                              <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="914.0" text="Datos cliente" textFill="#1d579d">
                                   <font>
                                       <Font name="Arial" size="48.0" />
                                   </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                               </Label>
                      </children>
                   </HBox>
-                          <AnchorPane layoutX="178.0" layoutY="322.0" prefHeight="398.0" prefWidth="944.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="322.0">
+                          <AnchorPane layoutX="178.0" layoutY="451.0" prefHeight="393.0" prefWidth="944.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="451.0">
                               <children>
-                                  <VBox layoutX="82.0" layoutY="112.0" prefHeight="354.0" prefWidth="862.0" spacing="10.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <VBox layoutX="93.0" prefHeight="354.0" prefWidth="862.0" spacing="10.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="-11.0" AnchorPane.topAnchor="0.0">
                                       <children>
                                           <HBox prefHeight="30.0" prefWidth="850.0">
                                               <children>
@@ -163,9 +166,9 @@
                                   </VBox>
                               </children>
                           </AnchorPane>
-                        <HBox alignment="CENTER" fillHeight="false" layoutX="36.0" layoutY="741.0" prefHeight="81.0" prefWidth="716.0" spacing="100.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="741.0">
+                        <HBox alignment="CENTER" fillHeight="false" prefHeight="81.0" prefWidth="716.0" spacing="75.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="850.0">
                             <children>
-                                <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="151.0" text="Limpiar formulario" textFill="WHITE" />
+                                <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="204.0" text="Limpiar formulario" textFill="WHITE" />
                                 <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="47.0" prefWidth="120.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                 <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="140.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                 <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="47.0" prefWidth="110.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />

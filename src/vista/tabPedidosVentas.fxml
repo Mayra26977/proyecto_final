@@ -6,17 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidosVentas">
+<AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1676.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidosVentas">
    <children>
-      <TableView fx:id="tblPedidos" layoutY="6.0" prefHeight="354.0" prefWidth="642.0">
-         <columns>
-            <TableColumn fx:id="colId" prefWidth="106.0" text="Id Pedido" />
-            <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="195.0" text="Fecha" />
-            <TableColumn fx:id="colCliente" prefWidth="338.0" text="Cliente" />
-         </columns>
-      </TableView>
-      <Button fx:id="btnBorrar" layoutX="381.0" layoutY="360.0" mnemonicParsing="false" text="Borrar" />
-      <Button fx:id="btnVer" layoutX="226.0" layoutY="360.0" mnemonicParsing="false" onAction="#verPedido" text="Ver" />
-      <Button fx:id="btnNuevo" layoutX="54.0" layoutY="360.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
+      <AnchorPane prefHeight="701.0" prefWidth="1662.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="3.0">
+         <children>
+            <TableView fx:id="tblPedidosVenta" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="21.0">
+               <columns>
+                  <TableColumn fx:id="colId" prefWidth="272.0" resizable="false" text="Id Pedido" />
+                  <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="1026.0" resizable="false" text="Fecha" />
+                  <TableColumn fx:id="colCliente" prefWidth="160.0" resizable="false" text="Cliente" />
+                  <TableColumn fx:id="colImporte" editable="false" minWidth="0.0" prefWidth="180.0" resizable="false" text="Importe" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1200.0" spacing="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0">
+         <children>
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." />
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." />
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedidoVenta" text="Borrar" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

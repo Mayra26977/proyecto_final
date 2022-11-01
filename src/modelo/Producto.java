@@ -81,6 +81,11 @@ public class Producto {
 
     }
 
+    public Producto(int id_producto) {
+        this.id_producto = id_producto;
+    }
+    
+
     public int getId_producto() {
         return id_producto;
     }
@@ -280,7 +285,7 @@ public class Producto {
                 ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
             }
             ps.setInt(6, Global.usuarioLogueadoId);
-            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));            
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(8, producto.getIdProveedor());
             return ps.execute();
 
@@ -404,5 +409,7 @@ public class Producto {
         }
         return listaProductos;
     }
+
+
 
 }

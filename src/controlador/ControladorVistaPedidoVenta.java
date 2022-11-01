@@ -29,6 +29,7 @@ import modelo.Conexion;
 import modelo.LineaPedidoVenta;
 import modelo.PedidoVenta;
 import modelo.Producto;
+import modelo.Utils;
 
 /**
  * FXML Controller class
@@ -80,6 +81,13 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private Cliente clienteSelec;
     private ObservableList<Producto> productos;
     private ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
+    private PedidoVenta pedidoVenta;
+
+    public void setPedidoVenta(PedidoVenta pedidoVenta) {
+        this.pedidoVenta = pedidoVenta;
+    }
+    
+    
 
     /**
      * Initializes the controller class.
@@ -116,16 +124,29 @@ public class ControladorVistaPedidoVenta implements Initializable {
 
     @FXML
     private void aniadirLinea(ActionEvent event) {
+
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
         double cantidad = Double.parseDouble(txtUnidades.getText());
-        LineaPedidoVenta linea = new LineaPedidoVenta(producto.getId_producto(), cantidad, cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
-        lineas.add(linea);
-        Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
-        txtTotal.setText(String.valueOf(totalPedido));
+        //si la cantidad de producto que hay menos la cantidad que piden es menor de 0 no se puede vender mas de lo que tengo
+        if (producto.getCantidad() - cantidad <= 0) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cantidad producto");
+            alert.setHeaderText("No hay suficientes unidades");
+            alert.setContentText("Obten unidades para poder vender");
+            alert.showAndWait();
+
+        } else {
+            LineaPedidoVenta linea = new LineaPedidoVenta(producto.getId_producto(), cantidad, cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
+            lineas.add(linea);
+            Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
+            txtTotal.setText(String.valueOf(totalPedido));
+        }
+
     }
 
     @FXML
-    private void salirPedidoCompra(ActionEvent event) {
+    private void salirPedidoVenta(ActionEvent event) {
         Alert alert;
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Salir pedido venta");
@@ -143,7 +164,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
     }
 
     @FXML
-    private void guardarPedidoCompra(ActionEvent event) {
+    private void guardarPedidoVenta(ActionEvent event) {
 
         try {
             //hacer transaccion crear pedido
@@ -161,6 +182,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
             PedidoVenta pedido = new PedidoVenta(fechaPedido, cliente.getIdCliente(), Double.parseDouble(txtTotal.getText()));
 
             PedidoVenta.insertarPedidoVenta(pedido, fechaPedido, cliente, new ArrayList<LineaPedidoVenta>(lineas));
+            Utils.cerrarVentana(event);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -200,6 +222,10 @@ public class ControladorVistaPedidoVenta implements Initializable {
     public int borrarSeleccion() {
         tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineas.getSelectionModel().getSelectedIndex();
+    }
+    public void mostrarPedido(PedidoVenta pedidoVenta){
+        System.out.println(pedidoVenta.getIdPedido());
+        pedidoVenta.getIdPedido();
     }
 
 }

@@ -6,12 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorVistaPedidoCompra">
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorVistaPedidoCompra">
    <children>
-      <AnchorPane layoutX="10.0" layoutY="-18.0" prefHeight="163.0" prefWidth="1180.0" style="-fx-background-color: purple;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-18.0">
+      <AnchorPane layoutX="14.0" layoutY="846.0" prefHeight="65.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <Button fx:id="btnLimpiar" layoutX="1516.0" layoutY="66.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Limpiar pantalla" />
-            <ComboBox fx:id="cmbProveedores" layoutX="791.0" layoutY="66.0" prefHeight="31.0" prefWidth="271.0" promptText="Proveedores" />
+            <Button fx:id="btnGuardar" layoutX="64.0" layoutY="17.0" mnemonicParsing="false" onAction="#guardarPedidoCompra" text="Guardar" />
+            <Button fx:id="btnImprimir" layoutX="829.0" layoutY="16.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="122.0" text="Imprimir..." />
+            <Button fx:id="btnSalir" layoutX="1613.0" layoutY="16.0" mnemonicParsing="false" onAction="#salirPedidoCompra" text="Salir" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="10.0" layoutY="-18.0" prefHeight="163.0" prefWidth="1180.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-18.0">
+         <children>
+            <Button fx:id="btnLimpiar" layoutX="1399.0" layoutY="66.0" mnemonicParsing="false" onAction="#limpiarPantalla" prefHeight="47.0" prefWidth="203.0" text="Limpiar formulario" />
+            <ComboBox fx:id="cmbProveedores" layoutX="791.0" layoutY="66.0" onAction="#seleccionar" prefHeight="31.0" prefWidth="271.0" promptText="Proveedores" />
             <Separator layoutX="3.0" layoutY="116.0" prefHeight="24.0" prefWidth="1677.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <TextField fx:id="txtIDPedido" editable="false" layoutX="414.0" layoutY="69.0" />
             <Label layoutX="414.0" layoutY="38.0" text="Código pedido" />
@@ -20,32 +27,42 @@
             <DatePicker fx:id="fecha" editable="false" layoutX="83.0" layoutY="69.0" prefHeight="25.0" prefWidth="182.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="10.0" layoutY="151.0" prefHeight="574.0" prefWidth="667.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="151.0">
+      <AnchorPane layoutX="10.0" layoutY="151.0" prefHeight="574.0" prefWidth="667.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="151.0">
          <children>
-            <TableView fx:id="tblProductos" layoutX="1169.0" prefHeight="481.0" prefWidth="401.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="0.0">
-               <columns>
-                  <TableColumn fx:id="colNombreProducto" prefWidth="269.0" text="Nombre" />
-                  <TableColumn fx:id="colPrecio" minWidth="0.0" prefWidth="131.0" text="Precio" />
-               </columns>
-            </TableView>
-            <Label layoutX="1476.0" layoutY="496.0" text="Unidades" />
-            <TextField fx:id="txtUnidades" layoutX="1558.0" layoutY="488.0" prefHeight="33.0" prefWidth="103.0" />
-            <Button fx:id="btnAniadirProd" disable="true" layoutX="1510.0" layoutY="487.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="104.0" text="Añadir producto" AnchorPane.rightAnchor="41.0" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <Label layoutX="1136.0" layoutY="547.0" text="Unidades" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="571.0" />
+            <TextField fx:id="txtUnidades" layoutX="1212.0" layoutY="540.0" prefHeight="33.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="407.0" />
+            <Button fx:id="btnAniadirProd" disable="true" layoutX="1565.0" layoutY="541.0" mnemonicParsing="false" onAction="#aniadirLinea" prefHeight="35.0" prefWidth="104.0" text="Añadir producto" AnchorPane.bottomAnchor="-10.0" AnchorPane.rightAnchor="100.0" />
+            <AnchorPane layoutX="55.0" prefHeight="527.0" prefWidth="955.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="tblLineas" prefHeight="529.0" prefWidth="812.0">
+                  <TableView fx:id="tblLineas" prefHeight="514.0" prefWidth="832.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn fx:id="colNombreLinea" prefWidth="477.0" text="Nombre" />
-                        <TableColumn fx:id="colPrecioUnidad" minWidth="0.0" prefWidth="116.0" text="Precio/Unidad" />
-                        <TableColumn fx:id="colUnidades" prefWidth="108.0" text="Unidades" />
-                        <TableColumn fx:id="colTotalLinea" prefWidth="110.0" text="Total" />
+                        <TableColumn fx:id="colNombreLinea" editable="false" prefWidth="500.0" resizable="false" text="Nombre" />
+                        <TableColumn fx:id="colPrecioUnidad" editable="false" minWidth="0.0" prefWidth="150.0" resizable="false" text="Precio/Unidad" />
+                        <TableColumn fx:id="colUnidades" editable="false" prefWidth="150.0" resizable="false" text="Unidades" />
+                        <TableColumn fx:id="colTotalLinea" editable="false" prefWidth="150.0" resizable="false" text="Total" />
                      </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                </children>
             </AnchorPane>
-            <Button fx:id="btnEliminarLinea" layoutX="133.0" layoutY="543.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="88.0" text="Eliminar linea" />
-            <Label layoutX="754.0" layoutY="557.0" prefHeight="17.0" prefWidth="59.0" text="Total" />
-            <TextField fx:id="txtTotal" editable="false" layoutX="813.0" layoutY="548.0" prefHeight="34.0" prefWidth="132.0" />
+            <Label layoutX="732.0" layoutY="548.0" prefHeight="17.0" prefWidth="59.0" text="Total" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="732.0" AnchorPane.rightAnchor="870.0" />
+            <TextField fx:id="txtTotal" editable="false" layoutX="831.0" layoutY="542.0" prefHeight="34.0" prefWidth="174.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="831.0" />
+            <Button fx:id="btnEliminarLinea" layoutX="55.0" layoutY="527.0" mnemonicParsing="false" onAction="#eliminarLinea" prefHeight="31.0" prefWidth="197.0" text="Eliminar linea" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="55.0" />
+            <AnchorPane layoutX="1124.0" prefHeight="527.0" prefWidth="545.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="1124.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="tblProductos" prefHeight="527.0" prefWidth="545.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columns>
+                        <TableColumn fx:id="colNombreProducto" prefWidth="352.0" text="Nombre" />
+                        <TableColumn fx:id="colPrecio" minWidth="0.0" prefWidth="191.0" text="Precio" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

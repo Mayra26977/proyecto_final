@@ -1,6 +1,5 @@
 package modelo;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +50,7 @@ public class PedidoCompra {
         this.fecha = fecha;
         this.totalPedido = totalPedido;
     }
+
     public PedidoCompra(int idPedido, Timestamp fecha, int idProveedor, double totalPedido) {
         this.idPedido = idPedido;
         this.idProveedor = idProveedor;
@@ -145,9 +145,8 @@ public class PedidoCompra {
     public void setTotalPedido(double totalPedido) {
         this.totalPedido = totalPedido;
     }
-    
 
-    public static boolean insertarPedidoCompra(PedidoCompra pedido, Timestamp fechaPedido, Proveedor proveedor,ArrayList <LineaPedidoCompra> lineas) {
+    public static boolean insertarPedidoCompra(PedidoCompra pedido, Timestamp fechaPedido, Proveedor proveedor, ArrayList<LineaPedidoCompra> lineas) {
         try {
             Conexion.obtenerConexion().setAutoCommit(false);
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.pedidos_compras ( fecha, id_proveedor,  usuario_aniade, fecha_aniade, total_pedido ) VALUES ( ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -160,24 +159,24 @@ public class PedidoCompra {
             //devuelve las claves primarias que se generan del PreparedStatement
             ResultSet ids = ps.getGeneratedKeys();
             int idPedido;
-            if(ids.next()){
+            if (ids.next()) {
                 idPedido = ids.getInt(1);
-            }else{
+            } else {
                 throw new SQLException("No se ha obtenido el id");
             }
             //insertar las lineas
             for (int i = 0; i < lineas.size(); i++) {
-               PreparedStatement psLinea = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.linea_pedido_compra ( id_producto, id_pedido_compra,  precio_total_linea_pedido_compra, unidades) VALUES ( ?, ?, ?, ?)");
-               psLinea.setInt(1, lineas.get(i).getId_producto());
-               psLinea.setInt(2, idPedido);
-               psLinea.setDouble(3, lineas.get(i).getImporteTotalLinea());
-               psLinea.setDouble(4, lineas.get(i).getCantidad());
-               psLinea.execute();
+                PreparedStatement psLinea = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.linea_pedido_compra ( id_producto, id_pedido_compra,  precio_total_linea_pedido_compra, unidades) VALUES ( ?, ?, ?, ?)");
+                psLinea.setInt(1, lineas.get(i).getId_producto());
+                psLinea.setInt(2, idPedido);
+                psLinea.setDouble(3, lineas.get(i).getImporteTotalLinea());
+                psLinea.setDouble(4, lineas.get(i).getCantidad());
+                psLinea.execute();
 
-               //actualizar la cantidad de unidades de ese producto
-               PreparedStatement psProducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad + ?");
-               psProducto.setDouble(1, lineas.get(i).getCantidad());
-               psProducto.execute();
+                //actualizar la cantidad de unidades de ese producto
+                PreparedStatement psProducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad + ?");
+                psProducto.setDouble(1, lineas.get(i).getCantidad());
+                psProducto.execute();
             }
             Conexion.obtenerConexion().commit();
             Conexion.obtenerConexion().setAutoCommit(true);
@@ -198,8 +197,8 @@ public class PedidoCompra {
         }
 
     }
-    
-     public static ObservableList obtenerPedidos() {
+
+    public static ObservableList obtenerPedidos() {
         ObservableList<PedidoCompra> pedidos = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.pedidos_compras WHERE eliminado = 0")) {
 
@@ -209,17 +208,70 @@ public class PedidoCompra {
                 Timestamp fecha = result.getTimestamp("fecha");
                 int proveedor = result.getInt("id_proveedor");
                 double total_pedido = result.getDouble("total_pedido");
-               
 
                 pedidos.add(new PedidoCompra(id, fecha, proveedor, total_pedido));
             }
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al obtener los clientes");
+            System.out.println("Ocurrió un error al obtener los pedidos");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
         return pedidos;
+    }
+
+    public static boolean borrarPedido(PedidoCompra pedido) {
+        try {
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.pedidos_compras SET usuario_borra = ?, fecha_borra = ?, eliminado = ? WHERE id_pedido_compra = ?");
+            ps.setInt(1, Global.usuarioLogueadoId);
+            ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setBoolean(3, true);
+            ps.setInt(4, pedido.getIdPedido());
+            ps.execute();
+            actualizarCantidades(pedido);
+            return true;
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al borrar el pedido");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+            return false;
+        }
+    }
+//cuando un pedido se borra de compra, puesto que no se va a comprar los productos hay que restarselo a la cantidad para que quede
+    //la cantidad que habia antes de realizar el producto puesto que se ha borrado
+    private static boolean actualizarCantidades(PedidoCompra pedido) {
+        try {
+            Conexion.obtenerConexion().setAutoCommit(false);
+            //recuperamos cada linea del pedido el producto que tiene y las unidades que tiene
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("SELECT id_producto, unidades FROM backup21_mayra.linea_pedido_compra where id_pedido_venta = ?");
+            ps.setInt(1, pedido.getIdPedido());
+            ResultSet result = ps.executeQuery();
+            while (result.next()) {
+                //mientras en el pedido haya lineas con productos y unidades se actualizaran esos productos
+                PreparedStatement psproducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad - ? where id_producto = ?");
+
+                psproducto.setDouble(1, result.getDouble("unidades"));
+                psproducto.setInt(2, result.getInt("id_producto"));
+                psproducto.execute();
+            }
+            Conexion.obtenerConexion().commit();
+            Conexion.obtenerConexion().setAutoCommit(true);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al actualizar la cantidad");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+            try {
+                Conexion.obtenerConexion().rollback();
+                Conexion.obtenerConexion().setAutoCommit(true);
+            } catch (SQLException ex1) {
+                ex.printStackTrace();
+            }
+            return false;
+        }
     }
 
 }

@@ -86,175 +86,149 @@ public class ControladorVistaPedidoCompra implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        cargarLineas();
-//        cargarProveedores();
-//        txtTotal.setText("0.0");
-//        txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
-//            //comprueba que solo puedas escribir numeros enteros
-//            if (!newValue.matches("\\d*")) {
-//                txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
-//            }
-//            btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
-//
-//        });
+        cargarLineas();
+        cargarProveedores();
+        txtTotal.setText("0.0");
+        txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
+            //comprueba que solo puedas escribir numeros enteros
+            if (!newValue.matches("\\d*")) {
+                txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
+            }
+            btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
+
+        });
     }
-//
-//    private void cargarProveedores() {
-//        proveedores = Proveedor.obtenerProveedores();
-//        cmbProveedores.setItems(proveedores);
-//    }
-//
-//    @FXML
-//    private void seleccionar(ActionEvent event) {
-//        this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
-//        cmbProveedores.setDisable(true);
-//        cargarProductos();
-//
-//    }
-//
-//    private void cargarProductos() {
-//        productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
-//        PropertyValueFactory p = new PropertyValueFactory("nombre");
-//        colNombreProducto.setCellValueFactory(p);
-//        colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
-//        tblProductos.setItems(productos);
-//    }
-//
-//    @FXML
-//    private void aniadirLinea(ActionEvent event) {
-//        Producto producto = tblProductos.getSelectionModel().getSelectedItem();
-//        int cantidad = Integer.parseInt(txtUnidades.getText());
-//        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
-//        lineas.add(linea);
-//        Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
-//        txtTotal.setText(String.valueOf(totalPedido));
-//
-//    }
-//
-//    private void cargarLineas() {
-//        colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
-//        colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
-//        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));
-//        colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precioUnidad"));
-//        tblLineas.setItems(lineas);
-//    }
-//
-//    @FXML
-//    private void guardarPedidoCompra(ActionEvent event) {
-//        try {
-//            Timestamp fechaPedido = null;
-//            //hacer transaccion crear pedido
-//            //creo el pedido para obtener el id del pedido
-//            //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
-//            Conexion.obtenerConexion().setAutoCommit(false);
-//            //pasar la hora del datepicker para poder insertarla en el pedido
-//            if (fecha.getValue() == null) {
-//                Alert alert;
-//                alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Fecha vacia");
-//                alert.setHeaderText("Rellenar fecha");
-//                alert.setContentText("La fecha no puede estar vacia");
-//                alert.showAndWait();
-//            } else {
-//                LocalDate fechaObtenida = fecha.getValue();
-//                System.out.println(fechaObtenida);
-//                LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
-//                System.out.println(localDateTime);
-//                fechaPedido = Timestamp.valueOf(localDateTime);
-//                System.out.println(fechaPedido);
-//            }
-//
-//            if (fechaPedido != null) {
-//                Proveedor proveedor = cmbProveedores.getValue();
-//                PedidoCompra pedido = new PedidoCompra(fechaPedido, proveedor.getId_proveedor(), Double.parseDouble(txtTotal.getText()));
-//                PedidoCompra.insertarPedidoCompra(pedido, fechaPedido, proveedor, new ArrayList<LineaPedidoCompra>(lineas));
-//                Utils.cerrarVentana(event);
-//                Alert alert;
-//                alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setTitle("Pedido insertado");
-//                alert.setHeaderText("Pedido insertado");
-//                alert.setContentText("El pedido se inserto correctamente");
-//                alert.showAndWait();
-//            }
-//
-//        } catch (SQLException ex) {
-//            Alert alert;
-//            alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Pedido no insertado");
-//            alert.setHeaderText("Pedido no insertado");
-//            alert.setContentText("El pedido no se inserto pudo insertar");
-//            alert.showAndWait();
-//            ex.printStackTrace();
-//        }
-//
-//    }
-//
-//    @FXML
-//    private void salirPedidoCompra(ActionEvent event) {
-//        Alert alert;
-//        alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Salir pedido compra");
-//        alert.setHeaderText("Estas seguro de salir?");
-//        alert.setContentText("Los datos se perderan");
-//        Optional<ButtonType> action = alert.showAndWait();
-//        //segun lo que respondas en el alert
-//        if (action.get() == ButtonType.OK) {
-//
-//            modelo.Utils.cerrarVentana(event);
-//
-//        } else {
-//
-//        }
-//
-//    }
-//
-//    @FXML
-//    private void eliminarLinea(ActionEvent event) {
-//        LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
-//        lineas.remove(borrarSeleccion());
-//        tblLineas.setItems(lineas);
-//        cargarLineas();
-//        Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
-//        txtTotal.setText(String.valueOf(totalPedido));
-//
-//    }
-//
-//    public int borrarSeleccion() {
-//        tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//        return tblLineas.getSelectionModel().getSelectedIndex();
-//    }
-//
-//    private void limpiarVista() {
-//        if (fecha != null) {
-//            fecha.setValue(null);
-//        }
-//        if (!txtIDPedido.equals("")) {
-//            txtIDPedido.setText("");
-//        }
-//        if (cmbProveedores.getValue() != null) {
-//            //cmbProveedores.getSelectionModel().clearSelection();
-//            cmbProveedores.setValue(null);
-//        }
-//        if (!tblLineas.getItems().isEmpty()) {
-//            tblLineas.setItems(null);
-//        }
-//
-//        if (!tblProductos.getItems().isEmpty()) {
-//            tblProductos.setItems(null);
-//        }
-//        if (!txtUnidades.getText().isEmpty()) {
-//            txtUnidades.setText("");
-//        }
-//        if (!txtTotal.getText().isEmpty()) {
-//            txtTotal.setText("");
-//        }
-//        cmbProveedores.setDisable(false);
-//
-//    }
-//
-//    @FXML
-//    private void limpiarPantalla(ActionEvent event) {
-//        limpiarVista();
-//    }
+
+    private void cargarProveedores() {
+        proveedores = Proveedor.obtenerProveedores();
+        cmbProveedores.setItems(proveedores);
+    }
+
+    @FXML
+    private void seleccionar(ActionEvent event) {
+        this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
+        cmbProveedores.setDisable(true);
+        cargarProductos();
+
+    }
+
+    private void cargarProductos() {
+        productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
+        PropertyValueFactory p = new PropertyValueFactory("nombre");
+        colNombreProducto.setCellValueFactory(p);
+        colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
+        tblProductos.setItems(productos);
+    }
+
+    @FXML
+    private void aniadirLinea(ActionEvent event) {
+        Producto producto = tblProductos.getSelectionModel().getSelectedItem();
+        int cantidad = Integer.parseInt(txtUnidades.getText());
+        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
+        lineas.add(linea);
+        Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
+        txtTotal.setText(String.valueOf(totalPedido));
+
+    }
+
+    private void cargarLineas() {
+        colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
+        colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
+        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));
+        colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precioUnidad"));
+        tblLineas.setItems(lineas);
+    }
+
+    @FXML
+    private void guardarPedidoCompra(ActionEvent event) {
+        try {
+            Timestamp fechaPedido = null;
+            //hacer transaccion crear pedido
+            //creo el pedido para obtener el id del pedido
+            //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
+            Conexion.obtenerConexion().setAutoCommit(false);
+            //pasar la hora del datepicker para poder insertarla en el pedido
+            if (fecha.getValue() == null) {
+                Alert alert;
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Fecha vacia");
+                alert.setHeaderText("Rellenar fecha");
+                alert.setContentText("La fecha no puede estar vacia");
+                alert.showAndWait();
+            } else {
+                LocalDate fechaObtenida = fecha.getValue();
+                System.out.println(fechaObtenida);
+                LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
+                System.out.println(localDateTime);
+                fechaPedido = Timestamp.valueOf(localDateTime);
+                System.out.println(fechaPedido);
+            }
+
+            if (fechaPedido != null) {
+                Proveedor proveedor = cmbProveedores.getValue();
+                PedidoCompra pedido = new PedidoCompra(fechaPedido, proveedor.getId_proveedor(), Double.parseDouble(txtTotal.getText()));
+                PedidoCompra.insertarPedidoCompra(pedido, fechaPedido, proveedor, new ArrayList<LineaPedidoCompra>(lineas));
+                Utils.cerrarVentana(event);
+                Alert alert;
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Pedido insertado");
+                alert.setHeaderText("Pedido insertado");
+                alert.setContentText("El pedido se inserto correctamente");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException ex) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Pedido no insertado");
+            alert.setHeaderText("Pedido no insertado");
+            alert.setContentText("El pedido no se inserto pudo insertar");
+            alert.showAndWait();
+            ex.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void salirPedidoCompra(ActionEvent event) {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Salir pedido compra");
+        alert.setHeaderText("Estas seguro de salir?");
+        alert.setContentText("Los datos se perderan");
+        Optional<ButtonType> action = alert.showAndWait();
+        //segun lo que respondas en el alert
+        if (action.get() == ButtonType.OK) {
+
+            modelo.Utils.cerrarVentana(event);
+
+        } else {
+
+        }
+
+    }
+
+    @FXML
+    private void eliminarLinea(ActionEvent event) {
+        LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
+        lineas.remove(borrarSeleccion());
+        tblLineas.setItems(lineas);
+        cargarLineas();
+        Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
+        txtTotal.setText(String.valueOf(totalPedido));
+
+    }
+
+    public int borrarSeleccion() {
+        tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        return tblLineas.getSelectionModel().getSelectedIndex();
+    }
+
+    
+
+    @FXML
+    private void limpiarPantalla(ActionEvent event) {
+        
+    }
 
 }
