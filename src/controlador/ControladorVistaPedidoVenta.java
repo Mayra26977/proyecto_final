@@ -9,11 +9,18 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +31,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import modelo.Cliente;
 import modelo.Conexion;
 import modelo.LineaPedidoVenta;
@@ -76,35 +86,42 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private DatePicker fecha;
     @FXML
     private ComboBox<Cliente> cmbClientes;
+    @FXML
+    private AnchorPane raizHija;
 
     private ObservableList<Cliente> clientes;
     private Cliente clienteSelec;
     private ObservableList<Producto> productos;
     private ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
-    private PedidoVenta pedidoVenta;
+    private PedidoVenta pedido;
+    private FXMLLoader loader;
+    private Stage stage;
 
-    public void setPedidoVenta(PedidoVenta pedidoVenta) {
-        this.pedidoVenta = pedidoVenta;
+    public void setPedido(PedidoVenta pedido) {
+        this.pedido = pedido;
     }
-    
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarLineas();
-        cargarClientes();
-        txtTotal.setText("0.0");
-        txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
-            //comprueba que solo puedas escribir numeros enteros
-            if (!newValue.matches("\\d*")) {
-                txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
-            }
-            btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
+        if (!(this.pedido == null)) {
+            recuperarPedido();
+        } else {
+            cargarLineas();
+            cargarClientes();
 
-        });
+            txtTotal.setText("0.0");
+            txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
+                //comprueba que solo puedas escribir numeros enteros
+                if (!newValue.matches("\\d*")) {
+                    txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
+                }
+                btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
+
+            });
+        }
 
     }
 
@@ -157,7 +174,8 @@ public class ControladorVistaPedidoVenta implements Initializable {
         if (action.get() == ButtonType.OK) {
 
             modelo.Utils.cerrarVentana(event);
-
+            
+            
         } else {
 
         }
@@ -167,30 +185,60 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private void guardarPedidoVenta(ActionEvent event) {
 
         try {
+            Timestamp fechaPedido = null;
             //hacer transaccion crear pedido
             //creo el pedido para obtener el id del pedido
             //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
             Conexion.obtenerConexion().setAutoCommit(false);
             //pasar la hora del datepicker para poder insertarla en el pedido
-            LocalDate fechaObtenida = fecha.getValue();
-            System.out.println(fechaObtenida);
-            LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
-            System.out.println(localDateTime);
-            Timestamp fechaPedido = Timestamp.valueOf(localDateTime);
-            System.out.println(fechaPedido);
-            Cliente cliente = cmbClientes.getValue();
-            PedidoVenta pedido = new PedidoVenta(fechaPedido, cliente.getIdCliente(), Double.parseDouble(txtTotal.getText()));
+            if (fecha.getValue() == null) {
+                Alert alert;
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Fecha vacia");
+                alert.setHeaderText("Rellenar fecha");
+                alert.setContentText("La fecha no puede estar vacia");
+                alert.showAndWait();
+            } else {
+                LocalDate fechaObtenida = fecha.getValue();
+                System.out.println(fechaObtenida);
+                LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
+                System.out.println(localDateTime);
+                fechaPedido = Timestamp.valueOf(localDateTime);
+                System.out.println(fechaPedido);
+            }
+            if (fechaPedido != null) {
+                Cliente cliente = cmbClientes.getValue();
+                PedidoVenta pedido = new PedidoVenta(fechaPedido, cliente.getIdCliente(), Double.parseDouble(txtTotal.getText()));
 
-            PedidoVenta.insertarPedidoVenta(pedido, fechaPedido, cliente, new ArrayList<LineaPedidoVenta>(lineas));
-            Utils.cerrarVentana(event);
+                PedidoVenta.insertarPedidoVenta(pedido, fechaPedido, cliente, new ArrayList<LineaPedidoVenta>(lineas));
+
+                Alert alert;
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Pedido insertado");
+                alert.setHeaderText("Pedido insertado");
+                alert.setContentText("El pedido se inserto correctamente");
+                alert.showAndWait();
+                modelo.Utils.cerrarVentana(event);
+                
+
+            }
 
         } catch (SQLException ex) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Pedido no insertado");
+            alert.setHeaderText("Pedido no insertado");
+            alert.setContentText("El pedido no se inserto pudo insertar");
+            alert.showAndWait();
             ex.printStackTrace();
+        } catch (Throwable ex) {
+            Logger.getLogger(ControladorVistaPedidoVenta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
     private void seleccionar(ActionEvent event) {
+        
         this.clienteSelec = cmbClientes.getSelectionModel().getSelectedItem();
         cmbClientes.setDisable(true);
         cargarProductos();
@@ -223,9 +271,10 @@ public class ControladorVistaPedidoVenta implements Initializable {
         tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
-    public void mostrarPedido(PedidoVenta pedidoVenta){
-        System.out.println(pedidoVenta.getIdPedido());
-        pedidoVenta.getIdPedido();
+
+    public void recuperarPedido() {
+        txtIDPedido.setText(String.valueOf(this.pedido.getIdPedido()));
+
     }
 
 }

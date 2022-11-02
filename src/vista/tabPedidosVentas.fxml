@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1676.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidosVentas">
+<AnchorPane id="AnchorPane" fx:id="raizPadre" maxHeight="1080.0" maxWidth="1920.0" prefHeight="768.0" prefWidth="1676.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabPedidosVentas">
    <children>
       <AnchorPane prefHeight="701.0" prefWidth="1662.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="3.0">
          <children>

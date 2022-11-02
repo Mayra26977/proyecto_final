@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -9,12 +10,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.PedidoVenta;
 import modelo.Utils;
@@ -47,6 +54,8 @@ public class ControladorTabPedidosVentas implements Initializable {
     private FXMLLoader loader;
     private ObservableList<PedidoVenta> pedidos;
     private PedidoVenta pedidoVenta;
+    @FXML
+    private AnchorPane raizPadre;
 
     /**
      * Initializes the controller class.
@@ -59,25 +68,46 @@ public class ControladorTabPedidosVentas implements Initializable {
 
     @FXML
     private void verPedido(ActionEvent event) {
-        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoVenta.fxml"));
-        //obtengo el controlador de la ventana a la que voy a mandar el pedido
-        ControladorVistaPedidoVenta controlador = (ControladorVistaPedidoVenta) loader.getController();
-        //pedido venta le doy el valor del pedido de la tabla
         pedidoVenta = tblPedidosVenta.getSelectionModel().getSelectedItem();
-        //y seteo el pedido de la ventana al que mando el pedido 
-        controlador.setPedidoVenta(pedidoVenta);
-        Utils.abrirVentana(loader, stage);
+
+        try {
+            // Paso 1
+            //FXMLLoader loader = new FXMLLoader(ControladorTabPedidosVentas.class.getResource("/vista/vistaPedido_Venta.fxml"));
+            loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Venta.fxml"));
+            // Paso 2
+            ControladorVistaPedidoVenta controller = new ControladorVistaPedidoVenta();
+            controller.setPedido(pedidoVenta);
+            // Paso 3
+            loader.setController(controller);
+            // Paso 4
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(String.format("Error creando ventana: %s", e.getMessage()));
+        }
+
     }
 
     @FXML
     private void nuevo(ActionEvent event) {
 
-        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoVenta.fxml"));
-        Utils.abrirVentana(loader, stage);
+        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Venta.fxml"));
+        ControladorVistaPedidoVenta controller = new ControladorVistaPedidoVenta();
+        loader.setController(controller);
+        stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        
+       Utils.abrirVentana (loader, stage);
     }
 
-    @FXML
-    private void borrarPedidoVenta(ActionEvent event) {
+    //Utils.abrirVentana (loader, stage);
+
+
+@FXML
+private void borrarPedidoVenta(ActionEvent event) {
 
         PedidoVenta pedidoVenta = tblPedidosVenta.getSelectionModel().getSelectedItem();
         Alert alert;

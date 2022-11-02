@@ -192,7 +192,6 @@ public class PedidoVenta {
             }
             Conexion.obtenerConexion().commit();
             Conexion.obtenerConexion().setAutoCommit(true);
-
             return true;
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al insertar el pedido");
