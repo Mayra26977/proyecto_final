@@ -14,13 +14,11 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -33,13 +31,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import modelo.Cliente;
 import modelo.Conexion;
 import modelo.LineaPedidoVenta;
 import modelo.PedidoVenta;
 import modelo.Producto;
-import modelo.Utils;
 
 /**
  * FXML Controller class
@@ -96,9 +92,14 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private PedidoVenta pedido;
     private FXMLLoader loader;
     private Stage stage;
+    private ControladorTabPedidosVentas controladorPadre;
 
     public void setPedido(PedidoVenta pedido) {
         this.pedido = pedido;
+    }
+
+    void setControladorPadre(ControladorTabPedidosVentas controladorPadre) {
+        this.controladorPadre = controladorPadre;
     }
 
     /**
@@ -174,8 +175,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
         if (action.get() == ButtonType.OK) {
 
             modelo.Utils.cerrarVentana(event);
-            
-            
+
         } else {
 
         }
@@ -190,8 +190,8 @@ public class ControladorVistaPedidoVenta implements Initializable {
             //creo el pedido para obtener el id del pedido
             //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
             Conexion.obtenerConexion().setAutoCommit(false);
-            //pasar la hora del datepicker para poder insertarla en el pedido
             if (fecha.getValue() == null) {
+                //si no se pone fecha se informa de que no se puede quedar vacia los pedidos tiene fecha
                 Alert alert;
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Fecha vacia");
@@ -199,28 +199,29 @@ public class ControladorVistaPedidoVenta implements Initializable {
                 alert.setContentText("La fecha no puede estar vacia");
                 alert.showAndWait();
             } else {
+                //pasar la hora del datepicker para poder insertarla en el pedido
+                //se coge la fecha del datapicker
                 LocalDate fechaObtenida = fecha.getValue();
-                System.out.println(fechaObtenida);
+                //se transforma a LocalDateTime para añadirle la hora
                 LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
-                System.out.println(localDateTime);
+                //y se crea un objeto Timestamp con la fecha para insertar en la tabla 
                 fechaPedido = Timestamp.valueOf(localDateTime);
-                System.out.println(fechaPedido);
             }
             if (fechaPedido != null) {
                 Cliente cliente = cmbClientes.getValue();
                 PedidoVenta pedido = new PedidoVenta(fechaPedido, cliente.getIdCliente(), Double.parseDouble(txtTotal.getText()));
-
                 PedidoVenta.insertarPedidoVenta(pedido, fechaPedido, cliente, new ArrayList<LineaPedidoVenta>(lineas));
-
+                //informo de que se ha insertado el pedido correctamente con un alert
                 Alert alert;
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Pedido insertado");
                 alert.setHeaderText("Pedido insertado");
                 alert.setContentText("El pedido se inserto correctamente");
                 alert.showAndWait();
+                //se cierra la ventana cuando se ha insertado
                 modelo.Utils.cerrarVentana(event);
-                
-
+                //queria haber recargado la tabla desde aqui 
+                //this.controladorPadre.recargarTabla();  
             }
 
         } catch (SQLException ex) {
@@ -231,9 +232,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
             alert.setContentText("El pedido no se inserto pudo insertar");
             alert.showAndWait();
             ex.printStackTrace();
-        } catch (Throwable ex) {
-            Logger.getLogger(ControladorVistaPedidoVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     @FXML
@@ -271,9 +270,18 @@ public class ControladorVistaPedidoVenta implements Initializable {
         tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
-
+//metodo donde seteamos los controles con el valor del pedido que hemos obtenido de la pantalla padre
     public void recuperarPedido() {
+        btnAniadirProd.setDisable(true);
+        btnEliminarLinea.setDisable(true);
+        btnGuardar.setDisable(true);
+        
         txtIDPedido.setText(String.valueOf(this.pedido.getIdPedido()));
+        fecha.setValue(pedido.getFecha().toLocalDateTime().toLocalDate());
+        cmbClientes.setValue(new Cliente(pedido.getIdCliente()));
+        cmbClientes.setDisable(true);
+        txtTotal.setText(String.valueOf(pedido.getTotalPedido()));
+        
 
     }
 

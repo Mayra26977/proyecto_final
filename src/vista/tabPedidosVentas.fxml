@@ -25,6 +25,7 @@
             <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." />
             <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." />
             <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedidoVenta" text="Borrar" />
+            <Button fx:id="btnActualizarTabla" mnemonicParsing="false" onAction="#cargarTabla" text="Actualizar tabla" />
          </children>
       </HBox>
    </children>

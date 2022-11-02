@@ -16,11 +16,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.PedidoVenta;
@@ -56,13 +56,15 @@ public class ControladorTabPedidosVentas implements Initializable {
     private PedidoVenta pedidoVenta;
     @FXML
     private AnchorPane raizPadre;
+    @FXML
+    private Button btnActualizarTabla;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // TODO        
         cargarTablaPedidos();
     }
 
@@ -71,15 +73,10 @@ public class ControladorTabPedidosVentas implements Initializable {
         pedidoVenta = tblPedidosVenta.getSelectionModel().getSelectedItem();
 
         try {
-            // Paso 1
-            //FXMLLoader loader = new FXMLLoader(ControladorTabPedidosVentas.class.getResource("/vista/vistaPedido_Venta.fxml"));
             loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Venta.fxml"));
-            // Paso 2
             ControladorVistaPedidoVenta controller = new ControladorVistaPedidoVenta();
             controller.setPedido(pedidoVenta);
-            // Paso 3
             loader.setController(controller);
-            // Paso 4
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage = new Stage();
@@ -92,22 +89,22 @@ public class ControladorTabPedidosVentas implements Initializable {
     }
 
     @FXML
-    private void nuevo(ActionEvent event) {
+    private void nuevo(ActionEvent event) throws IOException {
 
         loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Venta.fxml"));
-        ControladorVistaPedidoVenta controller = new ControladorVistaPedidoVenta();
-        loader.setController(controller);
+        //creo controlador de la ventana hija para pasarle el pedido
+        ControladorVistaPedidoVenta controladorHija = new ControladorVistaPedidoVenta();
+        //le paso a la ventana hija el pedido obtenido de la tabla
+        controladorHija.setPedido(pedidoVenta);
+        //controller.setControladorPadre(controladorPadre); queria pasarle el controlador a la hija para recargar desde alli la tabla
+        loader.setController(controladorHija);
         stage = new Stage();
         stage.initModality(Modality.WINDOW_MODAL);
-        
-       Utils.abrirVentana (loader, stage);
+        Utils.abrirVentana(loader, stage);
     }
 
-    //Utils.abrirVentana (loader, stage);
-
-
-@FXML
-private void borrarPedidoVenta(ActionEvent event) {
+    @FXML
+    private void borrarPedidoVenta(ActionEvent event) {
 
         PedidoVenta pedidoVenta = tblPedidosVenta.getSelectionModel().getSelectedItem();
         Alert alert;
@@ -145,6 +142,12 @@ private void borrarPedidoVenta(ActionEvent event) {
         pedidos = PedidoVenta.obtenerPedidos();
         tblPedidosVenta.setItems(pedidos);
 
+    }
+
+    @FXML
+    private void cargarTabla(ActionEvent event) {
+        pedidos = PedidoVenta.obtenerPedidos();
+        tblPedidosVenta.setItems(pedidos);
     }
 
 }

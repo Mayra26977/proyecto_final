@@ -90,6 +90,9 @@ public class LineaPedidoVenta {
     public void setPrecioUnidad(Double precioUnidad) {
         this.precioUnidad = precioUnidad;
     }
+    public static void obtenerLineasPedidoConcreto(PedidoVenta pedido){
+        
+    }
     
     
     
