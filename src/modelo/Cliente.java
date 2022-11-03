@@ -62,7 +62,10 @@ public class Cliente {
     public Cliente(int idCliente) {
         this.idCliente = idCliente;
     }
-    
+
+    public Cliente(String nombre) {
+        this.nombre= nombre;
+    }
 
     public int getIdCliente() {
         return idCliente;
@@ -291,6 +294,30 @@ public class Cliente {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public static Cliente obtenerClientePorId(int idCliente) {
+        Cliente cliente = null;
+        try {
+            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                    "SELECT nombre FROM backup21_mayra.clientes WHERE id_cliente = " + idCliente)) {
+
+                while (result.next()) {
+                    String nombre = result.getString("nombre");
+
+                    cliente = new Cliente(nombre);
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener el id del cliente");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+
+        return cliente;
     }
 
     @Override

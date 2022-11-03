@@ -1,8 +1,10 @@
 package controlador;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
-import modelo.Cliente;
 import modelo.Proveedor;
 
 /**
@@ -63,6 +64,7 @@ public class ControladorTabProveedores implements Initializable {
 
     private ObservableList<Proveedor> proveedores;
     private Proveedor pSeleccionado;
+    private ArrayList<String> errores;
 
     /**
      * Initializes the controller class.
@@ -71,6 +73,7 @@ public class ControladorTabProveedores implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarTablaProveedores();//se carga la tabla de usuarios  
         proveedorSeleccionado();//metodo que añade escuchador a la tabla
+        errores = new ArrayList<String>();
     }
 
     @FXML
@@ -81,6 +84,7 @@ public class ControladorTabProveedores implements Initializable {
     //método insertar proveedor
     @FXML
     private void insertar(ActionEvent event) {
+
         String nif = txtNif.getText();
         String nombre = txtNombre.getText();
         String apellidos = txtApellidos.getText();
@@ -88,16 +92,18 @@ public class ControladorTabProveedores implements Initializable {
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
 
-        if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
-                || txtDireccion.getText().isEmpty() || txtEmail.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
-            // ventana de los datos no en blanco
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Insertar proveedor");
-            dialogoAlert.setHeaderText(null);
-            dialogoAlert.setContentText("Rellene todos los campos por favor.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarTablaProveedores();
+        validarFormulario();
+
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
         } else {
             Proveedor.insertarProveedor(nif, nombre, apellidos, direccion, email, telefono);
             // ventana de los datos se insertaron correctamente
@@ -111,8 +117,7 @@ public class ControladorTabProveedores implements Initializable {
         }
     }
 
-   //método actualizar proveedor
-
+    //método actualizar proveedor
     @FXML
     private void Actualizar(ActionEvent event) {
 
@@ -122,22 +127,37 @@ public class ControladorTabProveedores implements Initializable {
         String direccion = txtDireccion.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-        Proveedor pActualizado = new Proveedor(pSeleccionado.getId_proveedor(), nif, nombre, apellidos, direccion, email, telefono);
 
-        //se actualiza el proveedor
-        Proveedor.modificarProveedor(pActualizado);
-        Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-        dialogoAlert.setTitle("Actualizar proveedor");
-        dialogoAlert.setHeaderText("Informacion actualización");
-        dialogoAlert.setContentText("Se actualizo el proveedor correctamente.");
-        dialogoAlert.initStyle(StageStyle.UTILITY);
-        dialogoAlert.showAndWait();
-        limpiar();
-        cargarTablaProveedores();
+        validarFormulario();
+
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
+        } else {
+            
+            Proveedor pActualizado = new Proveedor(pSeleccionado.getId_proveedor(), nif, nombre, apellidos, direccion, email, telefono);
+            //se actualiza el proveedor
+            Proveedor.modificarProveedor(pActualizado);
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Actualizar proveedor");
+            dialogoAlert.setHeaderText("Informacion actualización");
+            dialogoAlert.setContentText("Se actualizo el proveedor correctamente.");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+            limpiar();
+            cargarTablaProveedores();
+        }
+
     }
 
 //método borrar proveedor
-
     @FXML
     private void borrar(ActionEvent event) {
 
@@ -217,6 +237,34 @@ public class ControladorTabProveedores implements Initializable {
 
         });
 
+    }
+
+    public void validarFormulario() {
+        errores.clear();
+        if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
+                || txtDireccion.getText().isEmpty() || txtEmail.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
+            // ventana de los datos no en blanco
+            txtNif.getStyleClass().add("error");
+            txtNombre.getStyleClass().add("error");
+            txtApellidos.getStyleClass().add("error");
+            txtDireccion.getStyleClass().add("error");
+            txtEmail.getStyleClass().add("error");
+            txtTelefono.getStyleClass().add("error");
+            errores.add("Los campos tienen que rellenarse, es obligatorio.");
+
+        }
+        String patronEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+        if (!Pattern.matches(patronEmail, txtEmail.getText())) {
+            errores.add("El campo correo tiene formato incorrecto.");
+        }
+        String patronNif = "[0-9]{7,8}[A-Za-z]";
+        if (!Pattern.matches(patronNif, txtNif.getText())) {
+            errores.add("El campo NIF tiene formato incorrecto.");
+        }
+        String patronTelefono = "^\\d{9}$";//los telefonos solo tienen 9 números
+         if (!Pattern.matches(patronTelefono, txtTelefono.getText())) {
+            errores.add("El campo teléfono tiene formato incorrecto solo debe contener 9 números y sin espacios.");
+        }
     }
 
 }

@@ -154,7 +154,7 @@ public class Usuario {
     public static boolean insertarUsuario(String nombreUsuario, String contrasenia, String rol) {
         try {
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            String sql = "INSERT INTO backup21_mayra.usuario (usuario_id, nombre_usuario, password, rol, usuario_aniade, "
+            String sql = "INSERT INTO backup21_mayra.usuario (id_usuario, nombre_usuario, password, rol, usuario_aniade, "
                     + "usuario_borra, usuario_mod, fecha_aniade, fecha_borra, fecha_mod, eliminado) "
                     + "VALUES (NULL, '" + nombreUsuario + "', SHA1('" + contrasenia + "'), '" + rol
                     + "', " + Global.usuarioLogueadoId + ", NULL, NULL, '" + Timestamp.valueOf(LocalDateTime.now())
@@ -196,10 +196,11 @@ public class Usuario {
     public static boolean modificarUsuario(Usuario usuario) {
         Statement stmt = null;
         try {
+
             String sql = "UPDATE backup21_mayra.usuario SET nombre_usuario = '" + usuario.getNombreUsuario()
                     + "' ,rol = '" + usuario.getRol() + "', usuario_mod = " + Global.usuarioLogueadoId
                     + ", fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now()) + "'"
-                    + " WHERE usuario_id = " + usuario.getUsuarioId();
+                    + " WHERE id_usuario = " + usuario.getUsuarioId();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
 

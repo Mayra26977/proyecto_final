@@ -1,8 +1,10 @@
 package controlador;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,6 +65,7 @@ public class ControladorTabClientes implements Initializable {
 
     private ObservableList<Cliente> clientes;
     private Cliente cSeleccionado;
+    private ArrayList<String> errores;
 
     /**
      * Initializes the controller class.
@@ -71,6 +74,7 @@ public class ControladorTabClientes implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarTablaClientes();//se carga la tabla de usuarios 
         clienteSeleccionado();//metodo que añade escuchador a la tabla
+        errores = new ArrayList<String>();
 
     }
 
@@ -89,25 +93,18 @@ public class ControladorTabClientes implements Initializable {
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
 
-        if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
-                || txtDireccion.getText().isEmpty() || txtEmail.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
-            // ventana de los datos no en blanco
-            txtNif.getStyleClass().add("error");
-            txtNombre.getStyleClass().add("error");
-            txtApellidos.getStyleClass().add("error");
-            txtDireccion.getStyleClass().add("error");
-            txtEmail.getStyleClass().add("error");
-            txtTelefono.getStyleClass().add("error");
-
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Insertar cliente");
-            dialogoAlert.setHeaderText(null);
-            dialogoAlert.setContentText("Rellene todos los campos por favor.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarTablaClientes();
+        validarFormulario();
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
         } else {
-
             txtNif.getStyleClass().remove("error");
             txtNif.getStyleClass().add("bien");
 
@@ -121,30 +118,46 @@ public class ControladorTabClientes implements Initializable {
             cargarTablaClientes();
             limpiar();
         }
+
     }
 //método actualizar cliente
 
     @FXML
     private void Actualizar(ActionEvent event) {
+        //se valida el formulario
+        validarFormulario();
+        //si contiene errores se muestra un alert con ellos para que el usuario los subsane
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
+        } else {// si no se actualizará el registro
+            String nif = txtNif.getText();
+            String nombre = txtNombre.getText();
+            String apellidos = txtApellidos.getText();
+            String direccion = txtDireccion.getText();
+            String email = txtEmail.getText();
+            String telefono = txtTelefono.getText();
+            Cliente cActualizado = new Cliente(cSeleccionado.getIdCliente(), nif, nombre, apellidos, direccion, email, telefono);
 
-        String nif = txtNif.getText();
-        String nombre = txtNombre.getText();
-        String apellidos = txtApellidos.getText();
-        String direccion = txtDireccion.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
-        Cliente cActualizado = new Cliente(cSeleccionado.getIdCliente(), nif, nombre, apellidos, direccion, email, telefono);
+            //se actualiza el cliente
+            Cliente.modificarCliente(cActualizado);
+            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlert.setTitle("Actualizar Cliente");
+            dialogoAlert.setHeaderText("Informacion actualización");
+            dialogoAlert.setContentText("Se actualizo el cliente correctamente.");
+            dialogoAlert.initStyle(StageStyle.UTILITY);
+            dialogoAlert.showAndWait();
+            limpiar();
+            cargarTablaClientes();
+        }
 
-        //se actualiza el cliente
-        Cliente.modificarCliente(cActualizado);
-        Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-        dialogoAlert.setTitle("Actualizar Cliente");
-        dialogoAlert.setHeaderText("Informacion actualización");
-        dialogoAlert.setContentText("Se actualizo el cliente correctamente.");
-        dialogoAlert.initStyle(StageStyle.UTILITY);
-        dialogoAlert.showAndWait();
-        limpiar();
-        cargarTablaClientes();
     }
 //método borrar cliente
 
@@ -229,4 +242,31 @@ public class ControladorTabClientes implements Initializable {
 
     }
 
+    public void validarFormulario() {
+        errores.clear();
+        if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
+                || txtDireccion.getText().isEmpty() || txtEmail.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
+            // ventana de los datos no en blanco
+            txtNif.getStyleClass().add("error");
+            txtNombre.getStyleClass().add("error");
+            txtApellidos.getStyleClass().add("error");
+            txtDireccion.getStyleClass().add("error");
+            txtEmail.getStyleClass().add("error");
+            txtTelefono.getStyleClass().add("error");
+            errores.add("Los campos tienen que rellenarse, es obligatorio.");
+
+        }
+        String patronEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+        if (!Pattern.matches(patronEmail, txtEmail.getText())) {
+            errores.add("El campo correo tiene formato incorrecto.");
+        }
+         String patronNif = "[0-9]{7,8}[A-Za-z]";
+        if (!Pattern.matches(patronNif, txtNif.getText())) {
+            errores.add("El campo NIF tiene formato incorrecto.");
+        }
+        String patronTelefono = "^\\d{9}$";//los telefonos solo tienen 9 números
+         if (!Pattern.matches(patronTelefono, txtTelefono.getText())) {
+            errores.add("El campo teléfono tiene formato incorrecto solo debe contener 9 números y sin espacios.");
+        }
+    }
 }

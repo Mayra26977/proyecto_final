@@ -60,10 +60,16 @@ public class Proveedor {
         this.email = email;
         this.telefono = telefono;
     } 
-
+    
     public Proveedor(int idProveedor) {
         this.id_proveedor = idProveedor;
     }
+
+    public Proveedor(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
     
     public int getId_proveedor() {
         return id_proveedor;
@@ -292,6 +298,29 @@ public class Proveedor {
             ex.printStackTrace();
             return false;
         }
+    }
+    public static Proveedor obtenerProveedorPorId(int idProveedor) {
+        Proveedor proveedor = null;
+        try {
+            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                    "SELECT nombre FROM backup21_mayra.proveedores WHERE id_proveedor = " + idProveedor)) {
+
+                while (result.next()) {
+                    String nombre = result.getString("nombre");
+
+                    proveedor = new Proveedor(nombre);
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener el id del cliente");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+
+        return proveedor;
     }
    
    

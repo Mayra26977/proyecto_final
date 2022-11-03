@@ -1,11 +1,16 @@
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Mayra
  */
 public class LineaPedidoVenta {
-    
+
     private int idLineaPedido;
     private int idPedido;
     private int idProducto;
@@ -24,16 +29,25 @@ public class LineaPedidoVenta {
         this.cantidad = cantidad;
         this.importeTotalLinea = importeTotalLinea;
     }
-     public LineaPedidoVenta(int idProducto, double cantidad, double importeTotalLinea, String nombreProducto, double precioUnidad) {
-         
-         this.idProducto = idProducto;
-         this.cantidad = cantidad;
-         this.importeTotalLinea = importeTotalLinea;
-         this.nombreProducto = nombreProducto;
-         this.precioUnidad = precioUnidad;
-         
-     }
-    
+
+    public LineaPedidoVenta(int idProducto, double cantidad, double importeTotalLinea, String nombreProducto, double precioUnidad) {
+
+        this.idProducto = idProducto;
+        this.cantidad = cantidad;
+        this.importeTotalLinea = importeTotalLinea;
+        this.nombreProducto = nombreProducto;
+        this.precioUnidad = precioUnidad;
+
+    }
+
+    private LineaPedidoVenta(int idLineaPedido, String nombre, double precio, Double precioTotalLinea, Double unidades) {
+        this.idLineaPedido = idLineaPedido;
+        this.nombreProducto = nombre;
+        this.idPedido = idPedido;
+        this.precioUnidad = precio;
+        this.importeTotalLinea = precioTotalLinea;
+        this.cantidad = unidades;
+    }
 
     public int getIdLineaPedido() {
         return idLineaPedido;
@@ -90,11 +104,31 @@ public class LineaPedidoVenta {
     public void setPrecioUnidad(Double precioUnidad) {
         this.precioUnidad = precioUnidad;
     }
-    public static void obtenerLineasPedidoConcreto(PedidoVenta pedido){
-        
+
+    public static ObservableList obtenerLineasPedidoConcreto(PedidoVenta pedido) {
+         
+        ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_venta WHERE id_pedido_venta =" + pedido.getIdPedido())) {
+            while (result.next()) {
+
+                int idLinea = result.getInt("id_linea_pedido_venta");
+                int idProducto = result.getInt("id_producto");
+                int idPedido = result.getInt("id_pedido_venta");
+                Double importeTotalLinea = result.getDouble("precio_total_linea_pedido_venta");
+                Double cantidad = result.getDouble("unidades");
+
+                Producto prod = Producto.obtenerProductoPorId(idProducto);                  
+                //LineaPedidoVenta linea = new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio());
+                lineas.add(new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));  
+                
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener las lineas del pedido");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return lineas;
     }
-    
-    
-    
-    
 }

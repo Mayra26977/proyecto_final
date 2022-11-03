@@ -74,71 +74,86 @@ public class ControladorVistaPedidoCompra implements Initializable {
     private TableView<LineaPedidoCompra> tblLineas;
     @FXML
     private TableColumn<LineaPedidoCompra, String> colNombreLinea;
+    @FXML
+    private Button btnLimpiar;
+
     private ObservableList<Proveedor> proveedores;
     private ObservableList<Producto> productos;
     private Proveedor proveedorSelec;
     private ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList();
-    @FXML
-    private Button btnLimpiar;
+    private PedidoCompra pedidoCompra;
+
+    public void setPedidoCompra(PedidoCompra pedido) {
+        this.pedidoCompra = pedido;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarLineas();
-        cargarProveedores();
-        txtTotal.setText("0.0");
-        txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
-            //comprueba que solo puedas escribir numeros enteros
-            if (!newValue.matches("\\d*")) {
-                txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
-            }
-            btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
+        if (!(this.pedidoCompra == null)) {
+            recuperarPedido();
+        } else {
+            cargarLineas();
+            cargarProveedores();
+            txtTotal.setText("0.0");
+            txtUnidades.textProperty().addListener((observable, oldValue, newValue) -> {
+                //comprueba que solo puedas escribir numeros enteros
+                if (!newValue.matches("\\d*")) {
+                    txtUnidades.setText(newValue.replaceAll("[^\\d*]", ""));
+                }
+                btnAniadirProd.setDisable(txtUnidades.getText().equals(""));
 
-        });
+            });
+        }
     }
-
-    private void cargarProveedores() {
-        proveedores = Proveedor.obtenerProveedores();
-        cmbProveedores.setItems(proveedores);
-    }
-
+    
     @FXML
-    private void seleccionar(ActionEvent event) {
-        this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
-        cmbProveedores.setDisable(true);
-        cargarProductos();
+    private void limpiarPantalla(ActionEvent event) {
 
     }
+    
+    @FXML
+    private void eliminarLinea(ActionEvent event) {
+        LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
+        lineas.remove(borrarSeleccion());
+        tblLineas.setItems(lineas);
+        cargarLineas();
+        Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
+        txtTotal.setText(String.valueOf(totalPedido));
 
-    private void cargarProductos() {
-        productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
-        PropertyValueFactory p = new PropertyValueFactory("nombre");
-        colNombreProducto.setCellValueFactory(p);
-        colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
-        tblProductos.setItems(productos);
     }
-
+    
     @FXML
     private void aniadirLinea(ActionEvent event) {
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
-        int cantidad = Integer.parseInt(txtUnidades.getText());
+        int cantidad = Integer.parseInt(txtUnidades.getText()); 
         LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
         lineas.add(linea);
         Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
         txtTotal.setText(String.valueOf(totalPedido));
 
     }
+        @FXML
+    private void salirPedidoCompra(ActionEvent event) {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Salir pedido compra");
+        alert.setHeaderText("Estas seguro de salir?");
+        alert.setContentText("Los datos se perderan");
+        Optional<ButtonType> action = alert.showAndWait();
+        //segun lo que respondas en el alert
+        if (action.get() == ButtonType.OK) {
 
-    private void cargarLineas() {
-        colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
-        colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
-        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));
-        colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precioUnidad"));
-        tblLineas.setItems(lineas);
+            modelo.Utils.cerrarVentana(event);
+
+        } else {
+
+        }
+
     }
-
+    
     @FXML
     private void guardarPedidoCompra(ActionEvent event) {
         try {
@@ -188,47 +203,62 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
 
     }
+    
 
     @FXML
-    private void salirPedidoCompra(ActionEvent event) {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Salir pedido compra");
-        alert.setHeaderText("Estas seguro de salir?");
-        alert.setContentText("Los datos se perderan");
-        Optional<ButtonType> action = alert.showAndWait();
-        //segun lo que respondas en el alert
-        if (action.get() == ButtonType.OK) {
-
-            modelo.Utils.cerrarVentana(event);
-
-        } else {
-
-        }
+    private void seleccionar(ActionEvent event) {
+        this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
+        cmbProveedores.setDisable(true);
+        cargarProductos();
 
     }
 
-    @FXML
-    private void eliminarLinea(ActionEvent event) {
-        LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
-        lineas.remove(borrarSeleccion());
-        tblLineas.setItems(lineas);
-        cargarLineas();
-        Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
-        txtTotal.setText(String.valueOf(totalPedido));
+    private void cargarProveedores() {
+        proveedores = Proveedor.obtenerProveedores();
+        cmbProveedores.setItems(proveedores);
+    }
 
+    private void cargarProductos() {
+        productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
+        PropertyValueFactory p = new PropertyValueFactory("nombre");
+        colNombreProducto.setCellValueFactory(p);
+        colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
+        tblProductos.setItems(productos);
+    }
+    
+    private void cargarLineas() {
+        colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
+        colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
+        colTotalLinea.setCellValueFactory(new PropertyValueFactory("importeTotalLinea"));
+        colPrecioUnidad.setCellValueFactory(new PropertyValueFactory("precioUnidad"));
+        tblLineas.setItems(lineas);
     }
 
     public int borrarSeleccion() {
         tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
+    //metodo donde seteamos los controles con el valor del pedido que hemos obtenido de la pantalla padre
 
-    
+    public void recuperarPedido() {
+        ObservableList<LineaPedidoCompra> lineasPedidoRecuperado = FXCollections.observableArrayList();
+        btnAniadirProd.setDisable(true);
+        btnEliminarLinea.setDisable(true);
+        btnGuardar.setDisable(true);
+        btnLimpiar.setDisable(true);
+        tblProductos.setDisable(true);
+        txtUnidades.setDisable(true);
+        lineas = LineaPedidoCompra.obtenerLineasPedidoConcreto(pedidoCompra);
 
-    @FXML
-    private void limpiarPantalla(ActionEvent event) {
-        
+        txtIDPedido.setText(String.valueOf(pedidoCompra.getIdPedido()));
+        fecha.setValue(pedidoCompra.getFecha().toLocalDateTime().toLocalDate());
+        Proveedor proveedor = Proveedor.obtenerProveedorPorId(pedidoCompra.getIdProveedor());
+        System.out.println(proveedor.getNombre());
+        cmbProveedores.setValue(proveedor);
+        //cmbClientes.setDisable(true);
+        txtTotal.setText(String.valueOf(pedidoCompra.getTotalPedido()));
+        cargarLineas();
+
     }
 
 }

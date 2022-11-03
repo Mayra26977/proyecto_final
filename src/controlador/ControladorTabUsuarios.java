@@ -1,8 +1,10 @@
 package controlador;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,13 +48,14 @@ public class ControladorTabUsuarios implements Initializable {
     private Button btnActualizar;
     @FXML
     private Button btnBorrar;
+    @FXML
+    private Button btnNuevo;
 
     private int posicionUsuarioTabla;
     private FXMLLoader loader = new FXMLLoader();
     private ObservableList<Usuario> usuarios;
     private Usuario uSeleccionado;
-    @FXML
-    private Button btnNuevo;
+    private ArrayList<String> errores;
 
     /**
      * Initializes the controller class.
@@ -60,29 +63,33 @@ public class ControladorTabUsuarios implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarTablaUsuarios();//se carga la tabla de usuarios        
-        usuarioSeleccionado();//cuando se selecciona un usuario en la tabla
+        usuarioSeleccionado();//cuando se selecciona un usuario en la tabla        
         cargarCombo();//se carga el combobox
+        errores = new ArrayList<String>();
 
     }
 
     @FXML
     private void insertar(ActionEvent event) {
-        System.out.println("que cree y guarde en usuario");
-        System.out.println(Global.usuarioLogueadoId);
+
         String usuario = txtUsuario.getText();
         String contrasenia = txtContrasenia.getText();
         String rolUsuario = (String) cmbRol.getValue();
+        
+        validarFormulario();
 
-        if (txtUsuario.getText().isEmpty() || txtContrasenia.getText().isEmpty() || cmbRol.getValue().equals("")) {
-            // ventana de los datos no en blanco
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Insertar Usuario");
-            dialogoAlert.setHeaderText(null);
-            dialogoAlert.setContentText("Rellene todos los campos por favor.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarTablaUsuarios();
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
         } else {
+
             Usuario.insertarUsuario(usuario, contrasenia, rolUsuario);
             // ventana de los datos se insertaron correctamente
             Alert alert;
@@ -101,38 +108,73 @@ public class ControladorTabUsuarios implements Initializable {
         String contrasenia = txtContrasenia.getText();
         String usuario = txtUsuario.getText();
         String rolUsuario = (String) cmbRol.getValue();
-
-        Usuario uActualizado = new Usuario(uSeleccionado.getUsuarioId(), usuario, rolUsuario);
-        if (!contrasenia.equals("")) {
-            //se actualiza el usuario y la contraseña
-            Usuario.modificarUsuario(uActualizado, contrasenia);
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Actualizar Usuario");
-            dialogoAlert.setHeaderText("Informacion actualización");
-            dialogoAlert.setContentText("Se actualizo el usuario y la contraseña.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarCombo();
-            limpiar();
-            cargarTablaUsuarios();
-
+        if (uSeleccionado == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Seleccionar usuario");
+            alert.setContentText("Debes seleccionar un usuario de la tabla para modificarlo.");
+            alert.showAndWait();
         } else {
-            //se actualiza el usuario sin contraseña
-            Usuario.modificarUsuario(uActualizado);
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Actualizar Usuario");
-            dialogoAlert.setHeaderText("Informacion actualización");
-            dialogoAlert.setContentText("Se actualizo el usuario.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarCombo();
-            limpiar();
-            cargarTablaUsuarios();
+            Usuario uActualizado = new Usuario(uSeleccionado.getUsuarioId(), usuario, rolUsuario);
+            if (!contrasenia.equals("")) {
+                txtContrasenia.setDisable(true);
+                //se actualiza el usuario y la contraseña
+                validarFormulario();
+                if (!errores.isEmpty()) {
+                    String cadenaErrores = "";
+                    for (int i = 0; i < errores.size(); i++) {
+                        cadenaErrores += errores.get(i) + "\n";
+                    }
+                    Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+                    dialogoAlert.setTitle("Informe errores");
+                    dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+                    dialogoAlert.setContentText(cadenaErrores);
+                    dialogoAlert.show();
+                } else {
+                    Usuario.modificarUsuario(uActualizado, contrasenia);
+                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAlert.setTitle("Actualizar Usuario");
+                    dialogoAlert.setHeaderText("Informacion actualización");
+                    dialogoAlert.setContentText("Se actualizo el usuario y la contraseña.");
+                    dialogoAlert.initStyle(StageStyle.UTILITY);
+                    dialogoAlert.showAndWait();
+                    cargarCombo();
+                    limpiar();
+                    cargarTablaUsuarios();
+                }
+
+            } else {
+                validarFormularioSinContrasenia();
+                if (!errores.isEmpty()) {
+                    String cadenaErrores = "";
+                    for (int i = 0; i < errores.size(); i++) {
+                        cadenaErrores += errores.get(i) + "\n";
+                    }
+                    Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+                    dialogoAlert.setTitle("Informe errores");
+                    dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+                    dialogoAlert.setContentText(cadenaErrores);
+                    dialogoAlert.show();
+                } else {
+                    //se actualiza el usuario sin contraseña
+                    Usuario.modificarUsuario(uActualizado);
+                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAlert.setTitle("Actualizar Usuario");
+                    dialogoAlert.setHeaderText("Informacion actualización");
+                    dialogoAlert.setContentText("Se actualizo el usuario.");
+                    dialogoAlert.initStyle(StageStyle.UTILITY);
+                    dialogoAlert.showAndWait();
+                    cargarCombo();
+                    limpiar();
+                    cargarTablaUsuarios();
+                }
+            }
         }
     }
 
     @FXML
-    private void borrar(ActionEvent event) {
+    private void borrar(ActionEvent event
+    ) {
 
         Usuario uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
 //                posicionUsuarioTabla = tblUsuarios.getSelectionModel().getSelectedIndex();
@@ -178,6 +220,7 @@ public class ControladorTabUsuarios implements Initializable {
     private void cargarCombo() {
         ObservableList<String> items = FXCollections.observableArrayList();
         items.addAll("Administrador", "Administrativo", "Operario");
+        cmbRol.setPromptText("Rol");
         cmbRol.setItems(items);
     }
 
@@ -206,8 +249,39 @@ public class ControladorTabUsuarios implements Initializable {
     }
 
     @FXML
-    private void nuevo(ActionEvent event) {
+    private void limpiarForm(ActionEvent event) {
         limpiar();
+    }
+
+    public void validarFormulario() {
+        errores.clear();
+        //valido que los campos no esten vacios
+
+        if (txtUsuario.getText().isEmpty() || txtContrasenia.getText().isEmpty() || cmbRol.getValue() == null) {
+
+            errores.add("Los campos tienen que rellenarse, es obligatorio.");
+
+        }
+        //pongo patron de contraseña
+        String patronContrasenia = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
+        if (!Pattern.matches(patronContrasenia, txtContrasenia.getText())) {
+            errores.add("El campo contraseña tiene formato incorrecto,  la contraseña debe tener de 4 a 8 caracteres y debe contener números, letras minúsculas y mayúsculas..");
+        }
+        if (cmbRol.getValue() == null) {
+            errores.add("Al usuario hay que asignarle un rol.");
+        }
+    }
+
+    public void validarFormularioSinContrasenia() {
+        errores.clear();
+        //valido que los campos no esten vacios
+
+        if (txtUsuario.getText().isEmpty() || cmbRol.getValue().equals("Rol")) {
+
+            errores.add("Los campos tienen que rellenarse, es obligatorio.");
+
+        } 
+
     }
 
 }

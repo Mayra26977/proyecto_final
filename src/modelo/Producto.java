@@ -84,7 +84,11 @@ public class Producto {
     public Producto(int id_producto) {
         this.id_producto = id_producto;
     }
-    
+
+    public Producto(String nombre, Double precio) {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
 
     public int getId_producto() {
         return id_producto;
@@ -410,6 +414,22 @@ public class Producto {
         return listaProductos;
     }
 
+    public static Producto obtenerProductoPorId(int idProducto) {
+        Producto producto = null;
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT nombre,precio FROM backup21_mayra.producto WHERE eliminado = 0 AND id_producto = " + idProducto)) {
+            
+            while (result.next()) {
+                String nombre = result.getString("nombre");
+                Double precio = result.getDouble("precio");
 
-
+                producto = new Producto(nombre,precio);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los productos");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return producto;
+    }
 }

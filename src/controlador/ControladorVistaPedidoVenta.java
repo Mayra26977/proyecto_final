@@ -9,16 +9,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -92,11 +88,14 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private PedidoVenta pedido;
     private FXMLLoader loader;
     private Stage stage;
+    //variable que cree para recargar desde la ventana hija pasandole este controlador
+    //pero no funciona
     private ControladorTabPedidosVentas controladorPadre;
 
     public void setPedido(PedidoVenta pedido) {
         this.pedido = pedido;
     }
+//setter para hacersolo al controlador
 
     void setControladorPadre(ControladorTabPedidosVentas controladorPadre) {
         this.controladorPadre = controladorPadre;
@@ -232,12 +231,12 @@ public class ControladorVistaPedidoVenta implements Initializable {
             alert.setContentText("El pedido no se inserto pudo insertar");
             alert.showAndWait();
             ex.printStackTrace();
-        } 
+        }
     }
 
     @FXML
     private void seleccionar(ActionEvent event) {
-        
+
         this.clienteSelec = cmbClientes.getSelectionModel().getSelectedItem();
         cmbClientes.setDisable(true);
         cargarProductos();
@@ -271,17 +270,25 @@ public class ControladorVistaPedidoVenta implements Initializable {
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
 //metodo donde seteamos los controles con el valor del pedido que hemos obtenido de la pantalla padre
+
     public void recuperarPedido() {
+        ObservableList<LineaPedidoVenta> lineasPedidoRecuperado = FXCollections.observableArrayList();
         btnAniadirProd.setDisable(true);
         btnEliminarLinea.setDisable(true);
         btnGuardar.setDisable(true);
-        
-        txtIDPedido.setText(String.valueOf(this.pedido.getIdPedido()));
+        btnLimpiar.setDisable(true);
+        tblProductos.setDisable(true);
+        txtUnidades.setDisable(true);
+        lineas = LineaPedidoVenta.obtenerLineasPedidoConcreto(pedido);
+
+        txtIDPedido.setText(String.valueOf(pedido.getIdPedido()));
         fecha.setValue(pedido.getFecha().toLocalDateTime().toLocalDate());
-        cmbClientes.setValue(new Cliente(pedido.getIdCliente()));
-        cmbClientes.setDisable(true);
+        Cliente cliente = Cliente.obtenerClientePorId(pedido.getIdCliente());
+        System.out.println(cliente.getNombre());
+        cmbClientes.setValue(cliente);
+        //cmbClientes.setDisable(true);
         txtTotal.setText(String.valueOf(pedido.getTotalPedido()));
-        
+        cargarLineas();
 
     }
 
