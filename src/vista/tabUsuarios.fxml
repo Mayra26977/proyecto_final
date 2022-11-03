@@ -88,11 +88,11 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="139.0" layoutY="620.0" prefHeight="84.0" prefWidth="576.0" spacing="100.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="620.0">
+                  <HBox alignment="CENTER" fillHeight="false" layoutX="106.0" layoutY="644.0" prefHeight="84.0" prefWidth="799.0" spacing="100.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="-153.0" AnchorPane.topAnchor="644.0">
                      <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="25.0" prefWidth="120.0" text="Limpiar formulario" />
+                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="47.0" prefWidth="209.0" text="Limpiar formulario" />
                         <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="25.0" prefWidth="100.0" text="Actualizar" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="114.0" text="Actualizar" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
