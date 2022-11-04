@@ -69,7 +69,7 @@ public class ControladorTabPedidosVentas implements Initializable {
     @FXML
     private void nuevo(ActionEvent event) throws IOException {
 
-        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Venta.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoVenta.fxml"));
         //creo controlador de la ventana hija para pasarle el pedido
         ControladorVistaPedidoVenta controladorHija = new ControladorVistaPedidoVenta();
         //le paso a la ventana hija el pedido obtenido de la tabla

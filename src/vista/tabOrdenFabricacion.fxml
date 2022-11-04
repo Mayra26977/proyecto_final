@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorOrdenFabricacion">
+   <content>
+      <AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0">
+         <children>
+            <AnchorPane prefHeight="1003.0" prefWidth="724.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1194.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="tblOfs" layoutY="9.0" prefHeight="984.0" prefWidth="702.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="9.0">
+                    <columns>
+                        <TableColumn fx:id="colOf" editable="false" prefWidth="110.0" text="Orden fabricación" />
+                      <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="212.0" resizable="false" text="Fecha inicio" />
+                      <TableColumn fx:id="colFechaFin" editable="false" minWidth="1.0" prefWidth="223.0" resizable="false" text="Fecha fin" />
+                        <TableColumn fx:id="colOperario" editable="false" prefWidth="156.0" text="Operario" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="710.0" layoutY="14.0" prefHeight="993.0" prefWidth="1187.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="710.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="414.0" layoutY="153.0" text="Orden de fabricación" textFill="#1d579d">
+                     <font>
+                        <Font name="Arial" size="48.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tblLineasOf" layoutX="79.0" layoutY="351.0" prefHeight="623.0" prefWidth="379.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="79.0" AnchorPane.topAnchor="351.0">
+                    <columns>
+                      <TableColumn fx:id="colProducto" editable="false" prefWidth="240.0" text="Producto" />
+                      <TableColumn fx:id="colCantidad" editable="false" prefWidth="138.0" text="Cantidad a fabricar" />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="txtCantidad" layoutX="637.0" layoutY="623.0" prefHeight="25.0" prefWidth="105.0" AnchorPane.leftAnchor="637.0" />
+                  <Label layoutX="544.0" layoutY="627.0" text="Cantidad" AnchorPane.leftAnchor="544.0" />
+                  <Button fx:id="btnAniadirLinea" layoutX="541.0" layoutY="699.0" mnemonicParsing="false" onAction="#aniadirLinea" prefHeight="42.0" prefWidth="127.0" text="Añadir linea" AnchorPane.leftAnchor="541.0" AnchorPane.topAnchor="699.0" />
+                  <DatePicker layoutX="629.0" layoutY="275.0" />
+                  <DatePicker layoutX="911.0" layoutY="275.0" />
+                  <Label layoutX="542.0" layoutY="279.0" text="Fecha inicio" />
+                  <Label layoutX="835.0" layoutY="279.0" text="Fecha fin" />
+                  <ComboBox layoutX="629.0" layoutY="530.0" prefWidth="150.0" />
+                  <ComboBox layoutX="629.0" layoutY="362.0" prefWidth="150.0" />
+                  <Label layoutX="541.0" layoutY="534.0" text="Productos" />
+                  <Label layoutX="542.0" layoutY="366.0" text="Operarios" />
+                  <Button fx:id="btnEliminarLinea" layoutX="758.0" layoutY="699.0" mnemonicParsing="false" onAction="#eliminarLinea" text="Eliminar linea" AnchorPane.leftAnchor="758.0" />
+               </children>
+            </AnchorPane>
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="723.0" prefHeight="67.0" prefWidth="1171.0" spacing="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+               <children>
+                  <Button fx:id="btnInsertar" mnemonicParsing="false" onAction="#insertar" text="Insertar" />
+                  <Button fx:id="btnModi" mnemonicParsing="false" onAction="#modificar" text="Modificar" />
+                  <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrar" text="Borrar" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

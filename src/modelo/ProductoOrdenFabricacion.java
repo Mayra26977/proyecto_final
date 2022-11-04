@@ -4,14 +4,14 @@ package modelo;
  *
  * @author maria.enriquez
  */
-public class Producto_Orden_Fabricacion {
+public class ProductoOrdenFabricacion {
     private int id_of;
     private int id_producto;
 
-    public Producto_Orden_Fabricacion() {
+    public ProductoOrdenFabricacion() {
     }
 
-    public Producto_Orden_Fabricacion(int id_of, int id_producto) {
+    public ProductoOrdenFabricacion(int id_of, int id_producto) {
         this.id_of = id_of;
         this.id_producto = id_producto;
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F8F8FF;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controlador.ControladorTabGrafica">
+   <children>
+      <PieChart fx:id="grafica" layoutX="161.0" layoutY="86.0" prefHeight="800.0" prefWidth="1200.0" title="Grafica Balance" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

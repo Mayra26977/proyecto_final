@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<ScrollPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/css_Clientes.css">
          <children>
@@ -21,7 +20,7 @@
             <AnchorPane layoutX="10.0" layoutY="-18.0" prefHeight="163.0" prefWidth="1180.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-18.0">
                <children>
                   <Button fx:id="btnLimpiar" layoutX="1399.0" layoutY="66.0" mnemonicParsing="false" onAction="#limpiarPantalla" prefHeight="47.0" prefWidth="203.0" text="Limpiar formulario" />
-                  <ComboBox fx:id="cmbProveedores" layoutX="791.0" layoutY="66.0" onAction="#seleccionar" prefHeight="31.0" prefWidth="271.0" promptText="Proveedores" />
+                  <ComboBox id="cmbProveedores" fx:id="cmbProveedores" layoutX="791.0" layoutY="66.0" onAction="#seleccionar" prefHeight="31.0" prefWidth="271.0" promptText="Proveedores" />
                   <Separator layoutX="3.0" layoutY="116.0" prefHeight="24.0" prefWidth="1677.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <TextField fx:id="txtIDPedido" editable="false" layoutX="414.0" layoutY="69.0" />
                   <Label layoutX="414.0" layoutY="38.0" text="Código pedido" />

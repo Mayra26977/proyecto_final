@@ -5,6 +5,7 @@
 /* Modificar el color de fondo de la pestaña */
 .tab {
     -fx-background-color: #007acc;
+    -fx-font-size: 16px;
 }
 /* Modificar el color de fondo de la barra superior */
 .tab-pane>*.tab-header-area>*.tab-header-background
