@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
  * @author Mayra
  */
 public class LineaPedidoCompra {
-    
+
     private int idLinea_pedido;
     private int id_pedido;
     private int id_producto;
@@ -18,10 +18,10 @@ public class LineaPedidoCompra {
     private Double importeTotalLinea;
     private String nombreProducto;
     private Double precioUnidad;
-    
+
     public LineaPedidoCompra() {
     }
-    
+
     public LineaPedidoCompra(int id_producto, Double cantidad, Double importeTotalLinea, String nombreProducto, Double precioUnidad) {
         this.id_producto = id_producto;
         this.cantidad = cantidad;
@@ -29,7 +29,6 @@ public class LineaPedidoCompra {
         this.nombreProducto = nombreProducto;
         this.precioUnidad = precioUnidad;
     }
-    
 
     public LineaPedidoCompra(int idLinea_pedido, int id_pedido, int id_producto, double cantidad, double importe_total_linea) {
         this.idLinea_pedido = idLinea_pedido;
@@ -79,8 +78,6 @@ public class LineaPedidoCompra {
         this.importeTotalLinea = importeTotalLinea;
     }
 
-   
-
     public String getNombreProducto() {
         return nombreProducto;
     }
@@ -96,9 +93,9 @@ public class LineaPedidoCompra {
     public void setPrecioUnidad(Double precioUnidad) {
         this.precioUnidad = precioUnidad;
     }
-    
-       public static ObservableList obtenerLineasPedidoConcreto(PedidoCompra pedido) {
-         
+
+    public static ObservableList obtenerLineasPedidoConcreto(PedidoCompra pedido) {
+
         ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_compra WHERE id_pedido_compra =" + pedido.getIdPedido())) {
             while (result.next()) {
@@ -109,10 +106,10 @@ public class LineaPedidoCompra {
                 Double importeTotalLinea = result.getDouble("precio_total_linea_pedido_compra");
                 Double cantidad = result.getDouble("unidades");
 
-                Producto prod = Producto.obtenerProductoPorId(idProducto);                  
+                Producto prod = Producto.obtenerProductoPorId(idProducto);
                 //LineaPedidoVenta linea = new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio());
-                lineas.add(new LineaPedidoCompra(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));  
-                
+                lineas.add(new LineaPedidoCompra(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));
+
             }
 
         } catch (SQLException ex) {
@@ -123,10 +120,32 @@ public class LineaPedidoCompra {
         }
         return lineas;
     }
-    
-    
-    
-    
-    
-    
+
+    public static ObservableList obtenerLineasPedido() {
+
+        ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_compra WHERE id_pedido_compra IN(SELECT id_pedido_compra FROM pedidos_compras WHERE eliminado = 0)" )) {
+            while (result.next()) {
+                
+                int idLinea = result.getInt("id_linea_pedido_compra");
+                int idProducto = result.getInt("id_producto");
+                int idPedido = result.getInt("id_pedido_compra");
+                Double importeTotalLinea = result.getDouble("precio_total_linea_pedido_compra");
+                Double cantidad = result.getDouble("unidades");
+
+                Producto prod = Producto.obtenerProductoPorId(idProducto);
+                //LineaPedidoVenta linea = new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio());
+                lineas.add(new LineaPedidoCompra(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener las lineas del pedido");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return lineas;
+    }
+
 }

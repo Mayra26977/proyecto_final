@@ -26,9 +26,14 @@
             </AnchorPane>
             <AnchorPane layoutX="541.0" prefHeight="756.0" prefWidth="532.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox layoutX="139.0" layoutY="63.0" prefHeight="250.0" prefWidth="656.0" spacing="100.0" AnchorPane.bottomAnchor="443.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="-34.0" AnchorPane.topAnchor="63.0">
+                  <ImageView fitHeight="397.0" fitWidth="751.0" layoutX="480.0" layoutY="-41.0" pickOnBounds="true" AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="-41.0">
+                     <image>
+                        <Image url="@../imagenes/2_bis.png" />
+                     </image>
+                  </ImageView>
+                  <HBox layoutX="43.0" layoutY="224.0" prefHeight="87.0" prefWidth="523.0" spacing="100.0" AnchorPane.bottomAnchor="446.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="224.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="252.0" prefWidth="372.0" text="Datos usuario" textFill="#1d579d">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="123.0" prefWidth="372.0" text="Datos usuario" textFill="#3a83d6">
                            <font>
                               <Font name="Arial" size="48.0" />
                            </font>
@@ -38,13 +43,16 @@
                         </Label>
                      </children>
                   </HBox>
-                  <AnchorPane layoutX="154.0" layoutY="353.0" prefHeight="227.0" prefWidth="493.0" AnchorPane.bottomAnchor="176.0" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="353.0">
+                  <AnchorPane layoutX="222.0" layoutY="378.0" prefHeight="315.0" prefWidth="967.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="378.0">
                      <children>
-                        <VBox layoutX="-6.0" prefHeight="227.0" prefWidth="614.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                        <VBox layoutX="22.0" layoutY="54.0" prefHeight="269.0" prefWidth="578.0" AnchorPane.bottomAnchor="-95.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="-70.0" AnchorPane.topAnchor="54.0">
                            <children>
-                              <HBox fillHeight="false" prefHeight="98.0" prefWidth="959.0" spacing="50.0">
+                              <HBox fillHeight="false" prefHeight="94.0" prefWidth="587.0" spacing="50.0">
                                  <children>
-                                    <Label text="Usuario" />
+                                    <Label text="Usuario" textFill="#3b86ff">
+                                       <font>
+                                          <Font name="Arial Bold" size="24.0" />
+                                       </font></Label>
                                     <TextField fx:id="txtUsuario" prefHeight="31.0" prefWidth="386.0">
                                        <HBox.margin>
                                           <Insets left="25.0" />
@@ -52,12 +60,18 @@
                                        <tooltip>
                                           <Tooltip text="Escribe el nombre del usuario" />
                                        </tooltip>
+                                       <font>
+                                          <Font name="Arial" size="24.0" />
+                                       </font>
                                     </TextField>
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                                  <children>
-                                    <Label text="Contraseña" />
+                                    <Label text="Contraseña" textFill="#3b86ff">
+                                       <font>
+                                          <Font name="Arial Bold" size="24.0" />
+                                       </font></Label>
                                     <TextField fx:id="txtContrasenia" prefHeight="31.0" prefWidth="387.0">
                                        <HBox.margin>
                                           <Insets left="5.0" />
@@ -65,12 +79,18 @@
                                        <tooltip>
                                           <Tooltip text="Escribe la contraseña del usuario" />
                                        </tooltip>
+                                       <font>
+                                          <Font name="Arial" size="24.0" />
+                                       </font>
                                     </TextField>
                                  </children>
                               </HBox>
                               <HBox prefHeight="42.0" prefWidth="905.0" spacing="50.0">
                                  <children>
-                                    <Label text="Rol" />
+                                    <Label text="Rol" textFill="#3b86ff">
+                                       <font>
+                                          <Font name="Arial Bold" size="24.0" />
+                                       </font></Label>
                                     <ComboBox fx:id="cmbRol" prefHeight="31.0" prefWidth="377.0" promptText="Rol">
                                        <HBox.margin>
                                           <Insets left="55.0" />
@@ -88,12 +108,12 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="106.0" layoutY="644.0" prefHeight="84.0" prefWidth="799.0" spacing="100.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="-153.0" AnchorPane.topAnchor="644.0">
+                  <HBox alignment="CENTER" fillHeight="false" layoutX="-32.0" layoutY="693.0" prefHeight="84.0" prefWidth="799.0" spacing="100.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="-32.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="693.0">
                      <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="47.0" prefWidth="209.0" text="Limpiar formulario" />
-                        <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="114.0" text="Actualizar" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="47.0" prefWidth="209.0" text="Limpiar formulario" textFill="WHITE" />
+                        <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="114.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>

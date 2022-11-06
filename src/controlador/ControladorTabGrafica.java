@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
+import modelo.Grafica;
 
 /**
  * FXML Controller class
@@ -25,18 +26,14 @@ public class ControladorTabGrafica implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-         ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                new PieChart.Data("Pomelo", 13),
-                new PieChart.Data("Naranjas", 25),
-                new PieChart.Data("Ciruelas", 10),
-                new PieChart.Data("Peras", 22),
-                new PieChart.Data("Manzanas", 30));
-         grafica.setData(pieChartData);
-         grafica.setStartAngle(90);
-       
-       
-    }    
-    
+        double totalCompras = Grafica.obtenerTotalCompras();
+        double totalVentas = Grafica.obtenerTotalVentas();
+        ObservableList<PieChart.Data> pieChartData =
+        FXCollections.observableArrayList(
+                       new PieChart.Data("Compras", totalCompras),
+                       new PieChart.Data("Ventas", totalVentas));                       
+                grafica.setData(pieChartData);
+                grafica.setStartAngle(90);
+           }        
 
 }

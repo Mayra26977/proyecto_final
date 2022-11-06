@@ -9,54 +9,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabProductos">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="850.0" prefWidth="1883.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabProductos">
    <content>
-      <AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0">
+      <AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="880.0" prefWidth="1881.0">
          <children>
-            <AnchorPane layoutY="-1.0" prefHeight="1064.0" prefWidth="656.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutY="-1.0" prefHeight="825.0" prefWidth="851.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="-1.0" prefHeight="1047.0" prefWidth="703.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="26.0" prefHeight="826.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn fx:id="colNombre" editable="false" prefWidth="96.0" text="Nombre" />
-                        <TableColumn fx:id="colDescripcion" editable="false" prefWidth="344.0" text="Descripción" />
-                        <TableColumn fx:id="colPrecio" editable="false" prefWidth="74.0" text="Precio" />
-                        <TableColumn fx:id="colCantidad" editable="false" minWidth="0.0" prefWidth="63.0" text="Cantidad" />
+                        <TableColumn fx:id="colNombre" editable="false" prefWidth="132.0" text="Nombre" />
+                        <TableColumn fx:id="colDescripcion" editable="false" prefWidth="350.0" text="Descripción" />
+                        <TableColumn fx:id="colPrecio" editable="false" prefWidth="100.0" text="Precio" />
+                        <TableColumn fx:id="colCantidad" editable="false" minWidth="0.0" prefWidth="100.0" text="Cantidad" />
                         <TableColumn fx:id="colImagen" editable="false" prefWidth="208.0" text="Imagen" visible="false" />
-                        <TableColumn fx:id="colProveedor" editable="false" prefWidth="125.0" text="Proveedor" />
+                        <TableColumn fx:id="colProveedor" editable="false" prefWidth="168.0" text="Proveedor" />
                      </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="698.0" prefHeight="1080.0" prefWidth="1297.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="698.0" AnchorPane.rightAnchor="-75.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="866.0" prefHeight="813.0" prefWidth="1041.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="866.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox layoutX="139.0" layoutY="63.0" prefHeight="250.0" prefWidth="656.0" spacing="50.0" AnchorPane.bottomAnchor="443.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="-34.0" AnchorPane.topAnchor="63.0">
+                  <HBox layoutY="157.0" prefHeight="102.0" prefWidth="632.0" spacing="50.0" AnchorPane.bottomAnchor="657.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="157.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="250.0" prefWidth="1075.0" text="Datos producto" textFill="#1d579d">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="146.0" prefWidth="614.0" text="Datos producto" textFill="#3a83d6">
                            <font>
                               <Font name="Arial" size="48.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <AnchorPane layoutX="337.0" layoutY="311.0" prefHeight="571.0" prefWidth="878.0" AnchorPane.bottomAnchor="198.0" AnchorPane.leftAnchor="337.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="311.0">
+                  <AnchorPane layoutX="149.0" layoutY="319.0" prefHeight="500.0" prefWidth="801.0" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="319.0">
                      <children>
-                        <VBox layoutX="-6.0" layoutY="-2.0" prefHeight="553.0" prefWidth="1148.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                        <VBox layoutX="-2.0" layoutY="-4.0" prefHeight="458.0" prefWidth="803.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
                            <children>
                               <HBox fillHeight="false" prefHeight="51.0" prefWidth="1148.0">
                                  <children>
                                     <Label text="Nombre" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                        <HBox.margin>
                                           <Insets top="5.0" />
-                                       </HBox.margin></Label>
+                                       </HBox.margin>
+                                    </Label>
                                     <TextField fx:id="txtNombre" prefHeight="25.0" prefWidth="240.0">
                                        <HBox.margin>
                                           <Insets left="100.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -65,11 +66,12 @@
                                  <children>
                                     <Label text="Descripción" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                        <HBox.margin>
                                           <Insets top="15.0" />
-                                       </HBox.margin></Label>
+                                       </HBox.margin>
+                                    </Label>
                                     <TextField fx:id="txtDescripcion" prefHeight="39.0" prefWidth="394.0">
                                        <tooltip>
                                           <Tooltip text="Escribe el nombre del usuario" />
@@ -78,7 +80,7 @@
                                           <Insets left="25.0" top="10.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -87,10 +89,10 @@
                                  <children>
                                     <Label text="Precio" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                        <HBox.margin>
-                                          <Insets top="5.0" />
+                                          <Insets top="10.0" />
                                        </HBox.margin></Label>
                                     <TextField fx:id="txtPrecio" prefHeight="39.0" prefWidth="163.0">
                                        <tooltip>
@@ -100,7 +102,7 @@
                                           <Insets left="70.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -109,7 +111,7 @@
                                  <children>
                                     <Label text="Cantidad" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                        <HBox.margin>
                                           <Insets top="10.0" />
@@ -119,22 +121,22 @@
                                           <Insets left="95.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="176.0" prefWidth="1148.0" spacing="50.0">
+                              <HBox prefHeight="176.0" prefWidth="803.0" spacing="50.0">
                                  <children>
-                                    <Label text="Imagen" textFill="#3b86ff">
+                                    <Label prefHeight="27.0" prefWidth="162.0" text="Imagen" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font></Label>
                                     <ImageView fx:id="imagen" fitHeight="195.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                                        <HBox.margin>
                                           <Insets left="55.0" />
                                        </HBox.margin></ImageView>
-                                    <Button fx:id="btnCargar" mnemonicParsing="false" onAction="#filechooser" prefHeight="47.0" prefWidth="296.0" text="Cargar imagen para guardar..." textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="btnCargar" mnemonicParsing="false" onAction="#filechooser" prefHeight="47.0" prefWidth="277.0" text="Cargar imagen para guardar..." textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
@@ -143,12 +145,15 @@
                                        </tooltip>
                                     </Button>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </HBox>
                               <HBox fillHeight="false" prefHeight="115.0" prefWidth="1155.0" spacing="70.0">
                                  <children>
                                     <Label text="Proveedores" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="Arial Bold" size="24.0" />
                                        </font></Label>
                                     <ComboBox id="cmbProveedores" fx:id="cmbProveedor" prefHeight="31.0" prefWidth="187.0" promptText="Proveedores" />
                                  </children>
@@ -157,7 +162,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <HBox fx:id="btnCargarImagen" alignment="CENTER" fillHeight="false" layoutX="78.0" layoutY="869.0" onMouseClicked="#filechooser" prefHeight="159.0" prefWidth="1173.0" spacing="100.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="869.0">
+                  <HBox fx:id="btnCargarImagen" alignment="CENTER" fillHeight="false" layoutX="48.0" layoutY="756.0" onMouseClicked="#filechooser" prefHeight="83.0" prefWidth="953.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="756.0">
                      <children>
                         <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="188.0" text="Limpiar Formulario" textFill="WHITE" />
                         <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
@@ -165,6 +170,11 @@
                         <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
+                  <ImageView fitHeight="271.0" fitWidth="525.0" layoutX="473.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../imagenes/2_bis.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

@@ -46,12 +46,12 @@ public class ControladorTabPedidosVentas implements Initializable {
     @FXML
     private Button btnVer;
     @FXML
-    private Button btnNuevo;    
+    private Button btnNuevo;
     @FXML
     private AnchorPane raizPadre;
     @FXML
     private Button btnActualizarTabla;
-    
+
     private Stage stage;
     private FXMLLoader loader;
     private ObservableList<PedidoVenta> pedidos;
@@ -78,7 +78,18 @@ public class ControladorTabPedidosVentas implements Initializable {
         loader.setController(controladorHija);
         stage = new Stage();
         stage.initModality(Modality.WINDOW_MODAL);
+//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            //lo que ocurre cuando se cierra la ventana
+//            //que se use en EventHandler y se sobrescribe el metodo handle
+//            @Override
+//            public void handle(WindowEvent event) {
+//                System.out.println("Hola");
+//                cargarTablaPedidos();
+//            }
+//
+//        });
         Utils.abrirVentana(loader, stage);
+
     }
 
     @FXML

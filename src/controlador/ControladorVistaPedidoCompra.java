@@ -1,12 +1,15 @@
 package controlador;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -30,6 +33,14 @@ import modelo.PedidoCompra;
 import modelo.Producto;
 import modelo.Proveedor;
 import modelo.Utils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -108,12 +119,43 @@ public class ControladorVistaPedidoCompra implements Initializable {
             });
         }
     }
-    
+
     @FXML
     private void limpiarPantalla(ActionEvent event) {
 
     }
-    
+
+    @FXML
+    private void imprimirFactura(ActionEvent event) throws JRException {
+        String reportResource = "./src/reportes/reporteFacturaCompras.jrxml";
+        String reportCompilado = "./src/reportes/reporteFacturaCompras.jasper";
+        String reportPDF = "./src/reportes/reporteFacturaCompras.pdf";
+
+        JasperReport reporte;
+        boolean compilado = true;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id_pedido", pedidoCompra.getIdPedido());
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = Conexion.obtenerConexion();
+
+            if (compilado) {
+                reporte = (JasperReport) JRLoader.loadObjectFromFile(reportCompilado);
+            } else {
+                reporte = JasperCompileManager.compileReport(reportResource);
+            }
+
+            JasperPrint informe = JasperFillManager.fillReport(reporte, params, conexion);
+            JasperViewer.viewReport(informe, false);
+            JasperExportManager.exportReportToPdfFile(informe, reportPDF);
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @FXML
     private void eliminarLinea(ActionEvent event) {
         LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
@@ -124,18 +166,19 @@ public class ControladorVistaPedidoCompra implements Initializable {
         txtTotal.setText(String.valueOf(totalPedido));
 
     }
-    
+
     @FXML
     private void aniadirLinea(ActionEvent event) {
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
-        int cantidad = Integer.parseInt(txtUnidades.getText()); 
+        int cantidad = Integer.parseInt(txtUnidades.getText());
         LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
         lineas.add(linea);
         Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
         txtTotal.setText(String.valueOf(totalPedido));
 
     }
-        @FXML
+
+    @FXML
     private void salirPedidoCompra(ActionEvent event) {
         Alert alert;
         alert = new Alert(Alert.AlertType.INFORMATION);
@@ -153,7 +196,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
 
     }
-    
+
     @FXML
     private void guardarPedidoCompra(ActionEvent event) {
         try {
@@ -203,7 +246,6 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
 
     }
-    
 
     @FXML
     private void seleccionar(ActionEvent event) {
@@ -225,7 +267,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
         colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         tblProductos.setItems(productos);
     }
-    
+
     private void cargarLineas() {
         colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
         colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));

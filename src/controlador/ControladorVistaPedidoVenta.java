@@ -218,6 +218,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
                 alert.setContentText("El pedido se inserto correctamente");
                 alert.showAndWait();
                 //se cierra la ventana cuando se ha insertado
+                
                 modelo.Utils.cerrarVentana(event);
                 //queria haber recargado la tabla desde aqui 
                 //this.controladorPadre.recargarTabla();  

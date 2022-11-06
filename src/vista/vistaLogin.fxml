@@ -24,12 +24,12 @@
          <children>
             <VBox fx:id="panelDatos" prefHeight="600.0" prefWidth="686.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="lblUsuario" alignment="TOP_LEFT" text="USUARIO">
+                  <Label fx:id="lblUsuario" alignment="TOP_LEFT" text="USUARIO" textFill="#3a83d6">
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
                      <font>
-                        <Font name="Arial" size="14.0" />
+                        <Font name="Arial" size="36.0" />
                      </font>
                   </Label>
                   <TextField fx:id="txtUsuario" onKeyTyped="#habilitarBoton" prefHeight="25.0" prefWidth="451.0" promptText="introduce usuario">
@@ -44,15 +44,15 @@
                         <Insets left="25.0" right="25.0" />
                      </VBox.margin>
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Arial" size="24.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="lblContrasenia" text="CONTRASEÑA">
+                  <Label fx:id="lblContrasenia" text="CONTRASEÑA" textFill="#3a83d6">
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Arial" size="36.0" />
                      </font>
                   </Label>
                   <PasswordField fx:id="txtContrasenia" onKeyTyped="#habilitarBoton" promptText="introduce contraseña">
@@ -67,7 +67,7 @@
                         <Insets left="25.0" right="25.0" />
                      </VBox.margin>
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Arial" size="24.0" />
                      </font>
                   </PasswordField>
                   <HBox alignment="CENTER" onKeyPressed="#habilitarBoton" prefHeight="182.0" prefWidth="686.0">

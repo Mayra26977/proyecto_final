@@ -9,13 +9,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="844.0" prefWidth="1684.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabProveedores">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="850.0" prefWidth="1883.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabProveedores">
    <content>
       <AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="773.0" prefWidth="1920.0">
          <children>
             <AnchorPane prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <TableView fx:id="tblProveedores" layoutX="43.0" layoutY="26.0" prefHeight="756.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblProveedores" layoutX="43.0" layoutY="26.0" prefHeight="756.0" prefWidth="851.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="colNif" editable="false" prefWidth="82.0" text="NIF" />
                         <TableColumn fx:id="colNombre" editable="false" prefWidth="83.0" text="Nombre" />
@@ -29,31 +29,34 @@
             </AnchorPane>
             <AnchorPane layoutX="864.0" prefHeight="813.0" prefWidth="1041.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="864.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox layoutX="18.0" layoutY="72.0" prefHeight="240.0" prefWidth="1033.0" spacing="50.0" AnchorPane.bottomAnchor="501.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
+                  <HBox layoutX="18.0" layoutY="237.0" prefHeight="93.0" prefWidth="1023.0" spacing="50.0" AnchorPane.bottomAnchor="501.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="237.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="250.0" prefWidth="914.0" text="Datos proveedor" textFill="#1d579d">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="110.0" prefWidth="778.0" text="Datos proveedor" textFill="#3a83d6">
                            <font>
-                              <Font size="48.0" />
+                              <Font name="Arial" size="48.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <AnchorPane layoutX="292.0" layoutY="326.0" prefHeight="284.0" prefWidth="749.0" AnchorPane.leftAnchor="292.0" AnchorPane.topAnchor="326.0">
+                  <AnchorPane layoutX="248.0" layoutY="407.0" prefHeight="284.0" prefWidth="749.0" AnchorPane.leftAnchor="248.0" AnchorPane.topAnchor="407.0">
                      <children>
-                        <VBox layoutX="-6.0" prefHeight="227.0" prefWidth="614.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox layoutX="-6.0" prefHeight="227.0" prefWidth="614.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <HBox prefHeight="30.0" prefWidth="850.0">
                                  <children>
                                     <Label text="NIF" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtNif" prefHeight="25.0" prefWidth="240.0">
                                        <HBox.margin>
                                           <Insets left="100.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -62,8 +65,11 @@
                                  <children>
                                     <Label text="Nombre" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="386.0">
                                        <tooltip>
                                           <Tooltip text="Escribe el nombre del usuario" />
@@ -72,7 +78,7 @@
                                           <Insets left="25.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -81,8 +87,11 @@
                                  <children>
                                     <Label text="Apellidos" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtApellidos" prefHeight="31.0" prefWidth="387.0">
                                        <tooltip>
                                           <Tooltip text="Escribe la contraseña del usuario" />
@@ -91,7 +100,7 @@
                                           <Insets left="20.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -100,14 +109,17 @@
                                  <children>
                                     <Label text="Dirección" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtDireccion" prefHeight="25.0" prefWidth="386.0">
                                        <HBox.margin>
                                           <Insets left="70.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -116,14 +128,17 @@
                                  <children>
                                     <Label text="Email" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="387.0">
                                        <HBox.margin>
                                           <Insets left="90.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </TextField>
                                  </children>
@@ -132,8 +147,11 @@
                                  <children>
                                     <Label text="Teléfono" textFill="#3b86ff">
                                        <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin></Label>
                                     <TextField fx:id="txtTelefono" prefHeight="25.0" prefWidth="245.0">
                                        <HBox.margin>
                                           <Insets left="70.0" />
@@ -148,7 +166,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="50.0" layoutY="666.0" prefHeight="170.0" prefWidth="736.0" spacing="100.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="666.0">
+                  <HBox alignment="CENTER" fillHeight="false" layoutX="50.0" layoutY="770.0" prefHeight="78.0" prefWidth="893.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="770.0">
                      <children>
                         <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="232.0" text="Limpiar formulario" textFill="WHITE" />
                         <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="47.0" prefWidth="150.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
@@ -156,6 +174,11 @@
                         <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
+                  <ImageView fitHeight="226.0" fitWidth="696.0" layoutX="307.0" layoutY="14.0" pickOnBounds="true" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0">
+                     <image>
+                        <Image url="@../imagenes/2_bis.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

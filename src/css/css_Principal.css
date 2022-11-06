@@ -5,7 +5,10 @@
 /* Modificar el color de fondo de la pestaña */
 .tab {
     -fx-background-color: #007acc;
-    -fx-font-size: 16px;
+    -fx-font-size: 20px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 75px;
+    
 }
 /* Modificar el color de fondo de la barra superior */
 .tab-pane>*.tab-header-area>*.tab-header-background
@@ -15,10 +18,12 @@
 /* Modificar el color del texto en la pestaña */
 .tab-label {
     -fx-text-fill: #e6e6e6;
+    
 }
 /* Selector secundario, seleccione su etiqueta de elemento secundario cuando se selecciona Tabulador */
 .tab:selected .tab-label {
     -fx-text-fill: #e6e6e6;
+    
 }
 /* Establecer el color de fondo cuando se selecciona la pestaña */
 .tab:selected {
@@ -34,7 +39,11 @@
     -fx-background-color: -fx-text-box-border, -fx-background ;
     -fx-background-insets: 0, 0 0 1 0 ;
     -fx-background-radius: 0 ;
+    
 }
 .text-field:focused {
     -fx-background-color: -fx-focus-color, -fx-background ;
 }
+
+
+

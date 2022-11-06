@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -20,6 +21,8 @@ public class Utils {
 
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
+        //lanza el evento de que la ventana se va a cerrar
+//        stage.fireEvent(new WindowEvent(stage,WindowEvent.WINDOW_CLOSE_REQUEST));
         stage.close();
     }
 

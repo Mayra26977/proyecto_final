@@ -22,10 +22,10 @@
       </AnchorPane>
       <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1200.0" spacing="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0">
          <children>
-            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." />
-            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." />
-            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedidoVenta" text="Borrar" />
-            <Button fx:id="btnActualizarTabla" mnemonicParsing="false" onAction="#cargarTabla" text="Actualizar tabla" />
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." textFill="WHITE" />
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedidoVenta" text="Borrar" textFill="WHITE" />
+            <Button fx:id="btnActualizarTabla" mnemonicParsing="false" onAction="#cargarTabla" text="Actualizar tabla" textFill="WHITE" />
          </children>
       </HBox>
    </children>

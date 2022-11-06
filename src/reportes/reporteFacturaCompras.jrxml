@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteFacturaCompra" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="0a43caff-55d7-470a-aa2d-381c79165e05">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_pedido" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pedidos_compras.`id_pedido_compra` AS pedidos_compras_id_pedido_compra,
+     pedidos_compras.`fecha` AS pedidos_compras_fecha,
+     pedidos_compras.`id_proveedor` AS pedidos_compras_id_proveedor,
+     pedidos_compras.`usuario_aniade` AS pedidos_compras_usuario_aniade,
+     pedidos_compras.`usuario_borra` AS pedidos_compras_usuario_borra,
+     pedidos_compras.`usuario_mod` AS pedidos_compras_usuario_mod,
+     pedidos_compras.`fecha_aniade` AS pedidos_compras_fecha_aniade,
+     pedidos_compras.`fecha_borra` AS pedidos_compras_fecha_borra,
+     pedidos_compras.`fecha_mod` AS pedidos_compras_fecha_mod,
+     pedidos_compras.`eliminado` AS pedidos_compras_eliminado,
+     pedidos_compras.`total_pedido` AS pedidos_compras_total_pedido,
+     linea_pedido_compra.`id_linea_pedido_compra` AS linea_pedido_compra_id_linea_pedido_compra,
+     linea_pedido_compra.`id_producto` AS linea_pedido_compra_id_producto,
+     linea_pedido_compra.`id_pedido_compra` AS linea_pedido_compra_id_pedido_compra,
+     linea_pedido_compra.`precio_total_linea_pedido_compra` AS linea_pedido_compra_precio_total_linea_pedido_compra,
+     linea_pedido_compra.`unidades` AS linea_pedido_compra_unidades,
+     proveedores.`id_proveedor` AS proveedores_id_proveedor,
+     proveedores.`nif` AS proveedores_nif,
+     proveedores.`nombre` AS proveedores_nombre,
+     proveedores.`apellidos` AS proveedores_apellidos,
+     proveedores.`direccion` AS proveedores_direccion,
+     proveedores.`email` AS proveedores_email,
+     proveedores.`telefono` AS proveedores_telefono,
+     proveedores.`usuario_aniade` AS proveedores_usuario_aniade,
+     proveedores.`usuario_borra` AS proveedores_usuario_borra,
+     proveedores.`usuario_mod` AS proveedores_usuario_mod,
+     proveedores.`fecha_aniade` AS proveedores_fecha_aniade,
+     proveedores.`fecha_borra` AS proveedores_fecha_borra,
+     proveedores.`fecha_mod` AS proveedores_fecha_mod,
+     proveedores.`eliminado` AS proveedores_eliminado,
+     producto.`id_producto` AS producto_id_producto,
+     producto.`nombre` AS producto_nombre,
+     producto.`descripcion` AS producto_descripcion,
+     producto.`precio` AS producto_precio,
+     producto.`cantidad` AS producto_cantidad,
+     producto.`imagen` AS producto_imagen,
+     producto.`usuario_aniade` AS producto_usuario_aniade,
+     producto.`usuario_borra` AS producto_usuario_borra,
+     producto.`usuario_mod` AS producto_usuario_mod,
+     producto.`fecha_aniade` AS producto_fecha_aniade,
+     producto.`fecha_borra` AS producto_fecha_borra,
+     producto.`fecha_mod` AS producto_fecha_mod,
+     producto.`eliminado` AS producto_eliminado,
+     producto.`id_proveedor` AS producto_id_proveedor
+FROM
+     `pedidos_compras` pedidos_compras INNER JOIN `linea_pedido_compra` linea_pedido_compra ON pedidos_compras.`id_pedido_compra` = linea_pedido_compra.`id_pedido_compra`
+     INNER JOIN `proveedores` proveedores ON pedidos_compras.`id_proveedor` = proveedores.`id_proveedor`
+     INNER JOIN `producto` producto ON proveedores.`id_proveedor` = producto.`id_proveedor`
+     AND producto.`id_producto` = linea_pedido_compra.`id_producto`
+WHERE pedidos_compras.id_pedido_compra = $P{id_pedido} AND pedidos_compras.eliminado = 0]]>
+	</queryString>
+	<field name="pedidos_compras_id_pedido_compra" class="java.lang.Integer"/>
+	<field name="pedidos_compras_fecha" class="java.sql.Timestamp"/>
+	<field name="pedidos_compras_id_proveedor" class="java.lang.Integer"/>
+	<field name="pedidos_compras_usuario_aniade" class="java.lang.Integer"/>
+	<field name="pedidos_compras_usuario_borra" class="java.lang.Integer"/>
+	<field name="pedidos_compras_usuario_mod" class="java.lang.Integer"/>
+	<field name="pedidos_compras_fecha_aniade" class="java.sql.Timestamp"/>
+	<field name="pedidos_compras_fecha_borra" class="java.sql.Timestamp"/>
+	<field name="pedidos_compras_fecha_mod" class="java.sql.Timestamp"/>
+	<field name="pedidos_compras_eliminado" class="java.lang.Boolean"/>
+	<field name="pedidos_compras_total_pedido" class="java.lang.Double"/>
+	<field name="linea_pedido_compra_id_linea_pedido_compra" class="java.lang.Integer"/>
+	<field name="linea_pedido_compra_id_producto" class="java.lang.Integer"/>
+	<field name="linea_pedido_compra_id_pedido_compra" class="java.lang.Integer"/>
+	<field name="linea_pedido_compra_precio_total_linea_pedido_compra" class="java.lang.Double"/>
+	<field name="linea_pedido_compra_unidades" class="java.lang.Double"/>
+	<field name="proveedores_id_proveedor" class="java.lang.Integer"/>
+	<field name="proveedores_nif" class="java.lang.String"/>
+	<field name="proveedores_nombre" class="java.lang.String"/>
+	<field name="proveedores_apellidos" class="java.lang.String"/>
+	<field name="proveedores_direccion" class="java.lang.String"/>
+	<field name="proveedores_email" class="java.lang.String"/>
+	<field name="proveedores_telefono" class="java.lang.String"/>
+	<field name="proveedores_usuario_aniade" class="java.lang.Integer"/>
+	<field name="proveedores_usuario_borra" class="java.lang.Integer"/>
+	<field name="proveedores_usuario_mod" class="java.lang.Integer"/>
+	<field name="proveedores_fecha_aniade" class="java.sql.Timestamp"/>
+	<field name="proveedores_fecha_borra" class="java.sql.Timestamp"/>
+	<field name="proveedores_fecha_mod" class="java.sql.Timestamp"/>
+	<field name="proveedores_eliminado" class="java.lang.Boolean"/>
+	<field name="producto_id_producto" class="java.lang.Integer"/>
+	<field name="producto_nombre" class="java.lang.String"/>
+	<field name="producto_descripcion" class="java.lang.String"/>
+	<field name="producto_precio" class="java.lang.Double"/>
+	<field name="producto_cantidad" class="java.math.BigDecimal"/>
+	<field name="producto_imagen" class="java.lang.Object"/>
+	<field name="producto_usuario_aniade" class="java.lang.Integer"/>
+	<field name="producto_usuario_borra" class="java.lang.Integer"/>
+	<field name="producto_usuario_mod" class="java.lang.Integer"/>
+	<field name="producto_fecha_aniade" class="java.sql.Timestamp"/>
+	<field name="producto_fecha_borra" class="java.sql.Timestamp"/>
+	<field name="producto_fecha_mod" class="java.sql.Timestamp"/>
+	<field name="producto_eliminado" class="java.lang.Boolean"/>
+	<field name="producto_id_proveedor" class="java.lang.Integer"/>
+	<variable name="linea_pedido_compra_precio_total_linea_pedido_compra_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{linea_pedido_compra_precio_total_linea_pedido_compra}]]></variableExpression>
+	</variable>
+	<group name="pedidos" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{pedidos_compras_fecha}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="228" splitType="Stretch">
+			<staticText>
+				<reportElement x="361" y="22" width="100" height="20" uuid="1b2476d4-148d-4e44-923b-dcef2bc42c9f"/>
+				<text><![CDATA[Plásticos Coral S.L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="42" width="153" height="20" uuid="f59fdbf5-49ca-4467-8c1f-9f2ed678d6d7"/>
+				<text><![CDATA[El Puntal s/n en Villamalea,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="62" width="100" height="20" uuid="171f6b32-3a6f-4f41-84c8-e4a58e57dc12"/>
+				<text><![CDATA[Villamalea Albacete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="82" width="100" height="20" uuid="9c089371-d783-432b-9070-3167c363c108"/>
+				<text><![CDATA[CIF: 123456ABC]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="361" y="131" width="170" height="20" uuid="277c0833-6ea2-406d-a550-cd3a8768c848"/>
+				<textFieldExpression><![CDATA[$F{proveedores_nombre}+" " +$F{proveedores_apellidos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="291" y="131" width="70" height="20" uuid="c47fe308-2601-45a9-98fe-0e9c74d5d2d9"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="321" y="151" width="118" height="20" uuid="fb0a21ed-7454-4055-8098-dee88df8faf7"/>
+				<textElement>
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proveedores_nif}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="291" y="151" width="30" height="20" uuid="975b7f2f-c592-47f7-8a30-205dd33fc8e0"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="171" width="141" height="20" uuid="32c9c431-df8d-4722-afde-630812b496a9"/>
+				<textFieldExpression><![CDATA[$F{proveedores_telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="291" y="171" width="100" height="20" uuid="9d62230c-d88a-440b-ad9c-8096df623554"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="367" y="191" width="164" height="20" uuid="2cbcd8c5-99ea-434e-8685-a755db27004a"/>
+				<textFieldExpression><![CDATA[$F{proveedores_direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="291" y="191" width="59" height="20" uuid="c32920b4-8bad-49fb-8ab3-c1571fd8bbcd"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="137" width="231" height="34" forecolor="#330099" uuid="f50db8de-677a-425d-9d87-2e44dc248169"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Factura de compra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="171" width="58" height="20" forecolor="#3300CC" uuid="f4e27a6f-cd29-420f-a47b-aabc8a71a383"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Factura: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="171" width="100" height="20" forecolor="#3300CC" uuid="01b2fcf1-b013-4fad-a2af-c33f459c7d60"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pedidos_compras_id_pedido_compra}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="331" height="107" uuid="43ffc500-a4e8-4cce-bfb4-fad321ac47a7"/>
+				<imageExpression><![CDATA["C:\\Users\\Mayra\\Documents\\NetBeansProjects\\proyecto_bis\\src\\imagenes\\2_bis.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="272" y="125" width="283" height="103" uuid="389f865a-63e5-4a26-af62-3aeb37ffe46c"/>
+				<graphicElement>
+					<pen lineWidth="1.5" lineColor="#6699FF"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="19" y="21" width="100" height="20" uuid="5b204dad-fa57-41fc-8488-be5cec0153f2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="21" width="100" height="20" uuid="918596d9-fe0d-4e59-b846-69a13ee3179d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="21" width="100" height="20" uuid="eab48d7b-83f0-42a7-bf7b-d233e04d2535"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio/Unidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="21" width="100" height="20" uuid="937da4ae-ffb4-4459-b2d8-e4059eda31c9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="19" y="20" width="100" height="20" uuid="49c8a4c7-26ed-4c37-83f8-55f165195c5e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="20" width="100" height="20" uuid="314c262a-b2e9-4fa2-a981-3be39025236a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{linea_pedido_compra_unidades}+"uds"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="20" width="100" height="20" uuid="04820ec9-1e77-4653-92b9-8c4cf0a132e2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_precio}+" €"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="20" width="100" height="20" uuid="e2cb872f-9341-43c6-bd47-7368f7e72523"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{linea_pedido_compra_precio_total_linea_pedido_compra}+" €"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-21" y="0" width="595" height="1" uuid="8a495e1f-6cbd-4b9e-8c29-c70662b450aa"/>
+				<graphicElement>
+					<pen lineColor="#003399"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="331" y="20" width="75" height="20" uuid="5e05ba65-a207-48a7-b401-afb35ba6f516"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Factura:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="431" y="20" width="100" height="20" uuid="20675c31-e7d7-4f91-9f80-6841d3024de2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{linea_pedido_compra_precio_total_linea_pedido_compra_1} + " €"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="419" y="9" width="126" height="39" forecolor="#CC0000" uuid="25e3ff15-7f3e-411b-8e12-566bb02698eb"/>
+			</rectangle>
+			<line>
+				<reportElement x="-21" y="0" width="596" height="1" uuid="843c2a9d-ff9b-4407-a49c-95ffaa58d783"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

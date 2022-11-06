@@ -9,13 +9,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" prefHeight="759.0" prefWidth="1466.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="850.0" prefWidth="1883.0" stylesheets="@../css/css_Clientes.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabClientes">
     <content>
-        <AnchorPane maxHeight="757.0" maxWidth="1452.0" prefHeight="817.0" prefWidth="1452.0">
-            <children>
-                <AnchorPane prefHeight="1217.0" prefWidth="891.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="773.0" prefWidth="1920.0">
+         <children>
+                <AnchorPane prefHeight="807.0" prefWidth="891.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="802.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                        <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="807.0" prefWidth="891.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" resizable="false" styleClass="cabeceraCol" text="NIF" />
                                 <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" resizable="false" styleClass="cabeceraCol" text="Nombre" />
@@ -27,29 +27,31 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="935.0" prefHeight="1095.0" prefWidth="1122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="935.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
+                <AnchorPane layoutX="960.0" prefHeight="933.0" prefWidth="1122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="960.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                     <children>
-                  <HBox layoutX="18.0" layoutY="72.0" prefHeight="240.0" prefWidth="1033.0" spacing="50.0" AnchorPane.bottomAnchor="687.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="-68.0" AnchorPane.topAnchor="188.0">
+                  <ImageView fitHeight="226.0" fitWidth="696.0" layoutX="218.0" layoutY="14.0" pickOnBounds="true" AnchorPane.leftAnchor="218.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0">
+                     <image>
+                        <Image url="@../imagenes/2_bis.png" />
+                     </image>
+                  </ImageView>
+                  <HBox layoutX="52.0" layoutY="229.0" prefHeight="100.0" prefWidth="600.0" spacing="50.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="69.0" AnchorPane.topAnchor="229.0">
                      <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="914.0" text="Datos cliente" textFill="#1d579d">
+                              <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="383.0" text="Datos cliente" textFill="#3a83d6">
                                   <font>
                                       <Font name="Arial" size="48.0" />
                                   </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
                               </Label>
                      </children>
                   </HBox>
-                          <AnchorPane layoutX="178.0" layoutY="451.0" prefHeight="393.0" prefWidth="944.0" AnchorPane.leftAnchor="178.0" AnchorPane.topAnchor="451.0">
+                          <AnchorPane layoutX="121.0" layoutY="373.0" prefHeight="313.0" prefWidth="688.0" AnchorPane.leftAnchor="121.0" AnchorPane.topAnchor="373.0">
                               <children>
-                                  <VBox layoutX="93.0" prefHeight="354.0" prefWidth="862.0" spacing="10.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="-11.0" AnchorPane.topAnchor="0.0">
+                                  <VBox layoutY="21.0" prefHeight="354.0" prefWidth="862.0" spacing="10.0" AnchorPane.bottomAnchor="-21.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="21.0">
                                       <children>
                                           <HBox prefHeight="30.0" prefWidth="850.0">
                                               <children>
                                                   <Label text="NIF" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                   </Label>
                                                   <TextField fx:id="txtNif" prefHeight="25.0" prefWidth="240.0">
@@ -57,7 +59,7 @@
                                                           <Insets left="110.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -66,7 +68,7 @@
                                               <children>
                                                   <Label text="Nombre" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                   </Label>
                                                   <TextField fx:id="txtNombre" prefHeight="31.0" prefWidth="386.0">
@@ -77,7 +79,7 @@
                                                           <Insets left="25.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -86,7 +88,7 @@
                                               <children>
                                                   <Label text="Apellidos" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                   </Label>
                                                   <TextField fx:id="txtApellidos" prefHeight="30.0" prefWidth="492.0">
@@ -97,7 +99,7 @@
                                                           <Insets left="20.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -106,7 +108,7 @@
                                               <children>
                                                   <Label text="Dirección" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                   </Label>
                                                   <TextField fx:id="txtDireccion" prefHeight="30.0" prefWidth="491.0">
@@ -114,7 +116,7 @@
                                                           <Insets left="70.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -123,7 +125,7 @@
                                               <children>
                                                   <Label text="Email" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                       <HBox.margin>
                                                           <Insets top="5.0" />
@@ -134,7 +136,7 @@
                                                           <Insets left="100.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -143,7 +145,7 @@
                                               <children>
                                                   <Label text="Teléfono" textFill="#3b86ff">
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font name="Arial Bold" size="24.0" />
                                                       </font>
                                                       <HBox.margin>
                                                           <Insets top="10.0" />
@@ -154,7 +156,7 @@
                                                           <Insets left="75.0" />
                                                       </HBox.margin>
                                                       <font>
-                                                          <Font size="18.0" />
+                                                          <Font size="24.0" />
                                                       </font>
                                                   </TextField>
                                               </children>
@@ -163,17 +165,17 @@
                                   </VBox>
                               </children>
                           </AnchorPane>
-                        <HBox alignment="CENTER" fillHeight="false" layoutX="50.0" layoutY="666.0" prefHeight="81.0" prefWidth="716.0" spacing="75.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="850.0">
+                        <HBox alignment="CENTER" fillHeight="false" layoutX="100.0" layoutY="765.0" prefHeight="73.0" prefWidth="721.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="765.0">
                             <children>
-                                <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="204.0" text="Limpiar formulario" textFill="WHITE" />
+                                <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="252.0" text="Limpiar formulario" textFill="WHITE" />
                                 <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="47.0" prefWidth="120.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                 <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="140.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                                <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="47.0" prefWidth="110.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="47.0" prefWidth="161.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
                     </children>
                 </AnchorPane>
-            </children>
-        </AnchorPane>
+         </children>
+      </AnchorPane>
     </content>
 </ScrollPane>

@@ -31,7 +31,7 @@
                                     <fx:include source="tabProducto.fxml" />
                                  </content>
                               </Tab>
-                              <Tab closable="false" text="Pedidos compra">
+                              <Tab id="tabPedidosCompra" closable="false" style="-fx-pref-width: 200; -fx-font-size: 20;" text="Pedidos compra">
                                  <content>
                                     <fx:include source="tabPedidosCompra.fxml" />
                                  </content>
@@ -41,7 +41,7 @@
                                     <fx:include source="tabPedidosVentas.fxml" />
                                  </content>
                               </Tab>
-                              <Tab closable="false" text="Orden fabricación">
+                              <Tab closable="false" style="-fx-pref-width: 200; -fx-font-size: 20;" text="Orden fabricación">
                                  <content>
                                     <fx:include source="tabOrdenFabricacion.fxml" />
                                  </content>
