@@ -126,7 +126,16 @@ public class ControladorVistaPedidoVenta implements Initializable {
     }
 
     @FXML
-    private void limpiarPantalla(ActionEvent event) {
+    private void limpiarFormulario(ActionEvent event) {
+        fecha.setValue(null);
+        txtIDPedido.setText("");
+        cmbClientes.setDisable(false);
+        cmbClientes.setValue(null);
+
+        tblLineas.setItems(null);
+        tblProductos.setItems(null);
+        txtTotal.setText("");
+        txtUnidades.setText("");
     }
 
     @FXML
@@ -218,7 +227,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
                 alert.setContentText("El pedido se inserto correctamente");
                 alert.showAndWait();
                 //se cierra la ventana cuando se ha insertado
-                
+
                 modelo.Utils.cerrarVentana(event);
                 //queria haber recargado la tabla desde aqui 
                 //this.controladorPadre.recargarTabla();  
@@ -239,8 +248,12 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private void seleccionar(ActionEvent event) {
 
         this.clienteSelec = cmbClientes.getSelectionModel().getSelectedItem();
-        cmbClientes.setDisable(true);
-        cargarProductos();
+        if (this.clienteSelec == null) {
+            cmbClientes.setDisable(false);
+        } else {
+            cmbClientes.setDisable(true);
+            cargarProductos();
+        }
 
     }
 

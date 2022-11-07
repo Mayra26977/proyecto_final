@@ -10,18 +10,27 @@ public class LineaOrdenFabricacion {
     private int idOrdenFabricacion;
     private int idProducto;
     private double cantidad;
+    private String nombre;
 
     public LineaOrdenFabricacion() {
     }
     
     
 
-    public LineaOrdenFabricacion(int idLineaOf, int idOrdenFabricacion, int idProducto, double cantidad) {
+    public LineaOrdenFabricacion(int idLineaOf, int idOrdenFabricacion, int idProducto, double cantidad,String nombre) {
         this.idLineaOf = idLineaOf;
         this.idOrdenFabricacion = idOrdenFabricacion;
         this.idProducto = idProducto;
         this.cantidad = cantidad;
+        this.nombre = nombre;
     }
+
+    public LineaOrdenFabricacion(String nombre, double cantidad) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+    }
+    
+    
 
     public int getIdLineaOf() {
         return idLineaOf;
@@ -54,6 +63,15 @@ public class LineaOrdenFabricacion {
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     
     
    

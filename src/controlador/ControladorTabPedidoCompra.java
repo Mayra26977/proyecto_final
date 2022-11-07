@@ -47,6 +47,8 @@ public class ControladorTabPedidoCompra implements Initializable {
     private Button btnBorrar;
     @FXML
     private Button btnVer;
+    @FXML
+    private Button btnrefrescar;
 
     private Stage stage;
     private FXMLLoader loader;
@@ -137,10 +139,11 @@ public class ControladorTabPedidoCompra implements Initializable {
         tblPedidos.setItems(pedidos);
 
     }
+   
 
     @FXML
-    private void cargarTabla(ActionEvent event) {
-        pedidos = PedidoVenta.obtenerPedidos();
+    private void refrescarTabla(ActionEvent event) {
+        pedidos = PedidoCompra.obtenerPedidos();
         tblPedidos.setItems(pedidos);
     }
 

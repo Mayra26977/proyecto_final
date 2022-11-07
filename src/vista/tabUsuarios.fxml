@@ -15,13 +15,18 @@
          <children>
             <AnchorPane layoutY="-2.0" prefHeight="757.0" prefWidth="642.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="tblUsuarios" layoutX="14.0" layoutY="14.0" prefHeight="737.0" prefWidth="543.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="10.0">
+                  <TableView fx:id="tblUsuarios" layoutX="14.0" layoutY="46.0" prefHeight="688.0" prefWidth="543.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="46.0">
                       
                      <columns>
                         <TableColumn fx:id="colUsuario" editable="false" prefWidth="269.0" text="Usuario" />
                         <TableColumn fx:id="colRol" editable="false" prefWidth="271.0" text="Rol" />
                      </columns>            
                   </TableView>
+                  <Label layoutX="100.0" layoutY="14.0" text="Tabla usuarios" textFill="#3b86ff">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
                </children>         
             </AnchorPane>
             <AnchorPane layoutX="541.0" prefHeight="756.0" prefWidth="532.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

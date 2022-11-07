@@ -55,6 +55,12 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    @Override
+    public String toString() {
+
+        return this.nombreUsuario;
+    }
 //metodo para obtener todos los usuarios que no tienen el eliminado a 1
 
     public static ObservableList obtenerUsuarios() {
@@ -69,10 +75,10 @@ public class Usuario {
                 int id = result.getInt("id_usuario");
 
                 //Usuario u = new Usuario(nombre, rol);
-                listaUsuarios.add(new Usuario(id,nombre, rol));
+                listaUsuarios.add(new Usuario(id, nombre, rol));
             }
         } catch (SQLException ex) {
-             System.out.println("Ocurrió un error al obtener los usuarios");
+            System.out.println("Ocurrió un error al obtener los usuarios");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
@@ -84,7 +90,7 @@ public class Usuario {
     public static boolean obtenerUsuarioLogueado(String usuario, String pass) {
 
         try {
-            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.usuario WHERE nombre_usuario = '" 
+            try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.usuario WHERE nombre_usuario = '"
                     + usuario + "' AND password = sha1('" + pass + "') AND eliminado = 0")) {
                 int contadorResult = 0;
                 while (result.next()) {
@@ -103,7 +109,7 @@ public class Usuario {
             ex.printStackTrace();
             return false;
         }
-        
+
     }
 //metodo para obtener la id de los usuarios con ese nombre
 
@@ -191,7 +197,7 @@ public class Usuario {
         }
 
     }
-    
+
     //método para modificar usuario
     public static boolean modificarUsuario(Usuario usuario) {
         Statement stmt = null;
@@ -215,7 +221,7 @@ public class Usuario {
 
     //método para modificar usuario y contraseña
     public static boolean modificarUsuario(Usuario usuario, String contrasenia) {
-         Statement stmt = null;
+        Statement stmt = null;
         try {
             String sql = "UPDATE backup21_mayra.usuario SET nombre_usuario = '" + usuario.getNombreUsuario()
                     + "' , password = sha1('" + contrasenia + "')"
@@ -232,6 +238,30 @@ public class Usuario {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    //método para obtener todos los usuarios que tienen rol operario    
+    public static ObservableList<Usuario> obtenerUsuariosOperario() {
+
+        ObservableList<Usuario> usuariosOperario = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.usuario WHERE eliminado = 0 AND rol = 'operario'")) {
+
+            while (result.next()) {
+                String nombre = result.getString("nombre_usuario");
+                String rol = result.getString("rol");
+                int id = result.getInt("id_usuario");
+
+                //Usuario u = new Usuario(nombre, rol);
+                usuariosOperario.add(new Usuario(id, nombre, rol));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Ocurrió un error al obtener los usuarios");
+            System.out.println("Mensaje del error " + ex.getMessage());
+            System.out.println("Detalles del error ");
+            ex.printStackTrace();
+        }
+        return usuariosOperario;
+
     }
 
 }

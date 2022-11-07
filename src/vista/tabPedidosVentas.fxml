@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -10,22 +11,27 @@
    <children>
       <AnchorPane prefHeight="701.0" prefWidth="1662.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="3.0">
          <children>
-            <TableView fx:id="tblPedidosVenta" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="21.0">
+            <TableView fx:id="tblPedidosVenta" layoutY="39.0" prefHeight="662.0" prefWidth="1391.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="39.0">
                <columns>
-                  <TableColumn fx:id="colId" prefWidth="272.0" resizable="false" text="Id Pedido" />
-                  <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="1026.0" resizable="false" text="Fecha" />
-                  <TableColumn fx:id="colCliente" prefWidth="160.0" resizable="false" text="Cliente" />
-                  <TableColumn fx:id="colImporte" editable="false" minWidth="0.0" prefWidth="180.0" resizable="false" text="Importe" />
+                  <TableColumn fx:id="colId" prefWidth="244.0" resizable="false" text="Id Pedido" />
+                  <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="755.0" resizable="false" text="Fecha" />
+                  <TableColumn fx:id="colCliente" prefWidth="192.0" resizable="false" text="Cliente" />
+                  <TableColumn fx:id="colImporte" editable="false" minWidth="0.0" prefWidth="189.0" resizable="false" text="Importe" />
                </columns>
             </TableView>
+            <Label layoutX="133.0" layoutY="6.0" text="Tabla pedidos venta" textFill="#3b86ff">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1200.0" spacing="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0">
+      <HBox alignment="CENTER" layoutX="52.0" prefHeight="59.0" prefWidth="1471.0" spacing="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="153.0">
          <children>
             <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
             <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." textFill="WHITE" />
             <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedidoVenta" text="Borrar" textFill="WHITE" />
-            <Button fx:id="btnActualizarTabla" mnemonicParsing="false" onAction="#cargarTabla" text="Actualizar tabla" textFill="WHITE" />
+            <Button fx:id="btnActualizarTabla" mnemonicParsing="false" onAction="#cargarTabla" prefHeight="42.0" prefWidth="196.0" text="Actualizar tabla" textFill="WHITE" />
          </children>
       </HBox>
    </children>

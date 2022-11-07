@@ -15,7 +15,12 @@
          <children>
                 <AnchorPane prefHeight="807.0" prefWidth="891.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <TableView fx:id="tblClientes" layoutX="43.0" layoutY="26.0" prefHeight="807.0" prefWidth="891.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label text="Tabla clientes" textFill="#3b86ff">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
+                        <TableView fx:id="tblClientes" layoutX="43.0" layoutY="34.0" prefHeight="790.0" prefWidth="891.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
                             <columns>
                                 <TableColumn fx:id="colNif" editable="false" prefWidth="100.0" resizable="false" styleClass="cabeceraCol" text="NIF" />
                                 <TableColumn fx:id="colNombre" editable="false" prefWidth="88.0" resizable="false" styleClass="cabeceraCol" text="Nombre" />

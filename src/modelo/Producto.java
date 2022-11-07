@@ -210,6 +210,13 @@ public class Producto {
         this.idProveedor = proveedor;
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+    
+    
+
     //metodo para obtener todos los productos que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();

@@ -15,7 +15,7 @@
          <children>
             <AnchorPane layoutY="-1.0" prefHeight="825.0" prefWidth="851.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="26.0" prefHeight="826.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblProductos" layoutX="43.0" layoutY="29.0" prefHeight="877.0" prefWidth="851.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
                      <columns>
                         <TableColumn fx:id="colNombre" editable="false" prefWidth="132.0" text="Nombre" />
                         <TableColumn fx:id="colDescripcion" editable="false" prefWidth="350.0" text="Descripción" />
@@ -25,6 +25,11 @@
                         <TableColumn fx:id="colProveedor" editable="false" prefWidth="168.0" text="Proveedor" />
                      </columns>
                   </TableView>
+                  <Label layoutY="1.0" text="Tabla productos" textFill="#3b86ff">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="866.0" prefHeight="813.0" prefWidth="1041.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="866.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

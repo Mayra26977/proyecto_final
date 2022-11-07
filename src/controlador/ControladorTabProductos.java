@@ -243,7 +243,6 @@ public class ControladorTabProductos implements Initializable {
             cargarTablaProductos();
         } else {
 
-            System.out.println(cmbProveedor.getValue().getId_proveedor());
             Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida, cmbProveedor.getValue().getId_proveedor()));
             // ventana de los datos se insertaron correctamente            
             Alert alert;

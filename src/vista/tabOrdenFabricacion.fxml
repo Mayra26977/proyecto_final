@@ -8,80 +8,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" maxHeight="1080.0" maxWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorOrdenFabricacion">
-   <content>
-      <AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1200.0">
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1676.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorTabOrdenFabricacion">
+   <children>
+      <AnchorPane maxHeight="1080.0" maxWidth="1921.0" prefHeight="799.0" prefWidth="1662.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="3.0">
          <children>
-            <AnchorPane prefHeight="896.0" prefWidth="716.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <TableView fx:id="tblOfs" layoutX="7.0" prefHeight="841.0" prefWidth="702.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0">
-                    <columns>
-                        <TableColumn fx:id="colOf" editable="false" prefWidth="110.0" text="Orden fabricación" />
-                      <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="212.0" resizable="false" text="Fecha inicio" />
-                      <TableColumn fx:id="colFechaFin" editable="false" minWidth="1.0" prefWidth="223.0" resizable="false" text="Fecha fin" />
-                        <TableColumn fx:id="colOperario" editable="false" prefWidth="156.0" text="Operario" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="710.0" layoutY="14.0" prefHeight="890.0" prefWidth="1179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="710.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="538.0" layoutY="334.0" text="Orden de fabricación" textFill="#3a83d6">
-                     <font>
-                        <Font name="Arial" size="48.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="tblLineasOf" layoutX="22.0" layoutY="334.0" prefHeight="520.0" prefWidth="379.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="334.0">
-                    <columns>
-                      <TableColumn fx:id="colProducto" editable="false" prefWidth="240.0" text="Producto" />
-                      <TableColumn fx:id="colCantidad" editable="false" prefWidth="138.0" text="Cantidad a fabricar" />
-                    </columns>
-                  </TableView>
-                  <TextField fx:id="txtCantidad" layoutX="749.0" layoutY="670.0" prefHeight="25.0" prefWidth="105.0" AnchorPane.leftAnchor="749.0" />
-                  <Label layoutX="594.0" layoutY="675.0" text="Cantidad" textFill="#3b86ff" AnchorPane.leftAnchor="594.0">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font></Label>
-                  <Button fx:id="btnAniadirLinea" layoutX="580.0" layoutY="767.0" mnemonicParsing="false" onAction="#aniadirLinea" prefHeight="42.0" prefWidth="127.0" text="Añadir linea" textFill="WHITE" AnchorPane.leftAnchor="580.0" AnchorPane.topAnchor="767.0" />
-                  <DatePicker layoutX="578.0" layoutY="450.0" prefHeight="31.0" prefWidth="204.0" />
-                  <DatePicker layoutX="893.0" layoutY="450.0" />
-                  <Label layoutX="446.0" layoutY="450.0" text="Fecha inicio" textFill="#3b86ff">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font></Label>
-                  <Label layoutX="789.0" layoutY="450.0" text="Fecha fin" textFill="#3b86ff">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font></Label>
-                  <ComboBox layoutX="749.0" layoutY="610.0" prefWidth="150.0" />
-                  <ComboBox layoutX="749.0" layoutY="555.0" prefWidth="150.0" />
-                  <Label layoutX="594.0" layoutY="610.0" text="Productos" textFill="#3b86ff">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font></Label>
-                  <Label layoutX="596.0" layoutY="555.0" text="Operarios" textFill="#3b86ff">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font></Label>
-                  <Button fx:id="btnEliminarLinea" layoutX="848.0" layoutY="767.0" mnemonicParsing="false" onAction="#eliminarLinea" text="Eliminar linea" textFill="WHITE" AnchorPane.leftAnchor="848.0" />
-                  <ImageView fitHeight="346.0" fitWidth="1150.0" layoutX="29.0" layoutY="-23.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../imagenes/2_bis.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="910.0" prefHeight="70.0" prefWidth="1880.0" spacing="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
-               <children>
-                  <Button fx:id="btnInsertar" mnemonicParsing="false" onAction="#insertar" text="Insertar" textFill="WHITE" />
-                  <Button fx:id="btnModi" mnemonicParsing="false" onAction="#modificar" text="Modificar" textFill="WHITE" />
-                  <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrar" text="Borrar" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="15.0" />
-                     </font></Button>
-               </children>
-            </HBox>
+            <TableView fx:id="tblOfs" layoutX="7.0" layoutY="43.0" prefHeight="694.0" prefWidth="1529.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="40.0">
+               <columns>
+                  <TableColumn fx:id="colOf" editable="false" prefWidth="240.0" resizable="false" text="Orden fabricación" />
+                  <TableColumn fx:id="colFechaInicio" editable="false" prefWidth="510.0" resizable="false" text="Fecha inicio" />
+                  <TableColumn fx:id="colFechaFin" editable="false" minWidth="1.0" prefWidth="544.0" resizable="false" text="Fecha fin" />
+                  <TableColumn fx:id="colOperario" editable="false" prefWidth="234.0" resizable="false" text="Operario" />
+               </columns>
+            </TableView>
+            <Label layoutX="133.0" layoutY="1.0" text="Tabla de ordenes de fabricación" textFill="#3b86ff">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-   </content>
-</ScrollPane>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="736.0" prefHeight="59.0" prefWidth="1200.0" spacing="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#ver" text="Ver..." textFill="WHITE" />
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrar" text="Borrar" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#actualizarTabla" text="Actualizar tabla" textFill="WHITE" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

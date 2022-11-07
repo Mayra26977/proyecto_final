@@ -121,8 +121,16 @@ public class ControladorVistaPedidoCompra implements Initializable {
     }
 
     @FXML
-    private void limpiarPantalla(ActionEvent event) {
+    private void limpiarFormulario(ActionEvent event) {
+        fecha.setValue(null);
+        txtIDPedido.setText("");
+        cmbProveedores.setDisable(false);
+        cmbProveedores.setValue(null);
 
+        tblLineas.setItems(null);
+        tblProductos.setItems(null);
+        txtTotal.setText("");
+        txtUnidades.setText("");
     }
 
     @FXML
@@ -191,9 +199,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
 
             modelo.Utils.cerrarVentana(event);
 
-        } else {
-
-        }
+        } 
 
     }
 
@@ -240,7 +246,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Pedido no insertado");
             alert.setHeaderText("Pedido no insertado");
-            alert.setContentText("El pedido no se inserto pudo insertar");
+            alert.setContentText("El pedido no se pudo insertar");
             alert.showAndWait();
             ex.printStackTrace();
         }
@@ -250,9 +256,12 @@ public class ControladorVistaPedidoCompra implements Initializable {
     @FXML
     private void seleccionar(ActionEvent event) {
         this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
-        cmbProveedores.setDisable(true);
-        cargarProductos();
-
+        if (this.proveedorSelec == null) {
+            cmbProveedores.setDisable(false);
+        } else {
+            cmbProveedores.setDisable(true);
+            cargarProductos();
+        }
     }
 
     private void cargarProveedores() {
@@ -295,7 +304,6 @@ public class ControladorVistaPedidoCompra implements Initializable {
         txtIDPedido.setText(String.valueOf(pedidoCompra.getIdPedido()));
         fecha.setValue(pedidoCompra.getFecha().toLocalDateTime().toLocalDate());
         Proveedor proveedor = Proveedor.obtenerProveedorPorId(pedidoCompra.getIdProveedor());
-        System.out.println(proveedor.getNombre());
         cmbProveedores.setValue(proveedor);
         //cmbClientes.setDisable(true);
         txtTotal.setText(String.valueOf(pedidoCompra.getTotalPedido()));

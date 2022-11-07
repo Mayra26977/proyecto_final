@@ -13,7 +13,7 @@
          <children>
             <AnchorPane prefHeight="65.0" prefWidth="200.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="151.0">
                <children>
-                  <Label layoutX="1258.0" layoutY="820.0" text="Unidades" textFill="#3a83d6" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="531.0">
+                  <Label layoutX="1258.0" layoutY="820.0" text="Unidades" textFill="#3b86ff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="531.0">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></Label>
@@ -35,7 +35,7 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <Label layoutX="732.0" layoutY="548.0" prefHeight="27.0" prefWidth="98.0" text="Total" textFill="#3a83d6" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="732.0" AnchorPane.rightAnchor="1068.0">
+                  <Label layoutX="732.0" layoutY="548.0" prefHeight="27.0" prefWidth="98.0" text="Total" textFill="#3b86ff" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="732.0" AnchorPane.rightAnchor="1068.0">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></Label>
@@ -59,26 +59,36 @@
             </AnchorPane>
             <AnchorPane prefHeight="163.0" prefWidth="1180.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-18.0">
                <children>
-                  <Button fx:id="btnLimpiar" layoutX="1399.0" layoutY="66.0" mnemonicParsing="false" onAction="#limpiarPantalla" prefHeight="47.0" prefWidth="203.0" text="Limpiar formulario" textFill="WHITE" />
+                  <Button fx:id="btnLimpiar" layoutX="1399.0" layoutY="66.0" mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="47.0" prefWidth="203.0" text="Limpiar formulario" textFill="WHITE" />
                   <ComboBox fx:id="cmbClientes" layoutX="791.0" layoutY="75.0" onAction="#seleccionar" prefHeight="31.0" prefWidth="271.0" promptText="Clientes" />
                   <Separator layoutX="3.0" layoutY="116.0" prefHeight="24.0" prefWidth="1677.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <TextField fx:id="txtIDPedido" editable="false" layoutX="414.0" layoutY="69.0">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></TextField>
-                  <Label layoutX="414.0" layoutY="38.0" text="Código pedido" textFill="#3a83d6">
+                  <Label layoutX="414.0" layoutY="38.0" text="Código pedido" textFill="#3b86ff">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></Label>
-                  <Label layoutX="791.0" layoutY="38.0" prefHeight="27.0" prefWidth="111.0" text="Clientes" textFill="#3a83d6">
+                  <Label layoutX="791.0" layoutY="38.0" prefHeight="27.0" prefWidth="111.0" stylesheets="@../css/css_Pedidos.css" text="Clientes" textFill="#3b86ff">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></Label>
-                  <Label layoutX="83.0" layoutY="38.0" prefHeight="27.0" prefWidth="85.0" text="Fecha" textFill="#3a83d6">
+                  <Label layoutX="83.0" layoutY="38.0" prefHeight="27.0" prefWidth="85.0" text="Fecha" textFill="#3b86ff">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font></Label>
                   <DatePicker fx:id="fecha" editable="false" layoutX="83.0" layoutY="74.0" prefHeight="25.0" prefWidth="182.0" />
+                  <Label layoutX="55.0" layoutY="141.0" text="Tabla lineas pedido" textFill="#3b86ff">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="1251.0" layoutY="137.0" text="Tabla productos" textFill="#3b86ff">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="65.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">

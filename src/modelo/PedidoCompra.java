@@ -250,11 +250,11 @@ public class PedidoCompra {
             ResultSet result = ps.executeQuery();
             while (result.next()) {
                 //mientras en el pedido haya lineas con productos y unidades se actualizaran esos productos
-                PreparedStatement psproducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad - ? where id_producto = ?");
+                PreparedStatement psProducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad - ? where id_producto = ?");
 
-                psproducto.setDouble(1, result.getDouble("unidades"));
-                psproducto.setInt(2, result.getInt("id_producto"));
-                psproducto.execute();
+                psProducto.setDouble(1, result.getDouble("unidades"));
+                psProducto.setInt(2, result.getInt("id_producto"));
+                psProducto.execute();
             }
             Conexion.obtenerConexion().commit();
             Conexion.obtenerConexion().setAutoCommit(true);
