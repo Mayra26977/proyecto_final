@@ -21,7 +21,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.PedidoCompra;
-import modelo.PedidoVenta;
 import modelo.Utils;
 
 /**

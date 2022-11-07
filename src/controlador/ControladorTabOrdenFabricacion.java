@@ -84,7 +84,7 @@ public class ControladorTabOrdenFabricacion implements Initializable {
     }
 
     @FXML
-    private void borrar(ActionEvent event) {
+    private void borrarOf(ActionEvent event) {
         OrdenFabricacion of = tblOfs.getSelectionModel().getSelectedItem();
         Alert alert;
         alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -113,7 +113,7 @@ public class ControladorTabOrdenFabricacion implements Initializable {
     }
 
     @FXML
-    private void actualizarTabla(ActionEvent event) {
+    private void actualizarTablaOf(ActionEvent event) {
         ofs = OrdenFabricacion.obtenerOfs();
         tblOfs.setItems(ofs);
     }
@@ -133,12 +133,12 @@ public class ControladorTabOrdenFabricacion implements Initializable {
         colOf.setCellValueFactory(new PropertyValueFactory("idOf"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory("fechaInicio"));
         colFechaFin.setCellValueFactory(new PropertyValueFactory("fechaFin"));
-        colOperario.setCellValueFactory(new PropertyValueFactory("usuarioAniade"));
+        colOperario.setCellValueFactory(new PropertyValueFactory("operario"));
         ofs = OrdenFabricacion.obtenerOfs();
         tblOfs.setItems(ofs);
     }
     @FXML
-    private void refrescarTabla(ActionEvent event) {
+    private void refrescarTablaOf(ActionEvent event) {
         ofs = OrdenFabricacion.obtenerOfs();
         tblOfs.setItems(ofs);
     }

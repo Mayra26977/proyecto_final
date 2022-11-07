@@ -124,7 +124,7 @@ public class LineaPedidoCompra {
     public static ObservableList obtenerLineasPedido() {
 
         ObservableList<LineaPedidoCompra> lineas = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_compra WHERE id_pedido_compra IN(SELECT id_pedido_compra FROM pedidos_compras WHERE eliminado = 0)" )) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_compra WHERE id_pedido_compra IN(SELECT id_pedido_compra FROM backup21_mayra.pedidos_compras WHERE eliminado = 0)" )) {
             while (result.next()) {
                 
                 int idLinea = result.getInt("id_linea_pedido_compra");

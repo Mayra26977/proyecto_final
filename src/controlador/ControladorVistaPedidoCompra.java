@@ -179,7 +179,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
     private void aniadirLinea(ActionEvent event) {
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
         int cantidad = Integer.parseInt(txtUnidades.getText());
-        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getId_producto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
+        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getIdProducto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
         lineas.add(linea);
         Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
         txtTotal.setText(String.valueOf(totalPedido));

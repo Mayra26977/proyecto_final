@@ -163,7 +163,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
             alert.showAndWait();
 
         } else {
-            LineaPedidoVenta linea = new LineaPedidoVenta(producto.getId_producto(), cantidad, cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
+            LineaPedidoVenta linea = new LineaPedidoVenta(producto.getIdProducto(), cantidad, cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
             lineas.add(linea);
             Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
             txtTotal.setText(String.valueOf(totalPedido));

@@ -1,6 +1,5 @@
 package modelo;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +19,7 @@ public class OrdenFabricacion {
     private int idOf;
     private Timestamp fechaInicio;
     private Timestamp fechaFin;
-    private double cantidad;
+    private int operario;
     private int idProducto;
     private int usuarioAniade;
     private int usuarioBorra;
@@ -33,11 +32,11 @@ public class OrdenFabricacion {
     public OrdenFabricacion() {
     }
 
-    public OrdenFabricacion(int idOf, Timestamp fechaInicio, Timestamp fechaFin, double cantidad, int idProducto, int usuarioAniade, int usuarioBorra, int usuarioMod, Timestamp fechaAniade, Timestamp fechaBorra, Timestamp fechaMod, boolean eliminado) {
+    public OrdenFabricacion(int idOf, Timestamp fechaInicio, Timestamp fechaFin, int operario, int idProducto, int usuarioAniade, int usuarioBorra, int usuarioMod, Timestamp fechaAniade, Timestamp fechaBorra, Timestamp fechaMod, boolean eliminado) {
         this.idOf = idOf;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.cantidad = cantidad;
+        this.operario = operario;
         this.idProducto = idProducto;
         this.usuarioAniade = usuarioAniade;
         this.usuarioBorra = usuarioBorra;
@@ -48,18 +47,18 @@ public class OrdenFabricacion {
         this.eliminado = eliminado;
     }
 
-    public OrdenFabricacion(int idOf, Timestamp fechaInicio, Timestamp fechaFin, int idProducto, double cantidad) {
+    public OrdenFabricacion(int idOf, Timestamp fechaInicio, Timestamp fechaFin, int operario) {
         this.idOf = idOf;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.cantidad = cantidad;
+        this.operario = operario;
         this.idProducto = idProducto;
     }
 
-    public OrdenFabricacion(Timestamp fechaInicio, Timestamp fechaFin,int operarioId) {
+    public OrdenFabricacion(Timestamp fechaInicio, Timestamp fechaFin,int operario) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.usuarioAniade = operarioId;
+        this.usuarioAniade = operario;
     }
     
 
@@ -86,15 +85,6 @@ public class OrdenFabricacion {
     public void setFechaFin(Timestamp fechaFin) {
         this.fechaFin = fechaFin;
     }
-
-    public double getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(double cantidad) {
-        this.cantidad = cantidad;
-    }
-
     public int getIdProducto() {
         return idProducto;
     }
@@ -102,6 +92,15 @@ public class OrdenFabricacion {
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
+
+    public int getOperario() {
+        return operario;
+    }
+
+    public void setOperario(int operario) {
+        this.operario = operario;
+    }
+    
 
     public int getUsuarioAniade() {
         return usuarioAniade;
@@ -159,16 +158,15 @@ public class OrdenFabricacion {
         this.eliminado = eliminado;
     }
 
-    public static boolean insertarOrdenFabricacion(OrdenFabricacion of, Timestamp fechaInicio, Timestamp fechaFin, Double cantidad, Usuario operario, ArrayList<LineaOrdenFabricacion> lineas) {
+    public static boolean insertarOrdenFabricacion(OrdenFabricacion of, Timestamp fechaInicio, Timestamp fechaFin, Usuario operario, ArrayList<LineaOrdenFabricacion> lineas) {
         try {
             Conexion.obtenerConexion().setAutoCommit(false);
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.orden_fabricacion (fecha_inicio, fecha_fin , cantidad, id_producto, usuario_aniade, fecha_aniade) VALUES ( ?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.orden_fabricacion (fecha_inicio, fecha_fin , operario,  usuario_aniade, fecha_aniade) VALUES ( ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setTimestamp(1, fechaInicio);
             ps.setTimestamp(2, fechaFin);
-            ps.setDouble(3, of.getCantidad());
-            ps.setInt(4, operario.getUsuarioId());
-            ps.setInt(5, Global.usuarioLogueadoId);
-            ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setInt(3, operario.getUsuarioId());
+            ps.setInt(4, Global.usuarioLogueadoId);
+            ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             ps.execute();
             //devuelve las claves primarias que se generan del PreparedStatement
             ResultSet ids = ps.getGeneratedKeys();
@@ -182,7 +180,7 @@ public class OrdenFabricacion {
             for (int i = 0; i < lineas.size(); i++) {
                 PreparedStatement psLinea = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.linea_of (id_of, id_producto, cantidad) VALUES ( ?, ?, ?)");
                 psLinea.setInt(1, idOf);
-                psLinea.setInt(1, lineas.get(i).getIdProducto());                
+                psLinea.setInt(2, lineas.get(i).getIdProducto());                
                 psLinea.setDouble(3, lineas.get(i).getCantidad());
                 psLinea.execute();
 
@@ -220,10 +218,9 @@ public class OrdenFabricacion {
                 int id = result.getInt("id_of");
                 Timestamp fechaInicio = result.getTimestamp("fecha_inicio");
                 Timestamp fechaFin = result.getTimestamp("fecha_fin");
-                int idProducto = result.getInt("id_producto");
-                double cantidad = result.getDouble("cantidad");
+                int operario = result.getInt("operario");
 
-                ofs.add(new OrdenFabricacion(id, fechaInicio, fechaFin, idProducto, cantidad));
+                ofs.add(new OrdenFabricacion(id, fechaInicio, fechaFin, operario));
             }
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener las ordenes de fabricación");

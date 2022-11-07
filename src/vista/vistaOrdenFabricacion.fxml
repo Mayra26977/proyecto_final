@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="922.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="890.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="700.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1085.0" layoutY="148.0" text="Orden de fabricación" textFill="#3a83d6">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1087.0" layoutY="122.0" text="Orden de fabricación" textFill="#3a83d6">
                <font>
                   <Font name="Arial" size="48.0" />
                </font>
@@ -33,14 +33,14 @@
                </font>
             </Label>
             <Button fx:id="btnAniadirLinea" layoutX="886.0" layoutY="759.0" mnemonicParsing="false" onAction="#aniadirLinea" prefHeight="42.0" prefWidth="127.0" text="Añadir linea" textFill="WHITE" AnchorPane.leftAnchor="886.0" AnchorPane.topAnchor="759.0" />
-            <DatePicker fx:id="fechaInicio" layoutX="950.0" layoutY="437.0" prefHeight="31.0" prefWidth="204.0" />
-            <DatePicker fx:id="fechaFin" layoutX="1444.0" layoutY="440.0" />
-            <Label layoutX="747.0" layoutY="440.0" text="Fecha inicio" textFill="#3b86ff">
+            <DatePicker fx:id="fechaInicio" layoutX="950.0" layoutY="439.0" prefHeight="31.0" prefWidth="204.0" />
+            <DatePicker fx:id="fechaFin" layoutX="1444.0" layoutY="442.0" />
+            <Label layoutX="747.0" layoutY="442.0" text="Fecha inicio" textFill="#3b86ff">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="1269.0" layoutY="439.0" text="Fecha fin" textFill="#3b86ff">
+            <Label layoutX="1269.0" layoutY="441.0" text="Fecha fin" textFill="#3b86ff">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
@@ -58,7 +58,7 @@
                </font>
             </Label>
             <Button fx:id="btnEliminarLinea" layoutX="1423.0" layoutY="759.0" mnemonicParsing="false" onAction="#eliminarLinea" text="Eliminar linea" textFill="WHITE" AnchorPane.leftAnchor="1423.0" />
-            <ImageView fitHeight="333.0" fitWidth="996.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true">
+            <ImageView fitHeight="281.0" fitWidth="996.0" layoutX="24.0" layoutY="9.0" pickOnBounds="true">
                <image>
                   <Image url="@../imagenes/2_bis.png" />
                </image>
@@ -68,24 +68,24 @@
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtOfId" editable="false" layoutX="1070.0" layoutY="368.0">
+            <TextField fx:id="txtOfId" editable="false" layoutX="1070.0" layoutY="334.0">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-            <Label layoutX="747.0" layoutY="380.0" text="Código orden fabricación" textFill="#3b86ff">
+            <Label layoutX="747.0" layoutY="346.0" text="Código orden fabricación" textFill="#3b86ff">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnLimpiar" layoutX="1481.0" layoutY="373.0" mnemonicParsing="false" onAction="#limpiarFormulario" text="Limpiar formulario" textFill="WHITE" />
-            <AnchorPane layoutX="-41.0" layoutY="1001.0" prefHeight="65.0" prefWidth="1974.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-               <children>
-                  <Button fx:id="btnGuardar" layoutX="64.0" layoutY="17.0" mnemonicParsing="false" onAction="#guardarOrdenFabricacion" text="Guardar" textFill="WHITE" AnchorPane.bottomAnchor="0.0" />
-                  <Button fx:id="btnImprimir" layoutX="829.0" layoutY="16.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="122.0" text="Imprimir..." textFill="WHITE" AnchorPane.bottomAnchor="0.0" />
-                  <Button fx:id="btnSalir" layoutX="1613.0" layoutY="16.0" mnemonicParsing="false" onAction="#salirOrdenFabricacion" text="Volver" textFill="WHITE" AnchorPane.bottomAnchor="0.0" />
-               </children>
-            </AnchorPane>
+            <Button fx:id="btnLimpiar" layoutX="1481.0" layoutY="339.0" mnemonicParsing="false" text="Limpiar formulario" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="60.0" layoutY="844.0" prefHeight="78.0" prefWidth="1928.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="60.0">
+         <children>
+            <Button fx:id="btnGuardar" layoutX="63.0" layoutY="16.0" mnemonicParsing="false" onAction="#guardarOrdenFabricacion" text="Guardar" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+            <Button fx:id="btnImprimir" layoutX="831.0" layoutY="16.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="122.0" text="Imprimir..." textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+            <Button fx:id="btnVolver" layoutX="1620.0" layoutY="16.0" mnemonicParsing="false" onAction="#salirOrdenFabricacion" text="Volver" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
          </children>
       </AnchorPane>
    </children>

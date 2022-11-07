@@ -292,7 +292,7 @@ public class ControladorTabProductos implements Initializable {
         }
         Proveedor proveedor = cmbProveedor.getValue();
         if (precio != null) {
-            Producto pActualizado = new Producto(pSeleccionado.getId_producto(), nombre, descripcion, precio, cantidad, imagen, pSeleccionado.getIdProveedor());
+            Producto pActualizado = new Producto(pSeleccionado.getIdProducto(), nombre, descripcion, precio, cantidad, imagen, pSeleccionado.getIdProveedor());
             try {
                 //se actualiza el producto
                 Producto.modificarProducto(pActualizado);

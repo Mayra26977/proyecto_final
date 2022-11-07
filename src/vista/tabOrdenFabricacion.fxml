@@ -31,12 +31,12 @@
          <children>
             <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
             <Button fx:id="btnVer" mnemonicParsing="false" onAction="#ver" text="Ver..." textFill="WHITE" />
-            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrar" text="Borrar" textFill="WHITE">
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarOf" text="Borrar" textFill="WHITE">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#actualizarTabla" text="Actualizar tabla" textFill="WHITE" />
+            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#actualizarTablaOf" text="Actualizar tabla" textFill="WHITE" />
          </children>
       </HBox>
    </children>

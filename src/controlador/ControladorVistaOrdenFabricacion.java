@@ -53,6 +53,8 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
     @FXML
     private Button btnEliminarLinea;
     @FXML
+    private Button btnVolver;
+    @FXML
     private ComboBox<Usuario> cmbOperarios;
     @FXML
     private ComboBox<Producto> cmbProductos;
@@ -160,7 +162,7 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
             if (fechaInicio != null && fechaFin != null) {
                 Usuario operario = cmbOperarios.getValue();
                 OrdenFabricacion of = new OrdenFabricacion(fechaInicial, fechaFinal,operario.getUsuarioId());
-                OrdenFabricacion.insertarOrdenFabricacion(of, fechaInicial, fechaFinal, Double.parseDouble(txtCantidad.getText()), operario, new ArrayList<LineaOrdenFabricacion>(lineas));
+                OrdenFabricacion.insertarOrdenFabricacion(of, fechaInicial, fechaFinal, operario, new ArrayList<LineaOrdenFabricacion>(lineas));
                 Utils.cerrarVentana(event);
                 Alert alert;
                 alert = new Alert(Alert.AlertType.INFORMATION);
@@ -231,5 +233,25 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
         tblLineasOf.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineasOf.getSelectionModel().getSelectedIndex();
     }
+    
+//    public void recuperarPedido() {
+//        ObservableList<LineaPedidoCompra> lineasPedidoRecuperado = FXCollections.observableArrayList();
+//        btnAniadirProd.setDisable(true);
+//        btnEliminarLinea.setDisable(true);
+//        btnGuardar.setDisable(true);
+//        btnLimpiar.setDisable(true);
+//        tblProductos.setDisable(true);
+//        txtUnidades.setDisable(true);
+//        lineas = LineaPedidoCompra.obtenerLineasPedidoConcreto(pedidoCompra);
+//
+//        txtIDPedido.setText(String.valueOf(pedidoCompra.getIdPedido()));
+//        fecha.setValue(pedidoCompra.getFecha().toLocalDateTime().toLocalDate());
+//        Proveedor proveedor = Proveedor.obtenerProveedorPorId(pedidoCompra.getIdProveedor());
+//        cmbProveedores.setValue(proveedor);
+//        //cmbClientes.setDisable(true);
+//        txtTotal.setText(String.valueOf(pedidoCompra.getTotalPedido()));
+//        cargarLineas();
+//
+//    }
 
 }

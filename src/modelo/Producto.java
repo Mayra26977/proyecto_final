@@ -26,15 +26,15 @@ import javax.sql.rowset.serial.SerialBlob;
  */
 public class Producto {
 
-    private int id_producto;
+    private int idProducto;
     private String nombre;
     private String descripcion;
-    private Timestamp fecha_aniade;
-    private Timestamp fecha_borra;
-    private Timestamp fecha_mod;
-    private int usuario_aniade;
-    private int usuario_borra;
-    private int usuario_mod;
+    private Timestamp fechaAniade;
+    private Timestamp fechaBorra;
+    private Timestamp fechaMod;
+    private int usuarioAniade;
+    private int usuarioBorra;
+    private int usuarioMod;
     private double precio;
     private double cantidad;
     private boolean eliminado;
@@ -42,16 +42,16 @@ public class Producto {
     private Image imagenProducto;
     private int idProveedor;
 
-    public Producto(int id_producto, String nombre, String descripcion, Timestamp fecha_aniade, Timestamp fecha_borra, Timestamp fecha_mod, int usuario_aniade, int usuario_borra, int usuario_mod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto, int idProveedor) {
-        this.id_producto = id_producto;
+    public Producto(int idProducto, String nombre, String descripcion, Timestamp fechaAniade, Timestamp fechaBorra, Timestamp fechaMod, int usuarioAniade, int usuarioBorra, int usuarioMod, double precio, double cantidad, boolean eliminado, Blob imagen, Image imagenProducto, int idProveedor) {
+        this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.fecha_aniade = fecha_aniade;
-        this.fecha_borra = fecha_borra;
-        this.fecha_mod = fecha_mod;
-        this.usuario_aniade = usuario_aniade;
-        this.usuario_borra = usuario_borra;
-        this.usuario_mod = usuario_mod;
+        this.fechaAniade = fechaAniade;
+        this.fechaBorra = fechaBorra;
+        this.fechaMod = fechaMod;
+        this.usuarioAniade = usuarioAniade;
+        this.usuarioBorra = usuarioBorra;
+        this.usuarioMod = usuarioMod;
         this.precio = precio;
         this.cantidad = cantidad;
         this.eliminado = eliminado;
@@ -61,8 +61,8 @@ public class Producto {
 
     }
 
-    public Producto(int id_producto, String nombre, String descripcion, double precio, double cantidad, Image imagen, int idProveedor) {
-        this.id_producto = id_producto;
+    public Producto(int IdProducto, String nombre, String descripcion, double precio, double cantidad, Image imagen, int idProveedor) {
+        this.idProducto = IdProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -81,8 +81,8 @@ public class Producto {
 
     }
 
-    public Producto(int id_producto) {
-        this.id_producto = id_producto;
+    public Producto(int IdProducto) {
+        this.idProducto = IdProducto;
     }
 
     public Producto(String nombre, Double precio) {
@@ -90,12 +90,12 @@ public class Producto {
         this.precio = precio;
     }
 
-    public int getId_producto() {
-        return id_producto;
+    public int getIdProducto() {
+        return idProducto;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombre() {
@@ -114,52 +114,52 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Timestamp getFecha_aniade() {
-        return fecha_aniade;
+    public Timestamp getFechaAniade() {
+        return fechaAniade;
     }
 
-    public void setFecha_aniade(Timestamp fecha_aniade) {
-        this.fecha_aniade = fecha_aniade;
+    public void setFechaAniade(Timestamp fechaAniade) {
+        this.fechaAniade = fechaAniade;
     }
 
-    public Timestamp getFecha_borra() {
-        return fecha_borra;
+    public Timestamp getFechaBorra() {
+        return fechaBorra;
     }
 
-    public void setFecha_borra(Timestamp fecha_borra) {
-        this.fecha_borra = fecha_borra;
+    public void setFechaBorra(Timestamp fechaBorra) {
+        this.fechaBorra = fechaBorra;
     }
 
-    public Timestamp getFecha_mod() {
-        return fecha_mod;
+    public Timestamp getFechaMod() {
+        return fechaMod;
     }
 
-    public void setFecha_mod(Timestamp fecha_mod) {
-        this.fecha_mod = fecha_mod;
+    public void setFechaMod(Timestamp fechaMod) {
+        this.fechaMod = fechaMod;
     }
 
-    public int getUsuario_aniade() {
-        return usuario_aniade;
+    public int getUsuarioAniade() {
+        return usuarioAniade;
     }
 
-    public void setUsuario_aniade(int usuario_aniade) {
-        this.usuario_aniade = usuario_aniade;
+    public void setUsuarioAniade(int usuarioAniade) {
+        this.usuarioAniade = usuarioAniade;
     }
 
-    public int getUsuario_borra() {
-        return usuario_borra;
+    public int getUsuarioBorra() {
+        return usuarioBorra;
     }
 
-    public void setUsuario_borra(int usuario_borra) {
-        this.usuario_borra = usuario_borra;
+    public void setUsuarioBorra(int usuarioBorra) {
+        this.usuarioBorra = usuarioBorra;
     }
 
-    public int getUsuario_mod() {
-        return usuario_mod;
+    public int getUsuarioMod() {
+        return usuarioMod;
     }
 
-    public void setUsuario_mod(int usuario_mod) {
-        this.usuario_mod = usuario_mod;
+    public void setUsuarioMod(int usuarioMod) {
+        this.usuarioMod = usuarioMod;
     }
 
     public double getPrecio() {
@@ -225,7 +225,7 @@ public class Producto {
 
             while (result.next()) {
                 byte byteImage[];
-                int id = result.getInt("id_producto");
+                int id = result.getInt("id_Producto");
                 String nombre = result.getString("nombre");
                 String descripcion = result.getString("descripcion");
                 double precio = result.getDouble("precio");
@@ -253,13 +253,13 @@ public class Producto {
 
     //metodo para obtener la id de los productos por nombre
     public static int obtenerId(String producto) {
-        int id_producto = 0;
+        int IdProducto = 0;
 
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
-                    "SELECT id_prodcuto FROM backup21_mayra.producto WHERE nombre = '" + producto + "'")) {
+                    "SELECT id_producto FROM backup21_mayra.producto WHERE nombre = '" + producto + "'")) {
                 while (result.next()) {
-                    id_producto = result.getInt("id_producto");
+                    IdProducto = result.getInt("id_producto");
 
                 }
             }
@@ -271,7 +271,7 @@ public class Producto {
             ex.printStackTrace();
         }
 
-        return id_producto;
+        return IdProducto;
     }
     //metodo insertar producto en la tabla
 
@@ -279,8 +279,8 @@ public class Producto {
         try {
 
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.producto ( nombre, descripcion, precio, cantidad, imagen, usuario_aniade, fecha_aniade,  id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
-//            String sql = "INSERT INTO producto (id_producto, nombre, descripcion, precio, cantidad, imagen, "
-//                    + "fecha_aniade, fecha_borra, fecha_mod, usuario_aniade, usuario_borra, usuario_mod, eliminado) "
+//            String sql = "INSERT INTO producto (idProducto, nombre, descripcion, precio, cantidad, imagen, "
+//                    + "fechaAniade, fechaBorra, fechaMod, usuarioAniade, usuarioBorra, usuarioMod, eliminado) "
 //                    + "VALUES (NULL, '" + nombre + "', '" + descripcion + "', '" + precio
 //                    + "', '" + cantidad + "', '" + imagen + "', '"
 //                    + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', NULL, NULL, DEFAULT, " + Global.usuarioLogueadoId
@@ -335,9 +335,9 @@ public class Producto {
         try {
 //            String sql = "UPDATE producto SET nombre = '" + producto.getNombre() + "', descripcion = '" + producto.getDescripcion()
 //                    + "', precio = '" + producto.getPrecio() + "' , cantidad =  '" + producto.getCantidad()
-//                    + "' imagen = '" + imagenABlob(producto.getImagenProducto()) +"', fecha_mod = '" + Timestamp.valueOf(LocalDateTime.now())
-//                    + "', usuario_mod = " + Global.usuarioLogueadoId
-//                    + " WHERE id_producto = " + producto.getId_producto();
+//                    + "' imagen = '" + imagenABlob(producto.getImagenProducto()) +"', fechaMod = '" + Timestamp.valueOf(LocalDateTime.now())
+//                    + "', usuarioMod = " + Global.usuarioLogueadoId
+//                    + " WHERE idProducto = " + producto.getId_producto();
 //            stmt = Conexion.obtenerConexion().createStatement();
 //            return stmt.execute(sql);
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET nombre = ?, "
@@ -355,7 +355,7 @@ public class Producto {
 
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
-            ps.setInt(8, producto.getId_producto());
+            ps.setInt(8, producto.getIdProducto());
             ps.setInt(9, producto.getIdProveedor());
 
             return ps.executeUpdate();
@@ -373,7 +373,7 @@ public class Producto {
     public static boolean borrarProducto(Producto producto) {
 
         try {
-            int id = producto.getId_producto();
+            int id = producto.getIdProducto();
             Statement stmt = Conexion.obtenerConexion().createStatement();
             String sql = "UPDATE backup21_mayra.producto SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_producto = " + id;
@@ -439,4 +439,5 @@ public class Producto {
         }
         return producto;
     }
+    
 }
