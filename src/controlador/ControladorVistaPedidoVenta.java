@@ -1,12 +1,14 @@
 package controlador;
-
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -29,6 +31,14 @@ import modelo.Conexion;
 import modelo.LineaPedidoVenta;
 import modelo.PedidoVenta;
 import modelo.Producto;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -80,15 +90,15 @@ public class ControladorVistaPedidoVenta implements Initializable {
     private Cliente clienteSelec;
     private ObservableList<Producto> productos;
     private ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
-    private PedidoVenta pedido;
+    private PedidoVenta pedidoVenta;
     //variables que creo para recargar desde la ventana hija pasandole este controlador
     //pero no funciona
     // private FXMLLoader loader;
     //private Stage stage;    
     private ControladorTabPedidosVentas controladorPadre;
 
-    public void setPedido(PedidoVenta pedido) {
-        this.pedido = pedido;
+    public void setPedidoVenta(PedidoVenta pedidoVenta) {
+        this.pedidoVenta = pedidoVenta;
     }
 
     //setter para hacersolo al controlador
@@ -101,8 +111,8 @@ public class ControladorVistaPedidoVenta implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //si se manda un pedido desde la ventana padre
-        if (!(this.pedido == null)) {
+        //si se manda un pedidoVenta desde la ventana padre
+        if (!(this.pedidoVenta == null)) {
             recuperarPedido();
         } else {
             cargarLineas();
@@ -130,6 +140,34 @@ public class ControladorVistaPedidoVenta implements Initializable {
         tblProductos.setItems(null);
         txtTotal.setText("");
         txtUnidades.setText("");
+    }
+    //imprimir impreso del pedidoVenta que tenemos en pantalla
+    @FXML
+    private void imprimirFactura(ActionEvent event) throws JRException {
+        String reportResource = "./src/reportes/reporteFacturaVentas.jrxml";
+        String reportCompilado = "./src/reportes/reporteFacturaVentas.jasper";
+        String reportPDF = "./src/reportes/reporteFacturaVentas.pdf";
+
+        JasperReport reporte;
+        boolean compilado = true;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id_pedido", pedidoVenta.getIdPedido());
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = Conexion.obtenerConexion();
+            if (compilado) {
+                reporte = (JasperReport) JRLoader.loadObjectFromFile(reportCompilado);
+            } else {
+                reporte = JasperCompileManager.compileReport(reportResource);
+            }
+            JasperPrint informe = JasperFillManager.fillReport(reporte, params, conexion);
+            JasperViewer.viewReport(informe, false);
+            JasperExportManager.exportReportToPdfFile(informe, reportPDF);
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
     }
 
     //eliminar lineas de la tabla
@@ -191,15 +229,15 @@ public class ControladorVistaPedidoVenta implements Initializable {
         }
     }
 
-    //guardar el pedido de venta
+    //guardar el pedidoVenta de venta
     @FXML
     private void guardarPedidoVenta(ActionEvent event
     ) {
         try {
             Timestamp fechaPedido = null;
-            //hacer transaccion crear pedido
-            //creo el pedido para obtener el id del pedido
-            //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
+            //hacer transaccion crear pedidoVenta
+            //creo el pedidoVenta para obtener el id del pedidoVenta
+            //añado a las lineas el id del pedidoVenta insertar todas las lineas y los demas campos            
             Conexion.obtenerConexion().setAutoCommit(false);
             if (fecha.getValue() == null) {
                 //si no se pone fecha se informa de que no se puede quedar vacia los pedidos tiene fecha
@@ -210,7 +248,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
                 alert.setContentText("La fecha no puede estar vacia");
                 alert.showAndWait();
             } else {
-                //pasar la hora del datepicker para poder insertarla en el pedido
+                //pasar la hora del datepicker para poder insertarla en el pedidoVenta
                 //se coge la fecha del datapicker
                 LocalDate fechaObtenida = fecha.getValue();
                 //se transforma a LocalDateTime para añadirle la hora
@@ -222,7 +260,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
                 Cliente cliente = cmbClientes.getValue();
                 PedidoVenta pedido = new PedidoVenta(fechaPedido, cliente.getIdCliente(), Double.parseDouble(txtTotal.getText()));
                 PedidoVenta.insertarPedidoVenta(pedido, fechaPedido, cliente, new ArrayList<LineaPedidoVenta>(lineas));
-                //informo de que se ha insertado el pedido correctamente con un alert
+                //informo de que se ha insertado el pedidoVenta correctamente con un alert
                 Alert alert;
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Pedido insertado");
@@ -288,7 +326,7 @@ public class ControladorVistaPedidoVenta implements Initializable {
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
 
-    //metodo donde seteamos los controles con el valor del pedido que hemos obtenido de la pantalla padre
+    //metodo donde seteamos los controles con el valor del pedidoVenta que hemos obtenido de la pantalla padre
     public void recuperarPedido() {
         ObservableList<LineaPedidoVenta> lineasPedidoRecuperado = FXCollections.observableArrayList();
         btnAniadirProd.setDisable(true);
@@ -297,14 +335,13 @@ public class ControladorVistaPedidoVenta implements Initializable {
         btnLimpiar.setDisable(true);
         tblProductos.setDisable(true);
         txtUnidades.setDisable(true);
-        lineas = LineaPedidoVenta.obtenerLineasPedidoConcreto(pedido);
-        txtIDPedido.setText(String.valueOf(pedido.getIdPedido()));
-        fecha.setValue(pedido.getFecha().toLocalDateTime().toLocalDate());
-        Cliente cliente = Cliente.obtenerClientePorId(pedido.getIdCliente());
-        System.out.println(cliente.getNombre());
+        lineas = LineaPedidoVenta.obtenerLineasPedidoConcreto(pedidoVenta);
+        txtIDPedido.setText(String.valueOf(pedidoVenta.getIdPedido()));
+        fecha.setValue(pedidoVenta.getFecha().toLocalDateTime().toLocalDate());
+        Cliente cliente = Cliente.obtenerClientePorId(pedidoVenta.getIdCliente());
         cmbClientes.setValue(cliente);
         //cmbClientes.setDisable(true);
-        txtTotal.setText(String.valueOf(pedido.getTotalPedido()));
+        txtTotal.setText(String.valueOf(pedidoVenta.getTotalPedido()));
         cargarLineas();
     }
 }

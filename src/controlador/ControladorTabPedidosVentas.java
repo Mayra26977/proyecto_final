@@ -108,7 +108,7 @@ public class ControladorTabPedidosVentas implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoVenta.fxml"));
                 ControladorVistaPedidoVenta controller = new ControladorVistaPedidoVenta();
                 //se le pasa el pedido de venta a la ventana nueva por el controlador
-                controller.setPedido(pedidoVenta);
+                controller.setPedidoVenta(pedidoVenta);
                 loader.setController(controller);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);

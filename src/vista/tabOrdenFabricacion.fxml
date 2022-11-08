@@ -19,6 +19,9 @@
                   <TableColumn fx:id="colFechaFin" editable="false" minWidth="1.0" prefWidth="544.0" resizable="false" text="Fecha fin" />
                   <TableColumn fx:id="colOperario" editable="false" prefWidth="234.0" resizable="false" text="Operario" />
                </columns>
+               <tooltip>
+                  <Tooltip text="Tabla ordenes de fabricación" />
+               </tooltip>
             </TableView>
             <Label layoutX="133.0" layoutY="1.0" text="Tabla de ordenes de fabricación" textFill="#3b86ff">
                <font>
@@ -29,14 +32,26 @@
       </AnchorPane>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="736.0" prefHeight="59.0" prefWidth="1200.0" spacing="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
-            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#ver" text="Ver..." textFill="WHITE" />
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón nueva orden fabricación" />
+               </tooltip></Button>
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#ver" text="Ver..." textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón ver orden fabricación" />
+               </tooltip></Button>
             <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarOf" text="Borrar" textFill="WHITE">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
+               <tooltip>
+                  <Tooltip text="Botón borrar orden fabricación" />
+               </tooltip>
             </Button>
-            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#actualizarTablaOf" text="Actualizar tabla" textFill="WHITE" />
+            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#actualizarTablaOf" text="Actualizar tabla" textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón actualizar tabla" />
+               </tooltip></Button>
          </children>
       </HBox>
    </children>

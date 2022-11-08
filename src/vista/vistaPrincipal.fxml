@@ -20,41 +20,65 @@
                                  <content>
                                     <fx:include source="tabClientes.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña clientes" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" text="Proveedores">
                                  <content>
                                     <fx:include source="tabProveedores.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña proveedores" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" text="Productos">
                                  <content>
                                     <fx:include source="tabProducto.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña productos" />
+                                 </tooltip>
                               </Tab>
                               <Tab id="tabPedidosCompra" closable="false" style="-fx-pref-width: 200; -fx-font-size: 20;" text="Pedidos compra">
                                  <content>
                                     <fx:include source="tabPedidosCompra.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña pedidos compra" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" styleClass="tab-label" text="Pedidos venta">
                                  <content>
                                     <fx:include source="tabPedidosVentas.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña pedidos venta" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" style="-fx-pref-width: 200; -fx-font-size: 20;" text="Orden fabricación">
                                  <content>
                                     <fx:include source="tabOrdenFabricacion.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña orden fabricación" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" text="Gráficas">
                                  <content>
                                     <fx:include source="tabGrafica.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña gráfica" />
+                                 </tooltip>
                               </Tab>
                               <Tab closable="false" text="Usuarios">
                                  <content>
                                     <fx:include source="tabUsuarios.fxml" />
                                  </content>
+                                 <tooltip>
+                                    <Tooltip text="Pestaña usuarios" />
+                                 </tooltip>
                               </Tab>
                            </tabs>
                         </TabPane>

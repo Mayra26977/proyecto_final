@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -34,6 +35,8 @@ public class Utils {
             Scene scene = new Scene(root);
             stage = new Stage(StageStyle.DECORATED);
             stage.setScene(scene);
+            //favicon en las ventanas de la aplicación con el logo de la empresa
+            stage.getIcons().add(new Image("imagenes/4.png"));
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();

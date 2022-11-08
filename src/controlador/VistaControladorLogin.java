@@ -78,7 +78,7 @@ public class VistaControladorLogin implements Initializable {
             //si se introduce un usuario y contraseña que coinciden en la bd 
             loader = new FXMLLoader(getClass().getResource("/vista/vistaPrincipal.fxml"));
 //            this.stage.getIcons().add(new Image("./src/imagenes/1.png"));
-//            stage.getIcons().add(new Image(getClass().getResourceAsStream("./src/imagenes/1.png")));
+            
             modelo.Utils.abrirVentana(loader, stage);
             modelo.Utils.cerrarVentana(event);
         } else {

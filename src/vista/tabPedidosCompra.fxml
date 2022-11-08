@@ -18,6 +18,9 @@
                   <TableColumn fx:id="colProveedor" prefWidth="160.0" resizable="false" text="Proveedor" />
                   <TableColumn fx:id="colImporte" editable="false" minWidth="0.0" prefWidth="180.0" resizable="false" text="Importe" />
               </columns>
+               <tooltip>
+                  <Tooltip text="Tabla pedidos de compra" />
+               </tooltip>
             </TableView>
             <Label layoutX="133.0" layoutY="6.0" text="Tabla pedidos compra" textFill="#3b86ff">
                <font>
@@ -28,10 +31,22 @@
       </AnchorPane>
       <HBox alignment="CENTER" layoutY="719.0" prefHeight="59.0" prefWidth="1787.0" spacing="390.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE" />
-            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." textFill="WHITE" />
-            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedido" text="Borrar" textFill="WHITE" />
-            <Button fx:id="btnrefrescar" mnemonicParsing="false" onAction="#refrescarTabla" text="Actualizar tabla" textFill="WHITE" />
+            <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" text="Nuevo..." textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón nuevo pedido compra" />
+               </tooltip></Button>
+            <Button fx:id="btnVer" mnemonicParsing="false" onAction="#verPedido" text="Ver..." textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón ver pedido compra" />
+               </tooltip></Button>
+            <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrarPedido" text="Borrar" textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón borrar pedido compra" />
+               </tooltip></Button>
+            <Button fx:id="btnrefrescar" mnemonicParsing="false" onAction="#refrescarTabla" text="Actualizar tabla" textFill="WHITE">
+               <tooltip>
+                  <Tooltip text="Botón actualizar tabla" />
+               </tooltip></Button>
          </children>
       </HBox>
    </children>

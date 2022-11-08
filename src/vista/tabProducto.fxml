@@ -24,6 +24,9 @@
                         <TableColumn fx:id="colImagen" editable="false" prefWidth="208.0" text="Imagen" visible="false" />
                         <TableColumn fx:id="colProveedor" editable="false" prefWidth="168.0" text="Proveedor" />
                      </columns>
+                     <tooltip>
+                        <Tooltip text="Tabla productos" />
+                     </tooltip>
                   </TableView>
                   <Label layoutY="1.0" text="Tabla productos" textFill="#3b86ff">
                      <font>
@@ -64,6 +67,9 @@
                                        <font>
                                           <Font name="Arial Bold" size="24.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Nombre producto" />
+                                       </tooltip>
                                     </TextField>
                                  </children>
                               </HBox>
@@ -79,7 +85,7 @@
                                     </Label>
                                     <TextField fx:id="txtDescripcion" prefHeight="39.0" prefWidth="394.0">
                                        <tooltip>
-                                          <Tooltip text="Escribe el nombre del usuario" />
+                                          <Tooltip text="Descripción producto" />
                                        </tooltip>
                                        <HBox.margin>
                                           <Insets left="25.0" top="10.0" />
@@ -101,7 +107,7 @@
                                        </HBox.margin></Label>
                                     <TextField fx:id="txtPrecio" prefHeight="39.0" prefWidth="163.0">
                                        <tooltip>
-                                          <Tooltip text="Escribe la contraseña del usuario" />
+                                          <Tooltip text="Precio producto" />
                                        </tooltip>
                                        <HBox.margin>
                                           <Insets left="70.0" />
@@ -128,6 +134,9 @@
                                        <font>
                                           <Font name="Arial Bold" size="24.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Cantidad productos" />
+                                       </tooltip>
                                     </TextField>
                                  </children>
                               </HBox>
@@ -160,7 +169,10 @@
                                        <font>
                                           <Font name="Arial Bold" size="24.0" />
                                        </font></Label>
-                                    <ComboBox id="cmbProveedores" fx:id="cmbProveedor" prefHeight="31.0" prefWidth="187.0" promptText="Proveedores" />
+                                    <ComboBox id="cmbProveedores" fx:id="cmbProveedor" prefHeight="31.0" prefWidth="187.0" promptText="Proveedores">
+                                       <tooltip>
+                                          <Tooltip text="Desplegable con proveedores" />
+                                       </tooltip></ComboBox>
                                  </children>
                               </HBox>
                            </children>
@@ -169,10 +181,22 @@
                   </AnchorPane>
                   <HBox fx:id="btnCargarImagen" alignment="CENTER" fillHeight="false" layoutX="48.0" layoutY="756.0" onMouseClicked="#filechooser" prefHeight="83.0" prefWidth="953.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="756.0">
                      <children>
-                        <Button fx:id="btnLimpiarForm" mnemonicParsing="false" onAction="#limpiar" prefHeight="47.0" prefWidth="188.0" text="Limpiar Formulario" textFill="WHITE" />
-                        <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#actualizar" prefHeight="47.0" prefWidth="136.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnLimpiarForm" mnemonicParsing="false" onAction="#limpiar" prefHeight="47.0" prefWidth="188.0" text="Limpiar Formulario" textFill="WHITE">
+                           <tooltip>
+                              <Tooltip text="Botón limpiar formulario" />
+                           </tooltip></Button>
+                        <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <tooltip>
+                              <Tooltip text="Botón insertar producto" />
+                           </tooltip></Button>
+                        <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#actualizar" prefHeight="47.0" prefWidth="136.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <tooltip>
+                              <Tooltip text="Botón actualizar producto" />
+                           </tooltip></Button>
+                        <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <tooltip>
+                              <Tooltip text="Botón borrar producto" />
+                           </tooltip></Button>
                      </children>
                   </HBox>
                   <ImageView fitHeight="271.0" fitWidth="525.0" layoutX="473.0" pickOnBounds="true">

@@ -94,7 +94,7 @@
             <AnchorPane prefHeight="65.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                <children>
                   <Button fx:id="btnGuardar" layoutX="64.0" layoutY="17.0" mnemonicParsing="false" onAction="#guardarPedidoVenta" text="Guardar" textFill="WHITE" />
-                  <Button fx:id="btnImprimir" layoutX="829.0" layoutY="16.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="122.0" text="Imprimir..." textFill="WHITE" />
+                  <Button fx:id="btnImprimir" layoutX="829.0" layoutY="16.0" mnemonicParsing="false" onAction="#imprimirFactura" prefHeight="31.0" prefWidth="122.0" text="Imprimir..." textFill="WHITE" />
                   <Button fx:id="btnSalir" layoutX="1613.0" layoutY="16.0" mnemonicParsing="false" onAction="#salirPedidoVenta" text="Volver" textFill="WHITE" />
                </children>
             </AnchorPane>
