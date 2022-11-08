@@ -1,5 +1,4 @@
 package controlador;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -34,14 +33,13 @@ import modelo.Utils;
 /**
  * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class ControladorVistaOrdenFabricacion implements Initializable {
-
     @FXML
     private TableView<LineaOrdenFabricacion> tblLineasOf;
     @FXML
-    private TableColumn<LineaOrdenFabricacion, String> colProducto;
+    private TableColumn<LineaOrdenFabricacion, Integer> colProducto;
     @FXML
     private TableColumn<LineaOrdenFabricacion, Double> colCantidad;
     @FXML
@@ -54,6 +52,10 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
     private Button btnEliminarLinea;
     @FXML
     private Button btnVolver;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnLimpiar;
     @FXML
     private ComboBox<Usuario> cmbOperarios;
     @FXML
@@ -70,6 +72,7 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
     private ObservableList<Producto> productos;
     private ObservableList<LineaOrdenFabricacion> lineas = FXCollections.observableArrayList();
 
+    //setter para la of
     public void setOf(OrdenFabricacion of) {
         this.of = of;
     }
@@ -79,30 +82,37 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        cargarLineas();
-        cargarOperarios();
-        cargarProductos();
-        txtCantidad.textProperty().addListener((observable, oldValue, newValue) -> {
-            //comprueba que solo puedas escribir numeros enteros
-            if (!newValue.matches("\\d*")) {
-                txtCantidad.setText(newValue.replaceAll("[^\\d*]", ""));
-            }
-            btnAniadirLinea.setDisable(txtCantidad.getText().equals(""));
-            btnEliminarLinea.setDisable(tblLineasOf.getSelectionModel().getSelectedItem() == null);
-
-        });
+        btnEliminarLinea.setDisable(true);
+        btnAniadirLinea.setDisable(true);
+        if (!(this.of == null)) {
+            recuperarOf();
+        } else {
+            //listener para cuando cambie el estado de txtCantidad
+            txtCantidad.textProperty().addListener((observable, oldValue, newValue) -> {
+                //comprueba que solo puedas escribir numeros enteros
+                if (!newValue.matches("\\d*")) {
+                    txtCantidad.setText(newValue.replaceAll("[^\\d*]", ""));
+                }
+                btnAniadirLinea.setDisable(txtCantidad.getText().equals(""));
+                btnEliminarLinea.setDisable(tblLineasOf.getItems().isEmpty());
+            });
+            cargarLineas();
+            cargarOperarios();
+            cargarProductos();
+        }
     }
 
+    //método al botón añador lineas añade lineas a la tabla
     @FXML
     private void aniadirLinea(ActionEvent event) {
         productoSeleccionado = cmbProductos.getValue();
-        System.out.println(productoSeleccionado);
         double cantidad = Double.parseDouble(txtCantidad.getText());
-        LineaOrdenFabricacion linea = new LineaOrdenFabricacion(productoSeleccionado.getNombre(), Double.valueOf(cantidad));
+        LineaOrdenFabricacion linea = new LineaOrdenFabricacion(productoSeleccionado.getIdProducto(), Double.valueOf(cantidad));
         lineas.add(linea);
+        txtCantidad.setText("");
     }
 
+    //método al botón para salir y volver a la pantalla anterior que se quedo abierta
     @FXML
     private void salirOrdenFabricacion(ActionEvent event) {
         Alert alert;
@@ -113,12 +123,11 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
         Optional<ButtonType> action = alert.showAndWait();
         //segun lo que respondas en el alert
         if (action.get() == ButtonType.OK) {
-
             modelo.Utils.cerrarVentana(event);
-
         }
     }
 
+    //método botón guardar orden de fabricación
     @FXML
     private void guardarOrdenFabricacion(ActionEvent event) {
         try {
@@ -161,7 +170,7 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
 
             if (fechaInicio != null && fechaFin != null) {
                 Usuario operario = cmbOperarios.getValue();
-                OrdenFabricacion of = new OrdenFabricacion(fechaInicial, fechaFinal,operario.getUsuarioId());
+                OrdenFabricacion of = new OrdenFabricacion(fechaInicial, fechaFinal, operario.getUsuarioId());
                 OrdenFabricacion.insertarOrdenFabricacion(of, fechaInicial, fechaFinal, operario, new ArrayList<LineaOrdenFabricacion>(lineas));
                 Utils.cerrarVentana(event);
                 Alert alert;
@@ -184,19 +193,25 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
 
     }
 
+    //eliminar lineas de la tabla
     @FXML
     private void eliminarLinea(ActionEvent event) {
-
         LineaOrdenFabricacion lineaSeleccionada = tblLineasOf.getSelectionModel().getSelectedItem();
-        lineas.remove(borrarSeleccion());
-        tblLineasOf.setItems(lineas);
-        cargarLineas();
+        if (lineaSeleccionada == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Borrar linea");
+            alert.setHeaderText("Linea seleccionada");
+            alert.setContentText("Debes seleccionar una linea para poder eliminarla");
+            alert.showAndWait();
+        } else {
+            lineas.remove(borrarSeleccion());
+            tblLineasOf.setItems(lineas);
+            cargarLineas();
+        }
     }
 
-    @FXML
-    private void limpiarFormulario(ActionEvent event) {
-    }
-
+    //método que cuando seleccionas el operario en la of se deshabilita para que no se pueda cambiar hasta que no se crea esa of
     @FXML
     private void seleccionarOperario(ActionEvent event) {
         this.operarioSeleccionado = cmbOperarios.getSelectionModel().getSelectedItem();
@@ -207,51 +222,65 @@ public class ControladorVistaOrdenFabricacion implements Initializable {
         }
     }
 
+    //cargar el combo de los operarios
     private void cargarOperarios() {
         operarios = Usuario.obtenerUsuariosOperario();
         cmbOperarios.setItems(operarios);
     }
 
+    //seleccionar el producto del combobox
     @FXML
     private void seleccionarProducto(ActionEvent event) {
         this.productoSeleccionado = cmbProductos.getSelectionModel().getSelectedItem();
-
     }
 
+    //cargar los productos en el combobox
     private void cargarProductos() {
         productos = Producto.obtenerProductos();
         cmbProductos.setItems(productos);
     }
 
+    //cargar las lineas en la tabla
     private void cargarLineas() {
-        colProducto.setCellValueFactory(new PropertyValueFactory("nombre"));
+        colProducto.setCellValueFactory(new PropertyValueFactory("idProducto"));
         colCantidad.setCellValueFactory(new PropertyValueFactory("cantidad"));
         tblLineasOf.setItems(lineas);
     }
 
+    //borrar la linea seleccionada de la tabla no de la base de datos seguiran guardadas por si deseamos consultarlas
     public int borrarSeleccion() {
         tblLineasOf.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineasOf.getSelectionModel().getSelectedIndex();
     }
-    
-//    public void recuperarPedido() {
-//        ObservableList<LineaPedidoCompra> lineasPedidoRecuperado = FXCollections.observableArrayList();
-//        btnAniadirProd.setDisable(true);
-//        btnEliminarLinea.setDisable(true);
-//        btnGuardar.setDisable(true);
-//        btnLimpiar.setDisable(true);
-//        tblProductos.setDisable(true);
-//        txtUnidades.setDisable(true);
-//        lineas = LineaPedidoCompra.obtenerLineasPedidoConcreto(pedidoCompra);
-//
-//        txtIDPedido.setText(String.valueOf(pedidoCompra.getIdPedido()));
-//        fecha.setValue(pedidoCompra.getFecha().toLocalDateTime().toLocalDate());
-//        Proveedor proveedor = Proveedor.obtenerProveedorPorId(pedidoCompra.getIdProveedor());
-//        cmbProveedores.setValue(proveedor);
-//        //cmbClientes.setDisable(true);
-//        txtTotal.setText(String.valueOf(pedidoCompra.getTotalPedido()));
-//        cargarLineas();
-//
-//    }
 
+    //limpiar formulario
+    @FXML
+    private void limpiarFormulario(ActionEvent event) {
+        fechaInicio.setValue(null);
+        fechaFin.setValue(null);
+        txtOfId.setText("");
+        cmbOperarios.setValue(null);
+        cmbProductos.setValue(null);
+        tblLineasOf.setItems(null);
+        txtCantidad.setText("");
+    }
+
+    //método para recuperar la of enviada desde la seleción en la tabla de la ventana anterior
+    public void recuperarOf() {
+        ObservableList<LineaOrdenFabricacion> lineasOfRecuperada = FXCollections.observableArrayList();
+        btnAniadirLinea.setDisable(true);
+        btnEliminarLinea.setDisable(true);
+        btnGuardar.setDisable(true);
+        btnLimpiar.setDisable(true);
+        lineas = LineaOrdenFabricacion.obtenerLineasOfConcreta(of);
+
+        txtOfId.setText(String.valueOf(of.getIdOf()));
+        fechaInicio.setValue(of.getFechaInicio().toLocalDateTime().toLocalDate());
+        fechaFin.setValue(of.getFechaFin().toLocalDateTime().toLocalDate());
+        Usuario operario = Usuario.obtenerUsuarioPorId(of.getOperario());
+        cmbOperarios.setValue(operario);
+        cmbProductos.setDisable(true);
+        txtCantidad.setDisable(true);
+        cargarLineas();
+    }
 }

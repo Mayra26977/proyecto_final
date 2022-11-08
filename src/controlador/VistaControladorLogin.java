@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -46,13 +47,14 @@ public class VistaControladorLogin implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         //btnLogin.setDisable(true);
         //txtContrasenia.setDisable(true);
         txtUsuario.setText("Pablo");
         txtContrasenia.setText("1234");
     }
-//se van habilitando botones y campos de texto según se van rellenando datos
+
+    //se van habilitando botones y campos de texto según se van rellenando datos
     @FXML
     private void habilitarBoton(KeyEvent event) {
         usuario = txtUsuario.getText();
@@ -69,15 +71,16 @@ public class VistaControladorLogin implements Initializable {
         }
     }
 
+    //entrar a la aplicación
     @FXML
     private void entrar(ActionEvent event) {
-
         if (Usuario.obtenerUsuarioLogueado(txtUsuario.getText(), txtContrasenia.getText())) {
             //si se introduce un usuario y contraseña que coinciden en la bd 
             loader = new FXMLLoader(getClass().getResource("/vista/vistaPrincipal.fxml"));
+//            this.stage.getIcons().add(new Image("./src/imagenes/1.png"));
+//            stage.getIcons().add(new Image(getClass().getResourceAsStream("./src/imagenes/1.png")));
             modelo.Utils.abrirVentana(loader, stage);
             modelo.Utils.cerrarVentana(event);
-
         } else {
             //si algún dato es erroneo 
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -89,6 +92,7 @@ public class VistaControladorLogin implements Initializable {
         }
     }
 
+    //cierra la aplicación
     @FXML
     private void salir(ActionEvent event) {
         //cierra la aplicacion

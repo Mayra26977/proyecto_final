@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,7 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.StageStyle;
-import modelo.Global;
 import modelo.Usuario;
 
 /**
@@ -49,10 +47,8 @@ public class ControladorTabUsuarios implements Initializable {
     @FXML
     private Button btnBorrar;
     @FXML
-    private Button btnNuevo;
+    private Button btnLimpiarForm;
 
-    private int posicionUsuarioTabla;
-    private FXMLLoader loader = new FXMLLoader();
     private ObservableList<Usuario> usuarios;
     private Usuario uSeleccionado;
     private ArrayList<String> errores;
@@ -64,18 +60,18 @@ public class ControladorTabUsuarios implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarTablaUsuarios();//se carga la tabla de usuarios        
         usuarioSeleccionado();//cuando se selecciona un usuario en la tabla        
-        cargarCombo();//se carga el combobox
+        cargarCombo();//se carga el combobox de usuarios
+        //array para los errores
         errores = new ArrayList<String>();
-
     }
 
+    //método para insertar un usuario en la base de datos
     @FXML
     private void insertar(ActionEvent event) {
-
         String usuario = txtUsuario.getText();
         String contrasenia = txtContrasenia.getText();
         String rolUsuario = (String) cmbRol.getValue();
-        
+        //se valida el formulario antes de insertarlo
         validarFormulario();
 
         if (!errores.isEmpty()) {
@@ -89,7 +85,6 @@ public class ControladorTabUsuarios implements Initializable {
             dialogoAlert.setContentText(cadenaErrores);
             dialogoAlert.show();
         } else {
-
             Usuario.insertarUsuario(usuario, contrasenia, rolUsuario);
             // ventana de los datos se insertaron correctamente
             Alert alert;
@@ -102,9 +97,9 @@ public class ControladorTabUsuarios implements Initializable {
         }
     }
 
+    //método para actualizar los datos del usuario
     @FXML
     private void Actualizar(ActionEvent event) {
-
         String contrasenia = txtContrasenia.getText();
         String usuario = txtUsuario.getText();
         String rolUsuario = (String) cmbRol.getValue();
@@ -118,7 +113,7 @@ public class ControladorTabUsuarios implements Initializable {
             Usuario uActualizado = new Usuario(uSeleccionado.getUsuarioId(), usuario, rolUsuario);
             if (!contrasenia.equals("")) {
                 txtContrasenia.setDisable(true);
-                //se actualiza el usuario y la contraseña
+                //se valida el formulario
                 validarFormulario();
                 if (!errores.isEmpty()) {
                     String cadenaErrores = "";
@@ -131,6 +126,7 @@ public class ControladorTabUsuarios implements Initializable {
                     dialogoAlert.setContentText(cadenaErrores);
                     dialogoAlert.show();
                 } else {
+                    //se actualiza con contraseña cuando se modifica ese campo
                     Usuario.modificarUsuario(uActualizado, contrasenia);
                     Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
                     dialogoAlert.setTitle("Actualizar Usuario");
@@ -156,7 +152,7 @@ public class ControladorTabUsuarios implements Initializable {
                     dialogoAlert.setContentText(cadenaErrores);
                     dialogoAlert.show();
                 } else {
-                    //se actualiza el usuario sin contraseña
+                    //se actualiza el usuario sin contraseña si el campo esta vacio
                     Usuario.modificarUsuario(uActualizado);
                     Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
                     dialogoAlert.setTitle("Actualizar Usuario");
@@ -172,15 +168,12 @@ public class ControladorTabUsuarios implements Initializable {
         }
     }
 
+    //método para borrar un usuario seleccionado de la tabla
     @FXML
     private void borrar(ActionEvent event
     ) {
 
         Usuario uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
-//                posicionUsuarioTabla = tblUsuarios.getSelectionModel().getSelectedIndex();
-//                System.out.println(posicionUsuarioTabla);
-        System.out.println("que borren usuarios");
-        System.out.println(Global.usuarioLogueadoId);
 
         if (uSeleccionado == null) {
             // ventana de hay que seleccionar usuario en la tabla si no no se puede borrar
@@ -217,6 +210,7 @@ public class ControladorTabUsuarios implements Initializable {
         }
     }
 
+    //método para cargar los roles en el combobox
     private void cargarCombo() {
         ObservableList<String> items = FXCollections.observableArrayList();
         items.addAll("Administrador", "Administrativo", "Operario");
@@ -224,14 +218,15 @@ public class ControladorTabUsuarios implements Initializable {
         cmbRol.setItems(items);
     }
 
+    //método para cargar los usuarios que hay en la base de datos en la tabla
     public void cargarTablaUsuarios() {
-
         colUsuario.setCellValueFactory(new PropertyValueFactory("nombreUsuario"));
         colRol.setCellValueFactory(new PropertyValueFactory("rol"));
         usuarios = Usuario.obtenerUsuarios();
         tblUsuarios.setItems(usuarios);
     }
 
+    //método para limpiar el formulario de usuarios
     public void limpiar() {
         txtUsuario.clear();
         txtContrasenia.clear();
@@ -239,8 +234,9 @@ public class ControladorTabUsuarios implements Initializable {
         cargarCombo();//se carga el combobox
     }
 
+    //método para escuchador de seleccionar un usuario de la tabla
     public void usuarioSeleccionado() {
-        //funcion lambda para que seleccione de la tabla y rellene los textfield
+        //funcion lambda para que seleccione de la tabla y rellene los campos
         tblUsuarios.setOnMouseClicked(event -> {
             uSeleccionado = tblUsuarios.getSelectionModel().getSelectedItem();
             txtUsuario.setText(uSeleccionado.getNombreUsuario());
@@ -248,19 +244,18 @@ public class ControladorTabUsuarios implements Initializable {
         });
     }
 
+    //metodo limpiar formulario al boton 
     @FXML
     private void limpiarForm(ActionEvent event) {
         limpiar();
     }
 
+    //método para validar el formulario
     public void validarFormulario() {
         errores.clear();
         //valido que los campos no esten vacios
-
         if (txtUsuario.getText().isEmpty() || txtContrasenia.getText().isEmpty() || cmbRol.getValue() == null) {
-
             errores.add("Los campos tienen que rellenarse, es obligatorio.");
-
         }
         //pongo patron de contraseña
         String patronContrasenia = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
@@ -272,16 +267,12 @@ public class ControladorTabUsuarios implements Initializable {
         }
     }
 
+    //método validar el formulario si la contraseña está vacia
     public void validarFormularioSinContrasenia() {
         errores.clear();
         //valido que los campos no esten vacios
-
         if (txtUsuario.getText().isEmpty() || cmbRol.getValue().equals("Rol")) {
-
             errores.add("Los campos tienen que rellenarse, es obligatorio.");
-
-        } 
-
+        }
     }
-
 }

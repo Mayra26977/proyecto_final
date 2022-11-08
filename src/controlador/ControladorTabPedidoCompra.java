@@ -1,5 +1,4 @@
 package controlador;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -65,8 +64,8 @@ public class ControladorTabPedidoCompra implements Initializable {
 
     @FXML
     private void nuevo(ActionEvent event) {
-        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Compra.fxml"));
-        //creo controlador de la ventana hija para pasarle el pedido
+        loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoCompra.fxml"));
+        //creo controlador de la ventana hija para pasarle el pedido es una forma de pasar datos de una ventana a otra
         ControladorVistaPedidoCompra controladorHija = new ControladorVistaPedidoCompra();
         //le paso a la ventana hija el pedido obtenido de la tabla
         //controladorHija.setPedido(pedidoCompra);
@@ -77,73 +76,85 @@ public class ControladorTabPedidoCompra implements Initializable {
         Utils.abrirVentana(loader, stage);
     }
 
+    //método para abrir una nueva ventana con el pedido seleccionado
     @FXML
     private void verPedido(ActionEvent event) {
-
         pedidoCompra = tblPedidos.getSelectionModel().getSelectedItem();
-
-        try {
-            loader = new FXMLLoader(getClass().getResource("/vista/vistaPedido_Compra.fxml"));
-            ControladorVistaPedidoCompra controller = new ControladorVistaPedidoCompra();
-            controller.setPedidoCompra(pedidoCompra);
-            loader.setController(controller);
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println(String.format("Error creando ventana: %s", e.getMessage()));
+        //si no hay pedido seleccionado mostrar alert al usuario
+        if (pedidoCompra == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Pedido compra seleccionado");
+            alert.setHeaderText("Pedido compra seleccionado");
+            alert.setContentText("Debes seleccionar una pedido de compra en la tabla para consultarlo");
+            alert.showAndWait();
+        } else {
+            try {
+                loader = new FXMLLoader(getClass().getResource("/vista/vistaPedidoCompra.fxml"));
+                ControladorVistaPedidoCompra controller = new ControladorVistaPedidoCompra();
+                controller.setPedidoCompra(pedidoCompra);
+                loader.setController(controller);
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                System.err.println(String.format("Error creando ventana: %s", e.getMessage()));
+            }
         }
-
     }
 
+    //método para borrar un pedido
     @FXML
     private void borrarPedido(ActionEvent event) {
         PedidoCompra pedido = tblPedidos.getSelectionModel().getSelectedItem();
-        Alert alert;
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Borrar pedido");
-        alert.setHeaderText("Vas a borrar el pedido");
-        alert.setContentText("Estas seguro de borrar el pedido?");
-        Optional<ButtonType> action = alert.showAndWait();
-        if (PedidoCompra.borrarPedido(pedido) && action.get() == ButtonType.OK) {
 
+        if (pedidoCompra == null) {
+            Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Borrar pedido");
-            alert.setHeaderText("Pedido borrado");
-            alert.setContentText("El pedido se borro correctamente");
+            alert.setTitle("Pedido compra seleccionado");
+            alert.setHeaderText("Pedido compra seleccionado");
+            alert.setContentText("Debes seleccionar una pedido de compra en la tabla para borrarlo");
             alert.showAndWait();
-
         } else {
-
-            alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Borrar pedido");
-            alert.setHeaderText("Pedido no borrado");
-            alert.setContentText("El pedido no se borró");
-            alert.showAndWait();
-
+            alert.setHeaderText("Vas a borrar el pedido");
+            alert.setContentText("Estas seguro de borrar el pedido?");
+            Optional<ButtonType> action = alert.showAndWait();
+            if (PedidoCompra.borrarPedido(pedido) && action.get() == ButtonType.OK) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Borrar pedido");
+                alert.setHeaderText("Pedido borrado");
+                alert.setContentText("El pedido se borro correctamente");
+                alert.showAndWait();
+            } else {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Borrar pedido");
+                alert.setHeaderText("Pedido no borrado");
+                alert.setContentText("El pedido no se borró");
+                alert.showAndWait();
+            }
+            cargarTablaPedidos();
         }
-        cargarTablaPedidos();
-
     }
 
+    //método para cargar la tabla de pedidos con los datos 
     private void cargarTablaPedidos() {
-
         colId.setCellValueFactory(new PropertyValueFactory("idPedido"));
         colFecha.setCellValueFactory(new PropertyValueFactory("fecha"));
         colProveedor.setCellValueFactory(new PropertyValueFactory("idProveedor"));
         colImporte.setCellValueFactory(new PropertyValueFactory("totalPedido"));
         pedidos = PedidoCompra.obtenerPedidos();
         tblPedidos.setItems(pedidos);
-
     }
-   
 
+    //método para recargar la tabla de pedidos
     @FXML
     private void refrescarTabla(ActionEvent event) {
         pedidos = PedidoCompra.obtenerPedidos();
         tblPedidos.setItems(pedidos);
     }
-
 }

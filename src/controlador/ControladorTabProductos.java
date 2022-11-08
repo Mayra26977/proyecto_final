@@ -1,11 +1,14 @@
 package controlador;
-
 import com.mysql.cj.jdbc.Blob;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -49,7 +52,6 @@ public class ControladorTabProductos implements Initializable {
     private TableColumn<Producto, Blob> colImagen;
     @FXML
     private TableColumn<Producto, Integer> colProveedor;
-
     @FXML
     private TextField txtNombre;
     @FXML
@@ -71,7 +73,7 @@ public class ControladorTabProductos implements Initializable {
     @FXML
     private Button btnBorrar;
     @FXML
-    private Button btnNuevo;
+    private Button btnLimpiarForm;
     @FXML
     private ComboBox<Proveedor> cmbProveedor;
 
@@ -81,24 +83,24 @@ public class ControladorTabProductos implements Initializable {
     private File rutaArchivo;
     private ObservableList<Producto> productos;
     private ObservableList<Proveedor> proveedores;
+    private ArrayList<String> errores;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-
         cargarTablaProductos();
         productoSeleccionado();
         cargarComboProveedores();
-
+        errores = new ArrayList<String>();
     }
 
+    //método para borrar un producto
     @FXML
     private void borrar() {
         Producto pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
-
+        Alert alert;
         if (pSeleccionado == null) {
             // ventana de hay que seleccionar usuario en la tabla si no no se puede borrar
             Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -109,8 +111,7 @@ public class ControladorTabProductos implements Initializable {
             dialogoAlert.showAndWait();
             cargarTablaProductos();
         } else {
-            //Ventana de informar que el usuario se elimino correctamente
-            Alert alert;
+            //Ventana de informar que el usuario se elimino correctamente            
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Borrar producto");
             alert.setHeaderText("Estas seguro de borrar el producto?");
@@ -127,15 +128,15 @@ public class ControladorTabProductos implements Initializable {
                 dialogoAlert.showAndWait();
                 cargarTablaProductos();
             } else {
-
+                //no se borrar el producto si no aceptas
             }
             limpiar();
             cargarTablaProductos();
         }
     }
 
+    //método para cargar la tabla de productos
     public void cargarTablaProductos() {
-
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory("descripcion"));
         colPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
@@ -144,37 +145,34 @@ public class ControladorTabProductos implements Initializable {
         colImagen.setCellValueFactory(new PropertyValueFactory<Producto, Blob>("imagen"));
         colProveedor.setCellValueFactory(new PropertyValueFactory("idProveedor"));
         productos = Producto.obtenerProductos();
-        System.out.println(productos);
         tblProductos.setItems(productos);
     }
 
     //método para que se rellenen los campos cuando se seleccione un producto de la tabla
     public void productoSeleccionado() {
-
-        //funcion lambda para que seleccione de la tabla y rellene los textfield
+        //funcion lambda para que seleccione de la tabla y rellene los campos con los datos
         tblProductos.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 pSeleccionado = tblProductos.getSelectionModel().getSelectedItem();
-                //funcion lambda como si hiciera un for
-                proveedorTabla = proveedores.stream().filter(proveedor -> 
-                        proveedor.getId_proveedor() == tblProductos.getSelectionModel().getSelectedItem().getIdProveedor())
-                        .findFirst().orElse(null);                
+                //funcion lambda como si hiciera un for para obtener la id del proveedor de ese producto seleccionado en la tabla
+                proveedorTabla = proveedores.stream().filter(proveedor
+                        -> proveedor.getId_proveedor() == tblProductos.getSelectionModel().getSelectedItem().getIdProveedor())
+                        .findFirst().orElse(null);
+                //se setean los campos con el producto seleccionado
                 txtNombre.setText(pSeleccionado.getNombre());
                 txtDescripcion.setText(pSeleccionado.getDescripcion());
                 txtPrecio.setText(String.valueOf(pSeleccionado.getPrecio()));
                 txtCantidad.setText(String.valueOf(pSeleccionado.getCantidad()));
                 imagen.setImage(pSeleccionado.getImagenProducto());
                 cmbProveedor.getSelectionModel().select(proveedorTabla);
-                
             }
         });
-
     }
 
+    //método para que me abra el arbol de carpetas para seleccionar la foto del producto
     @FXML
     private void filechooser() {
-
         //abre dialogo de busqueda
         filechooser = new FileChooser();
         filechooser.setTitle("Selecciona una imagen");
@@ -184,65 +182,46 @@ public class ControladorTabProductos implements Initializable {
         if (rutaArchivo != null) {
             imagen.setImage(new Image(rutaArchivo.toURI().toString()));
         }
-
     }
-    //método para limpiar el formulario de productos
 
+    //método para limpiar los campos del formulario de productos
     public void limpiar() {
-
         txtNombre.clear();
         txtDescripcion.clear();
         txtPrecio.clear();
         txtCantidad.clear();
         imagen.setImage(null);
         cmbProveedor.getItems().clear();
-
     }
 
-    @FXML
-    private void nuevo(ActionEvent event) {
-        limpiar();
-    }
-
+    //método que carga los proveedores en el combobox
     private void cargarComboProveedores() {
         proveedores = Proveedor.obtenerProveedores();
         cmbProveedor.setItems(proveedores);
-
     }
 
+    //método para insertar un producto en la base de datos
     @FXML
     private void insertar(ActionEvent event) {
-        
         Double precio = null;
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
-        if (txtPrecio.getText().isEmpty()) {
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Campo obligatorio");
-            dialogoAlert.setHeaderText("Informacion");
-            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
+        validarFormulario();
+        //si hay errores se muestran para que los subsane el usuario
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
         } else {
             precio = Double.parseDouble(txtPrecio.getText());
-        }
-        Double cantidad = Double.parseDouble(txtCantidad.getText());
-        Image imagenRecogida = imagen.getImage();
-        // int idProveedor = cmbProveedor.getSelectionModel().getSelectedItem();
-
-        if (txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtPrecio.getText().isEmpty()
-                || txtCantidad.getText().isEmpty()) {
-
-            // ventana de los datos no en blanco
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Insertar Producto");
-            dialogoAlert.setHeaderText(null);
-            dialogoAlert.setContentText("Rellene todos los campos por favor.");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-            cargarTablaProductos();
-        } else {
-
+            Double cantidad = Double.parseDouble(txtCantidad.getText());
+            Image imagenRecogida = imagen.getImage();
             Producto.insertarProducto(new Producto(nombre, descripcion, precio, cantidad, imagenRecogida, cmbProveedor.getValue().getId_proveedor()));
             // ventana de los datos se insertaron correctamente            
             Alert alert;
@@ -255,73 +234,87 @@ public class ControladorTabProductos implements Initializable {
         }
     }
 
+    //método para actualizar producto
     @FXML
     private void actualizar(ActionEvent event) {
         cargarComboProveedores();
         Double precio = null, cantidad;
-
         String nombre = txtNombre.getText();
-        if (txtNombre.getText().isEmpty()) {
-            nombre = "";
-        }
-        String descripcion = txtDescripcion.getText();
-        if (txtDescripcion.getText().isEmpty()) {
-            descripcion = "";
-        }
-        //en caso de al actualizar este el campo del formulario vacio
-        if (txtPrecio.getText().isEmpty()) {
-            Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-            dialogoAlert.setTitle("Campo obligatorio");
-            dialogoAlert.setHeaderText("Informacion");
-            dialogoAlert.setContentText("El campo precio tiene que estar relleno");
-            dialogoAlert.initStyle(StageStyle.UTILITY);
-            dialogoAlert.showAndWait();
-        } else {
-            precio = Double.parseDouble(txtPrecio.getText());
-        }
-        if (txtCantidad.getText().isEmpty()) {
-            txtCantidad.setText("0.0");
-            cantidad = Double.parseDouble(txtCantidad.getText());
-        } else {
-            cantidad = Double.parseDouble(txtCantidad.getText());
-        }
+        validarFormulario();
+        txtCantidad.setText("0.0");
 
-        Image imagen = this.imagen.getImage();
-        if (imagen == null) {
-            this.imagen.setImage(null);
-        }
-        Proveedor proveedor = cmbProveedor.getValue();
-        if (precio != null) {
+        if (!errores.isEmpty()) {
+            String cadenaErrores = "";
+            for (int i = 0; i < errores.size(); i++) {
+                cadenaErrores += errores.get(i) + "\n";
+            }
+            Alert dialogoAlert = new Alert(Alert.AlertType.ERROR);
+            dialogoAlert.setTitle("Informe errores");
+            dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
+            dialogoAlert.setContentText(cadenaErrores);
+            dialogoAlert.show();
+        } else {
+            String descripcion = txtDescripcion.getText();
+            precio = Double.parseDouble(txtPrecio.getText());
+            cantidad = Double.parseDouble(txtCantidad.getText());
+            Image imagen = this.imagen.getImage();
+            if (imagen == null) {
+                this.imagen.setImage(null);
+            }
+            Proveedor proveedor = cmbProveedor.getValue();
             Producto pActualizado = new Producto(pSeleccionado.getIdProducto(), nombre, descripcion, precio, cantidad, imagen, pSeleccionado.getIdProveedor());
             try {
                 //se actualiza el producto
                 Producto.modificarProducto(pActualizado);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                if (Producto.modificarProducto(pActualizado) == 1) {
-                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAlert.setTitle("Actualizar Producto");
-                    dialogoAlert.setHeaderText("Informacion actualización");
-                    dialogoAlert.setContentText("Se actualizo el producto correctamente.");
-                    dialogoAlert.initStyle(StageStyle.UTILITY);
-                    dialogoAlert.showAndWait();
-                    limpiar();
-                    cargarTablaProductos();
-                } else {
-                    Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAlert.setTitle("Actualizar Producto");
-                    dialogoAlert.setHeaderText("Informacion actualización");
-                    dialogoAlert.setContentText("El producto no se actualizo");
-                    dialogoAlert.initStyle(StageStyle.UTILITY);
+
+                try {
+                    if (Producto.modificarProducto(pActualizado) == 1) {
+                        Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoAlert.setTitle("Actualizar Producto");
+                        dialogoAlert.setHeaderText("Informacion actualización");
+                        dialogoAlert.setContentText("Se actualizo el producto correctamente.");
+                        dialogoAlert.initStyle(StageStyle.UTILITY);
+                        dialogoAlert.showAndWait();
+                        limpiar();
+                        cargarTablaProductos();
+                    } else {
+                        Alert dialogoAlert = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoAlert.setTitle("Actualizar Producto");
+                        dialogoAlert.setHeaderText("Informacion actualización");
+                        dialogoAlert.setContentText("El producto no se actualizo");
+                        dialogoAlert.initStyle(StageStyle.UTILITY);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.getLogger(ControladorTabProductos.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-
         }
     }
-
+    
+    //validar formulario
+    private void validarFormulario() {
+        errores.clear();
+        if (txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty()
+                || txtCantidad.getText().isEmpty()) {
+            // ventana de los datos no en blanco
+            txtNombre.getStyleClass().add("error");
+            txtPrecio.getStyleClass().add("error");
+            txtCantidad.getStyleClass().add("error");
+            errores.add("Los campos tienen que rellenarse, es obligatorio.");
+        }
+        //con un patrón valido que solo se introduzcan números y con punto para los decimales en campo precio
+        String patronPrecio = "^(\\d|-)?(\\d|,)*\\.?\\d*$";
+        String patronPrecioComa = "^[0-9]+([,][0-9]+)?$";
+        if (!Pattern.matches(patronPrecio, txtPrecio.getText()) || Pattern.matches(patronPrecioComa, txtPrecio.getText())) {
+            errores.add("El campo precio solo admite números y punto para los decimales.");
+        }
+        //con un patrón valido que solo se introduzcan números y con punto para los decimales en campo cantidad
+        String patronCantidad = "^(\\d|-)?(\\d|,)*\\.?\\d*$";
+        String patronCantidadComa = "^[0-9]+([,][0-9]+)?$";
+        if (!Pattern.matches(patronCantidad, txtCantidad.getText()) || Pattern.matches(patronCantidadComa, txtCantidad.getText())) {
+            errores.add("El campo cantidad solo admite números y punto para los decimales.");
+        }
+    }
 }

@@ -31,7 +31,7 @@
             </AnchorPane>
             <AnchorPane layoutX="541.0" prefHeight="756.0" prefWidth="532.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="397.0" fitWidth="751.0" layoutX="480.0" layoutY="-41.0" pickOnBounds="true" AnchorPane.leftAnchor="480.0" AnchorPane.topAnchor="-41.0">
+                  <ImageView fitHeight="397.0" fitWidth="751.0" layoutX="408.0" layoutY="-34.0" pickOnBounds="true" AnchorPane.leftAnchor="408.0" AnchorPane.topAnchor="-34.0">
                      <image>
                         <Image url="@../imagenes/2_bis.png" />
                      </image>
@@ -115,7 +115,7 @@
                   </AnchorPane>
                   <HBox alignment="CENTER" fillHeight="false" layoutX="-32.0" layoutY="693.0" prefHeight="84.0" prefWidth="799.0" spacing="100.0" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="-32.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="693.0">
                      <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="47.0" prefWidth="209.0" text="Limpiar formulario" textFill="WHITE" />
+                        <Button fx:id="btnLimpiarForm" mnemonicParsing="false" onAction="#limpiarForm" prefHeight="47.0" prefWidth="209.0" text="Limpiar formulario" textFill="WHITE" />
                         <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Actualizar" prefHeight="47.0" prefWidth="114.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />

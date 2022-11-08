@@ -1,5 +1,4 @@
 package modelo;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +10,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class PedidoCompra {
-
     private int idPedido;
     private int idProveedor;
     private Timestamp fecha;
@@ -146,17 +145,21 @@ public class PedidoCompra {
         this.totalPedido = totalPedido;
     }
 
+    //método que inserta un pedido de compra en la base de datos
     public static boolean insertarPedidoCompra(PedidoCompra pedido, Timestamp fechaPedido, Proveedor proveedor, ArrayList<LineaPedidoCompra> lineas) {
         try {
+            //transacción o se inserta todo o no se hace
             Conexion.obtenerConexion().setAutoCommit(false);
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.pedidos_compras ( fecha, id_proveedor,  usuario_aniade, fecha_aniade, total_pedido ) VALUES ( ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement(
+                    "INSERT INTO backup21_mayra.pedidos_compras ( fecha, id_proveedor,  usuario_aniade, fecha_aniade, total_pedido ) VALUES ( ?, ?, ?, ?, ?)"
+                    , Statement.RETURN_GENERATED_KEYS);
             ps.setTimestamp(1, fechaPedido);
             ps.setInt(2, proveedor.getId_proveedor());
             ps.setInt(3, Global.usuarioLogueadoId);
             ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             ps.setDouble(5, pedido.getTotalPedido());
             ps.execute();
-            //devuelve las claves primarias que se generan del PreparedStatement
+            //devuelve las claves primarias que se generan del PreparedStatement para crear el id de los pedidos de compra
             ResultSet ids = ps.getGeneratedKeys();
             int idPedido;
             if (ids.next()) {
@@ -180,7 +183,6 @@ public class PedidoCompra {
             }
             Conexion.obtenerConexion().commit();
             Conexion.obtenerConexion().setAutoCommit(true);
-
             return true;
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al insertar el pedido");
@@ -195,15 +197,13 @@ public class PedidoCompra {
             }
             return false;
         }
-
     }
 
+    //método para obtener los pedidos que no están borrados en la base de datos, los que tienen el eliminado a 0
     public static ObservableList obtenerPedidos() {
         ObservableList<PedidoCompra> pedidos = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.pedidos_compras WHERE eliminado = 0")) {
-
             while (result.next()) {
-
                 int id = result.getInt("id_pedido_compra");
                 Timestamp fecha = result.getTimestamp("fecha");
                 int proveedor = result.getInt("id_proveedor");
@@ -220,17 +220,19 @@ public class PedidoCompra {
         return pedidos;
     }
 
+    //método para borrar el pedido de la base de datos, no lo borra le pone eliminado a 1
     public static boolean borrarPedido(PedidoCompra pedido) {
         try {
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.pedidos_compras SET usuario_borra = ?, fecha_borra = ?, eliminado = ? WHERE id_pedido_compra = ?");
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement(
+                    "UPDATE backup21_mayra.pedidos_compras SET usuario_borra = ?, fecha_borra = ?, eliminado = ? WHERE id_pedido_compra = ?");
             ps.setInt(1, Global.usuarioLogueadoId);
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             ps.setBoolean(3, true);
             ps.setInt(4, pedido.getIdPedido());
             ps.execute();
+            //se actualizan las cantidades de los productos en la base de datos
             actualizarCantidades(pedido);
             return true;
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al borrar el pedido");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -239,7 +241,8 @@ public class PedidoCompra {
             return false;
         }
     }
-//cuando un pedido se borra de compra, puesto que no se va a comprar los productos hay que restarselo a la cantidad para que quede
+    
+    //cuando un pedido se borra de compra, puesto que no se va a comprar los productos hay que restarselo a la cantidad para que quede
     //la cantidad que habia antes de realizar el producto puesto que se ha borrado
     private static boolean actualizarCantidades(PedidoCompra pedido) {
         try {
@@ -251,7 +254,6 @@ public class PedidoCompra {
             while (result.next()) {
                 //mientras en el pedido haya lineas con productos y unidades se actualizaran esos productos
                 PreparedStatement psProducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad - ? where id_producto = ?");
-
                 psProducto.setDouble(1, result.getDouble("unidades"));
                 psProducto.setInt(2, result.getInt("id_producto"));
                 psProducto.execute();
@@ -273,5 +275,4 @@ public class PedidoCompra {
             return false;
         }
     }
-
 }

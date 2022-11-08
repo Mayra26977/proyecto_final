@@ -8,11 +8,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 /**
+ * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class Utils {
 
@@ -21,27 +21,22 @@ public class Utils {
 
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        //lanza el evento de que la ventana se va a cerrar
-//        stage.fireEvent(new WindowEvent(stage,WindowEvent.WINDOW_CLOSE_REQUEST));
+        //lanza el evento de que la ventana se va a cerrar lo hice para recargar la tabla cuando se guada un pedido de compra o de venta o una of y se cierra la ventana
+        //stage.fireEvent(new WindowEvent(stage,WindowEvent.WINDOW_CLOSE_REQUEST));
         stage.close();
     }
 
-//metodo cerrar ventana
-
-public static void abrirVentana(FXMLLoader loader ,Stage stage) {
-
-        try {           
-            
+    //método cerrar ventana
+    public static void abrirVentana(FXMLLoader loader, Stage stage) {
+        try {
             Parent root;
             root = loader.load();
-            Scene scene = new Scene(root);            
+            Scene scene = new Scene(root);
             stage = new Stage(StageStyle.DECORATED);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
-    
 }

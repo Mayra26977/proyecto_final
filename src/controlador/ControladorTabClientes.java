@@ -70,6 +70,8 @@ public class ControladorTabClientes implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    //método que se ejecuta cuando inicia la ventana
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarTablaClientes();//se carga la tabla de usuarios 
@@ -82,8 +84,8 @@ public class ControladorTabClientes implements Initializable {
     private void nuevo(ActionEvent event) {
         limpiar();
     }
-//método insertar cliente
-
+    
+    //método insertar cliente
     @FXML
     private void insertar(ActionEvent event) {
         String nif = txtNif.getText();
@@ -92,8 +94,9 @@ public class ControladorTabClientes implements Initializable {
         String direccion = txtDireccion.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-
+        //metodo para validar formulario
         validarFormulario();
+        //alert informando de los errores
         if (!errores.isEmpty()) {
             String cadenaErrores = "";
             for (int i = 0; i < errores.size(); i++) {
@@ -107,7 +110,7 @@ public class ControladorTabClientes implements Initializable {
         } else {
             txtNif.getStyleClass().remove("error");
             txtNif.getStyleClass().add("bien");
-
+            //metodo insertar un cliente
             Cliente.insertarCliente(nif, nombre, apellidos, direccion, email, telefono);
             // ventana de los datos se insertaron correctamente
             Alert alert;
@@ -120,8 +123,8 @@ public class ControladorTabClientes implements Initializable {
         }
 
     }
-//método actualizar cliente
-
+    
+    //método actualizar cliente
     @FXML
     private void Actualizar(ActionEvent event) {
         //se valida el formulario
@@ -154,13 +157,14 @@ public class ControladorTabClientes implements Initializable {
             dialogoAlert.setContentText("Se actualizo el cliente correctamente.");
             dialogoAlert.initStyle(StageStyle.UTILITY);
             dialogoAlert.showAndWait();
+            //se queda el formulario limpio
             limpiar();
+            //se carga la tabla con los clientes que hay en la base de datos
             cargarTablaClientes();
         }
-
     }
-//método borrar cliente
-
+    
+    //método borrar cliente
     @FXML
     private void borrar(ActionEvent event) {
 
@@ -182,6 +186,7 @@ public class ControladorTabClientes implements Initializable {
             alert.setTitle("Borrado de cliente");
             alert.setHeaderText("Estas seguro de borrar el cliente?");
             alert.setContentText("El cliente se eliminará");
+            //según se contesta en el alert ocurre una accion u otra
             Optional<ButtonType> action = alert.showAndWait();
             //segun lo que respondas en el alert
             if (action.get() == ButtonType.OK) {
@@ -200,10 +205,9 @@ public class ControladorTabClientes implements Initializable {
             cargarTablaClientes();
         }
     }
-//metodo que actualiza la tabla de los clientes
-
+    
+    //metodo que cargar la tabla de los clientes
     public void cargarTablaClientes() {
-
         colNif.setCellValueFactory(new PropertyValueFactory("nif"));
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colApellidos.setCellValueFactory(new PropertyValueFactory("apellidos"));
@@ -213,10 +217,9 @@ public class ControladorTabClientes implements Initializable {
         clientes = Cliente.obtenerClientes();
         tblClientes.setItems(clientes);
     }
-//método para limpiar el formulario de clientes
-
+    
+    //método para limpiar el formulario de clientes
     public void limpiar() {
-
         txtNif.clear();
         txtNombre.clear();
         txtApellidos.clear();
@@ -225,23 +228,20 @@ public class ControladorTabClientes implements Initializable {
         txtTelefono.clear();
     }
 
-//método para que se rellenen los campos cuando se seleccione un cliente de la tabla
+    //método para que se rellenen los campos cuando se seleccione un cliente de la tabla
     public void clienteSeleccionado() {
         //funcion lambda para que seleccione de la tabla y rellene los textfield
         tblClientes.setOnMouseClicked((MouseEvent event) -> {
             cSeleccionado = tblClientes.getSelectionModel().getSelectedItem();
-
             txtNif.setText(cSeleccionado.getNif());
             txtNombre.setText(cSeleccionado.getNombre());
             txtApellidos.setText(cSeleccionado.getApellidos());
             txtDireccion.setText(cSeleccionado.getDireccion());
             txtEmail.setText(cSeleccionado.getEmail());
             txtTelefono.setText(cSeleccionado.getTelefono());
-
         });
-
     }
-
+    //metodo para validar el formulario
     public void validarFormulario() {
         errores.clear();
         if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
@@ -254,7 +254,6 @@ public class ControladorTabClientes implements Initializable {
             txtEmail.getStyleClass().add("error");
             txtTelefono.getStyleClass().add("error");
             errores.add("Los campos tienen que rellenarse, es obligatorio.");
-
         }
         String patronEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
         if (!Pattern.matches(patronEmail, txtEmail.getText())) {

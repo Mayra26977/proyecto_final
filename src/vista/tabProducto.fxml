@@ -169,7 +169,7 @@
                   </AnchorPane>
                   <HBox fx:id="btnCargarImagen" alignment="CENTER" fillHeight="false" layoutX="48.0" layoutY="756.0" onMouseClicked="#filechooser" prefHeight="83.0" prefWidth="953.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="756.0">
                      <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevo" prefHeight="47.0" prefWidth="188.0" text="Limpiar Formulario" textFill="WHITE" />
+                        <Button fx:id="btnLimpiarForm" mnemonicParsing="false" onAction="#limpiar" prefHeight="47.0" prefWidth="188.0" text="Limpiar Formulario" textFill="WHITE" />
                         <Button fx:id="btnInsertar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertar" prefHeight="25.0" prefWidth="100.0" text="Insertar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btnActualizar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#actualizar" prefHeight="47.0" prefWidth="136.0" text="Actualizar" textFill="WHITE" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="25.0" prefWidth="100.0" text="Borrar" textFill="WHITE" HBox.hgrow="ALWAYS" />

@@ -54,7 +54,7 @@ public class ControladorTabProveedores implements Initializable {
     @FXML
     private TextField txtTelefono;
     @FXML
-    private Button btnNuevo;
+    private Button btnLimpiarForm;
     @FXML
     private Button btnInsertar;
     @FXML
@@ -71,29 +71,28 @@ public class ControladorTabProveedores implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cargarTablaProveedores();//se carga la tabla de usuarios  
+        cargarTablaProveedores();//se carga la tabla de proveedores  
         proveedorSeleccionado();//metodo que añade escuchador a la tabla
         errores = new ArrayList<String>();
     }
 
     @FXML
-    private void nuevo(ActionEvent event) {
+    private void limpiarFormulario(ActionEvent event) {
         limpiar();
     }
 
     //método insertar proveedor
     @FXML
     private void insertar(ActionEvent event) {
-
         String nif = txtNif.getText();
         String nombre = txtNombre.getText();
         String apellidos = txtApellidos.getText();
         String direccion = txtDireccion.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-
+        //método que valida el formulario
         validarFormulario();
-
+        //si hay errores se muestran para que los subsane el usuario
         if (!errores.isEmpty()) {
             String cadenaErrores = "";
             for (int i = 0; i < errores.size(); i++) {
@@ -105,6 +104,7 @@ public class ControladorTabProveedores implements Initializable {
             dialogoAlert.setContentText(cadenaErrores);
             dialogoAlert.show();
         } else {
+            //se inserta el proveedor en la base de datos
             Proveedor.insertarProveedor(nif, nombre, apellidos, direccion, email, telefono);
             // ventana de los datos se insertaron correctamente
             Alert alert;
@@ -120,7 +120,6 @@ public class ControladorTabProveedores implements Initializable {
     //método actualizar proveedor
     @FXML
     private void Actualizar(ActionEvent event) {
-
         String nif = txtNif.getText();
         String nombre = txtNombre.getText();
         String apellidos = txtApellidos.getText();
@@ -140,8 +139,7 @@ public class ControladorTabProveedores implements Initializable {
             dialogoAlert.setHeaderText("Se encontraron los siguientes errores");
             dialogoAlert.setContentText(cadenaErrores);
             dialogoAlert.show();
-        } else {
-            
+        } else {            
             Proveedor pActualizado = new Proveedor(pSeleccionado.getId_proveedor(), nif, nombre, apellidos, direccion, email, telefono);
             //se actualiza el proveedor
             Proveedor.modificarProveedor(pActualizado);
@@ -157,7 +155,7 @@ public class ControladorTabProveedores implements Initializable {
 
     }
 
-//método borrar proveedor
+    //método borrar proveedor seleccionado de la tabla
     @FXML
     private void borrar(ActionEvent event) {
 
@@ -197,10 +195,9 @@ public class ControladorTabProveedores implements Initializable {
             cargarTablaProveedores();
         }
     }
-    //metodo que actualiza la tabla de los proveedores
-
+    
+    //método que actualiza la tabla de los proveedores    
     public void cargarTablaProveedores() {
-
         colNif.setCellValueFactory(new PropertyValueFactory("nif"));
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colApellidos.setCellValueFactory(new PropertyValueFactory("apellidos"));
@@ -210,10 +207,9 @@ public class ControladorTabProveedores implements Initializable {
         proveedores = Proveedor.obtenerProveedores();
         tblProveedores.setItems(proveedores);
     }
-//método para limpiar el formulario de proveedores
-
+    
+    //método para limpiar el formulario de proveedores
     public void limpiar() {
-
         txtNif.clear();
         txtNombre.clear();
         txtApellidos.clear();
@@ -222,9 +218,9 @@ public class ControladorTabProveedores implements Initializable {
         txtTelefono.clear();
     }
 
-//método para que se rellenen los campos cuando se seleccione un proveedor de la tabla
+    //método para que se rellenen los campos cuando se seleccione un proveedor de la tabla
     public void proveedorSeleccionado() {
-        //funcion lambda para que seleccione de la tabla y rellene los textfield
+        //funcion lambda para que seleccione de la tabla y rellene los campos del formulario con los datos
         tblProveedores.setOnMouseClicked((MouseEvent event) -> {
             pSeleccionado = tblProveedores.getSelectionModel().getSelectedItem();
 
@@ -234,11 +230,10 @@ public class ControladorTabProveedores implements Initializable {
             txtDireccion.setText(pSeleccionado.getDireccion());
             txtEmail.setText(pSeleccionado.getEmail());
             txtTelefono.setText(pSeleccionado.getTelefono());
-
         });
-
     }
 
+    //método para validar los campos del formulario
     public void validarFormulario() {
         errores.clear();
         if (txtNif.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
@@ -251,7 +246,6 @@ public class ControladorTabProveedores implements Initializable {
             txtEmail.getStyleClass().add("error");
             txtTelefono.getStyleClass().add("error");
             errores.add("Los campos tienen que rellenarse, es obligatorio.");
-
         }
         String patronEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
         if (!Pattern.matches(patronEmail, txtEmail.getText())) {
@@ -266,5 +260,4 @@ public class ControladorTabProveedores implements Initializable {
             errores.add("El campo teléfono tiene formato incorrecto solo debe contener 9 números y sin espacios.");
         }
     }
-
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hmax="1920.0" hvalue="1200.0" maxHeight="1080.0" maxWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/css_Pedidos.css" vmax="1080.0" vvalue="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToHeight="true" fitToWidth="true" hmax="1920.0" hvalue="1200.0" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1890.0" stylesheets="@../css/css_Pedidos.css" vmax="1080.0" vvalue="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane fx:id="raizHija" maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1688.0" stylesheets="@../css/css_Pedidos.css">
          <children>

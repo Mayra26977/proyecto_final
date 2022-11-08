@@ -29,19 +29,19 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        //lista con las tabs de la pantalla principal       
         listaTabs = tabPane.getTabs();
+        //según el rol que tiene el usuario logueado tendrá visible unas tabs u otras
         switch (Global.usuarioLoginRol) {
             case "Operario":
-                comprobarTabs(pestaniasOperario);//lo llamamos y comprobamos las tabs
-                
+                comprobarTabs(pestaniasOperario);//lo llamamos y comprobamos las tabs                
                 break;
             case "Administrativo":
                 comprobarTabs(pestaniasAdministrativo);
                 break;           
         }
     }
-//metodo que comprueba las tabs visibles en funcion del rol al que le pasamos un array
+    //método que comprueba las tabs visibles en funcion del rol al que le pasamos un array
     public void comprobarTabs(String[] lista) {
         //para borrar tabs 
         for (int i = 0; i < listaTabs.size(); i++) {
@@ -59,5 +59,4 @@ public class VistaPrincipalController implements Initializable {
             }
         }
     }
-
 }

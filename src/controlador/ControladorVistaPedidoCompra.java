@@ -1,5 +1,4 @@
 package controlador;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -103,6 +102,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //si se ha mandado pedido desde la ventana anterior se recupera el pedido
         if (!(this.pedidoCompra == null)) {
             recuperarPedido();
         } else {
@@ -120,19 +120,20 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
     }
 
+    //limpiar formulario
     @FXML
     private void limpiarFormulario(ActionEvent event) {
         fecha.setValue(null);
         txtIDPedido.setText("");
         cmbProveedores.setDisable(false);
         cmbProveedores.setValue(null);
-
         tblLineas.setItems(null);
         tblProductos.setItems(null);
         txtTotal.setText("");
         txtUnidades.setText("");
     }
 
+    //imprimir impreso del pedido que tenemos en pantalla
     @FXML
     private void imprimirFactura(ActionEvent event) throws JRException {
         String reportResource = "./src/reportes/reporteFacturaCompras.jrxml";
@@ -143,17 +144,14 @@ public class ControladorVistaPedidoCompra implements Initializable {
         boolean compilado = true;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id_pedido", pedidoCompra.getIdPedido());
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = Conexion.obtenerConexion();
-
             if (compilado) {
                 reporte = (JasperReport) JRLoader.loadObjectFromFile(reportCompilado);
             } else {
                 reporte = JasperCompileManager.compileReport(reportResource);
             }
-
             JasperPrint informe = JasperFillManager.fillReport(reporte, params, conexion);
             JasperViewer.viewReport(informe, false);
             JasperExportManager.exportReportToPdfFile(informe, reportPDF);
@@ -164,28 +162,47 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
     }
 
+    //eliminar una linea de la tabla 
     @FXML
     private void eliminarLinea(ActionEvent event) {
         LineaPedidoCompra lineaSeleccionada = tblLineas.getSelectionModel().getSelectedItem();
-        lineas.remove(borrarSeleccion());
-        tblLineas.setItems(lineas);
-        cargarLineas();
-        Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
-        txtTotal.setText(String.valueOf(totalPedido));
-
+        if (lineaSeleccionada == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Borrar linea");
+            alert.setHeaderText("Linea seleccionada");
+            alert.setContentText("Debes seleccionar una linea para poder eliminarla");
+            alert.showAndWait();
+        } else {
+            lineas.remove(borrarSeleccion());
+            tblLineas.setItems(lineas);
+            cargarLineas();
+            Double totalPedido = Double.parseDouble(txtTotal.getText()) - lineaSeleccionada.getImporteTotalLinea();
+            txtTotal.setText(String.valueOf(totalPedido));
+        }
     }
 
+    //añadir linea a la tabla con los datos
     @FXML
     private void aniadirLinea(ActionEvent event) {
         Producto producto = tblProductos.getSelectionModel().getSelectedItem();
-        int cantidad = Integer.parseInt(txtUnidades.getText());
-        LineaPedidoCompra linea = new LineaPedidoCompra(producto.getIdProducto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
-        lineas.add(linea);
-        Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
-        txtTotal.setText(String.valueOf(totalPedido));
-
+        if (producto == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Añadir linea pedido");
+            alert.setHeaderText("Producto seleccionado");
+            alert.setContentText("Debes seleccionar un producto para poder añadir la linea al pedido");
+            alert.showAndWait();
+        } else {
+            int cantidad = Integer.parseInt(txtUnidades.getText());
+            LineaPedidoCompra linea = new LineaPedidoCompra(producto.getIdProducto(), Double.valueOf(cantidad), cantidad * producto.getPrecio(), producto.getNombre(), producto.getPrecio());
+            lineas.add(linea);
+            Double totalPedido = Double.parseDouble(txtTotal.getText()) + linea.getImporteTotalLinea();
+            txtTotal.setText(String.valueOf(totalPedido));
+        }
     }
 
+    //vuelve a la ventana anterior y se comunica al usurio que se perderan los datos introducidos hasta el momento
     @FXML
     private void salirPedidoCompra(ActionEvent event) {
         Alert alert;
@@ -196,13 +213,11 @@ public class ControladorVistaPedidoCompra implements Initializable {
         Optional<ButtonType> action = alert.showAndWait();
         //segun lo que respondas en el alert
         if (action.get() == ButtonType.OK) {
-
             modelo.Utils.cerrarVentana(event);
-
-        } 
-
+        }
     }
 
+    //guarda pedido de compra
     @FXML
     private void guardarPedidoCompra(ActionEvent event) {
         try {
@@ -210,8 +225,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
             //hacer transaccion crear pedido
             //creo el pedido para obtener el id del pedido
             //añado a las lineas el id del pedido insertar todas las lineas y los demas campos            
-            Conexion.obtenerConexion().setAutoCommit(false);
-            //pasar la hora del datepicker para poder insertarla en el pedido
+            Conexion.obtenerConexion().setAutoCommit(false);            
             if (fecha.getValue() == null) {
                 Alert alert;
                 alert = new Alert(Alert.AlertType.ERROR);
@@ -220,14 +234,12 @@ public class ControladorVistaPedidoCompra implements Initializable {
                 alert.setContentText("La fecha no puede estar vacia");
                 alert.showAndWait();
             } else {
+                //pasar le fecha de LocalDate a Timestamp para la base de datos
+                //pasar la hora del datepicker para poder insertarla en el pedido
                 LocalDate fechaObtenida = fecha.getValue();
-                System.out.println(fechaObtenida);
                 LocalDateTime localDateTime = fechaObtenida.atTime(LocalTime.now());
-                System.out.println(localDateTime);
                 fechaPedido = Timestamp.valueOf(localDateTime);
-                System.out.println(fechaPedido);
             }
-
             if (fechaPedido != null) {
                 Proveedor proveedor = cmbProveedores.getValue();
                 PedidoCompra pedido = new PedidoCompra(fechaPedido, proveedor.getId_proveedor(), Double.parseDouble(txtTotal.getText()));
@@ -240,7 +252,6 @@ public class ControladorVistaPedidoCompra implements Initializable {
                 alert.setContentText("El pedido se inserto correctamente");
                 alert.showAndWait();
             }
-
         } catch (SQLException ex) {
             Alert alert;
             alert = new Alert(Alert.AlertType.ERROR);
@@ -250,9 +261,9 @@ public class ControladorVistaPedidoCompra implements Initializable {
             alert.showAndWait();
             ex.printStackTrace();
         }
-
     }
 
+    //selecciona el proveedor en el combobox y lo deshabilita mientras se crea el pedido 
     @FXML
     private void seleccionar(ActionEvent event) {
         this.proveedorSelec = cmbProveedores.getSelectionModel().getSelectedItem();
@@ -264,11 +275,13 @@ public class ControladorVistaPedidoCompra implements Initializable {
         }
     }
 
+    //cargar el combobox de los proveedores
     private void cargarProveedores() {
         proveedores = Proveedor.obtenerProveedores();
         cmbProveedores.setItems(proveedores);
     }
 
+    //cargar la tabla de los productos de ese proveedor
     private void cargarProductos() {
         productos = Producto.obtenerProductosProveedor(this.proveedorSelec.getId_proveedor());
         PropertyValueFactory p = new PropertyValueFactory("nombre");
@@ -277,6 +290,7 @@ public class ControladorVistaPedidoCompra implements Initializable {
         tblProductos.setItems(productos);
     }
 
+    //carga las lineas en la tabla de lineas del pedido
     private void cargarLineas() {
         colNombreLinea.setCellValueFactory(new PropertyValueFactory("nombreProducto"));
         colUnidades.setCellValueFactory(new PropertyValueFactory("cantidad"));
@@ -285,12 +299,13 @@ public class ControladorVistaPedidoCompra implements Initializable {
         tblLineas.setItems(lineas);
     }
 
+    //borra las lineas de la tabla 
     public int borrarSeleccion() {
         tblLineas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         return tblLineas.getSelectionModel().getSelectedIndex();
     }
-    //metodo donde seteamos los controles con el valor del pedido que hemos obtenido de la pantalla padre
 
+    //metodo donde setea los campos con el valor del pedido que hemos obtenido de la pantalla padre
     public void recuperarPedido() {
         ObservableList<LineaPedidoCompra> lineasPedidoRecuperado = FXCollections.observableArrayList();
         btnAniadirProd.setDisable(true);
@@ -308,7 +323,5 @@ public class ControladorVistaPedidoCompra implements Initializable {
         //cmbClientes.setDisable(true);
         txtTotal.setText(String.valueOf(pedidoCompra.getTotalPedido()));
         cargarLineas();
-
-    }
-
+    }    
 }

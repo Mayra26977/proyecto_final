@@ -12,10 +12,9 @@ import modelo.Grafica;
 /**
  * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
-public class ControladorTabGrafica implements Initializable {
-    
+public class ControladorTabGrafica implements Initializable {    
     
     @FXML   
     private PieChart grafica;
@@ -24,15 +23,19 @@ public class ControladorTabGrafica implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize(URL url, ResourceBundle rb) { 
+        //obtenemos el total de las compras
         double totalCompras = Grafica.obtenerTotalCompras();
+        //obtenemos el total de las ventas
         double totalVentas = Grafica.obtenerTotalVentas();
+        //se insertan los datos en una lista
         ObservableList<PieChart.Data> pieChartData =
         FXCollections.observableArrayList(
                        new PieChart.Data("Compras", totalCompras),
-                       new PieChart.Data("Ventas", totalVentas));                       
+                       new PieChart.Data("Ventas", totalVentas));
+        //se setea la grafica con la lista con los datos
                 grafica.setData(pieChartData);
+                //propiedad de ángulo en la gráfica
                 grafica.setStartAngle(90);
            }        
 

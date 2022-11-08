@@ -1,16 +1,15 @@
 package modelo;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class LineaOrdenFabricacion {
-
     private int idLineaOf;
     private int idOrdenFabricacion;
     private int idProducto;
@@ -28,8 +27,8 @@ public class LineaOrdenFabricacion {
         this.nombre = nombre;
     }
 
-    public LineaOrdenFabricacion(String nombre, double cantidad) {
-        this.nombre = nombre;
+    public LineaOrdenFabricacion(int idProducto, double cantidad) {
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
     }
 
@@ -80,21 +79,16 @@ public class LineaOrdenFabricacion {
         this.nombre = nombre;
     }
 
+    //obtener las lineas concretas de una orden de fabricación
     public static ObservableList obtenerLineasOfConcreta(OrdenFabricacion of) {
-
         ObservableList<LineaOrdenFabricacion> lineas = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_of WHERE id_of =" + of.getIdOf())) {
             while (result.next()) {
-
-                int idLinea = result.getInt("id_linea_of");
                 int idProducto = result.getInt("id_producto");
-                int idOf = result.getInt("id_of");
                 Double cantidad = result.getDouble("cantidad");
-
-                lineas.add(new LineaOrdenFabricacion(idProducto, of.getIdOf(), cantidad));
-
+                
+                lineas.add(new LineaOrdenFabricacion(idProducto, cantidad));
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener las lineas de la orden de fabricación");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -104,21 +98,16 @@ public class LineaOrdenFabricacion {
         return lineas;
     }
 
+    //obtener lineas en la of
     public static ObservableList obtenerLineasOf() {
-
         ObservableList<LineaOrdenFabricacion> lineas = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_of WHERE id_of IN(SELECT id_of FROM backup21_mayra.orden_fabricacion WHERE eliminado = 0)")) {
             while (result.next()) {
-
-                int idLinea = result.getInt("id_linea_of");
                 int idOf = result.getInt("id_of");
                 int idProducto = result.getInt("id_producto");                
                 Double cantidad = result.getDouble("cantidad");
-
                 lineas.add(new LineaOrdenFabricacion( idOf, idProducto,cantidad));
-
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener las lineas de las ordenes de fabricación");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -126,6 +115,5 @@ public class LineaOrdenFabricacion {
             ex.printStackTrace();
         }
         return lineas;
-    }
-   
+    }   
 }

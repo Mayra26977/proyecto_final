@@ -1,5 +1,4 @@
 package modelo;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -64,7 +63,7 @@ public class Cliente {
     }
 
     public Cliente(String nombre) {
-        this.nombre= nombre;
+        this.nombre = nombre;
     }
 
     public int getIdCliente() {
@@ -179,13 +178,17 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    //metodo para obtener todos los clientes que no tienen el eliminado a 1
+    @Override
+    public String toString() {
+
+        return this.nombre;
+    }
+
+    //método para obtener todos los clientes que no tienen el eliminado a 1 los que no estan borrados
     public static ObservableList obtenerClientes() {
         ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.clientes WHERE eliminado = 0")) {
-
             while (result.next()) {
-
                 int id = result.getInt("id_cliente");
                 String nif = result.getString("nif");
                 String nombre = result.getString("nombre");
@@ -208,43 +211,33 @@ public class Cliente {
     //metodo para obtener la id de los clientes con ese nombre
     public static int obtenerId(String cliente) {
         int id_cliente = 0;
-
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
                     "SELECT id_cliente FROM backup21_mayra.clientes WHERE nombre = '" + cliente + "'")) {
                 while (result.next()) {
                     id_cliente = result.getInt("id_cliente");
-
                 }
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener el id del cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
-
         return id_cliente;
     }
 
-    //metodo insertar usuario en la tabla
+    //método insertar usuario en la tabla de la base de datos
     public static boolean insertarCliente(String nif, String nombre, String apellidos, String direccion, String email, String telefono) {
         try {
             Statement stmt = Conexion.obtenerConexion().createStatement();
-            //INSERT INTO `cliente` (`idCliente`, `nif`, `nombre`, `apellidos`, `direccion`, `email`, `telefono`, 
-            //`fechaAniade`, `fechaBorra`, `fechaMod`, `eliminado`, `usuario_aniade`, `usuario_borra`, 
-            //`usuario_mod`) VALUES (NULL, '12345678A', 'Maria', 'Gonzalez Ferrer', 'C/ Angel 12', 
-            //'mariagonzalez@gmail.com', '123456789', '2022-10-17 15:00:00', NULL, NULL, '0', '7', NULL, NULL);
             String sql = "INSERT INTO backup21_mayra.clientes (id_cliente, nif, nombre, apellidos, direccion, email, telefono, "
                     + "fecha_aniade, fecha_borra, fecha_mod, eliminado, usuario_aniade, usuario_borra, usuario_mod) "
                     + "VALUES (NULL, '" + nif + "', '" + nombre + "', '" + apellidos
                     + "', '" + direccion + "', '" + email + "', '" + telefono
                     + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', NULL, NULL, DEFAULT, " + Global.usuarioLogueadoId
                     + ", NULL, NULL)";
-
             return stmt.execute(sql);
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al insertar el cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -252,19 +245,16 @@ public class Cliente {
             ex.printStackTrace();
             return false;
         }
-
     }
 
-    //metodo borrar cliente seleccionado en la tabla
+    //metodo borrar cliente seleccionado en la tabla de la base de datos, no se borra se pone eliminado a 1 para que se conserve en la base de datos
     public static boolean borrarCliente(Cliente cliente) {
-        //UPDATE `cliente` SET `fechaBorra` = '2022-10-17 15:32:00', `eliminado` = '1', `usuario_borra` = '7' WHERE `cliente`.`idCliente` = 2;
         try {
             int id = Cliente.obtenerId(cliente.getNombre());
             Statement stmt = Conexion.obtenerConexion().createStatement();
             String sql = "UPDATE backup21_mayra.clientes SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_cliente = " + id;
             return stmt.execute(sql);
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al borrar el cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -272,10 +262,9 @@ public class Cliente {
             ex.printStackTrace();
             return false;
         }
-
     }
 
-    //método para modificar cliente
+    //método para modificar cliente en la base de datos
     public static boolean modificarCliente(Cliente cliente) {
         Statement stmt = null;
         try {
@@ -286,7 +275,6 @@ public class Cliente {
                     + " WHERE id_cliente = " + cliente.getIdCliente();
             stmt = Conexion.obtenerConexion().createStatement();
             return stmt.execute(sql);
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al actualizar el cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -296,34 +284,23 @@ public class Cliente {
         }
     }
 
+    //obtiene el nombre del cliente de la id que le pasamos
     public static Cliente obtenerClientePorId(int idCliente) {
         Cliente cliente = null;
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
                     "SELECT nombre FROM backup21_mayra.clientes WHERE id_cliente = " + idCliente)) {
-
                 while (result.next()) {
                     String nombre = result.getString("nombre");
-
                     cliente = new Cliente(nombre);
-
                 }
             }
-
         } catch (SQLException ex) {
-            System.out.println("Ocurrió un error al obtener el id del cliente");
+            System.out.println("Ocurrió un error al obtener el nombre del cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
-
         return cliente;
     }
-
-    @Override
-    public String toString() {
-
-        return this.nombre;
-    }
-
 }

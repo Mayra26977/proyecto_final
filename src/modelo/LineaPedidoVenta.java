@@ -40,15 +40,6 @@ public class LineaPedidoVenta {
 
     }
 
-    private LineaPedidoVenta(int idLineaPedido, String nombre, double precio, Double precioTotalLinea, Double unidades) {
-        this.idLineaPedido = idLineaPedido;
-        this.nombreProducto = nombre;
-        this.idPedido = idPedido;
-        this.precioUnidad = precio;
-        this.importeTotalLinea = precioTotalLinea;
-        this.cantidad = unidades;
-    }
-
     public int getIdLineaPedido() {
         return idLineaPedido;
     }
@@ -105,24 +96,21 @@ public class LineaPedidoVenta {
         this.precioUnidad = precioUnidad;
     }
 
+    //obtener las lineas de un pedido de venta en concreto
     public static ObservableList obtenerLineasPedidoConcreto(PedidoVenta pedido) {
-         
         ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_venta WHERE id_pedido_venta =" + pedido.getIdPedido())) {
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                "SELECT * FROM backup21_mayra.linea_pedido_venta WHERE id_pedido_venta =" + pedido.getIdPedido())) {
             while (result.next()) {
-
                 int idLinea = result.getInt("id_linea_pedido_venta");
                 int idProducto = result.getInt("id_producto");
                 int idPedido = result.getInt("id_pedido_venta");
                 Double importeTotalLinea = result.getDouble("precio_total_linea_pedido_venta");
                 Double cantidad = result.getDouble("unidades");
 
-                Producto prod = Producto.obtenerProductoPorId(idProducto);                  
-                //LineaPedidoVenta linea = new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio());
-                lineas.add(new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));  
-                
+                Producto prod = Producto.obtenerProductoPorId(idProducto);
+                lineas.add(new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener las lineas del pedido");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -131,24 +119,22 @@ public class LineaPedidoVenta {
         }
         return lineas;
     }
-        public static ObservableList obtenerLineasPedido() {
-         
-        ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.linea_pedido_venta WHERE id_pedido_venta IN (SELECT id_pedido_venta FROM pedidos_ventas WHERE eliminado = 0)")) {
-            while (result.next()) {
 
+    //obtener las lineas del pedido de Venta
+    public static ObservableList obtenerLineasPedido() {
+        ObservableList<LineaPedidoVenta> lineas = FXCollections.observableArrayList();
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                "SELECT * FROM backup21_mayra.linea_pedido_venta WHERE id_pedido_venta IN (SELECT id_pedido_venta FROM pedidos_ventas WHERE eliminado = 0)")) {
+            while (result.next()) {
                 int idLinea = result.getInt("id_linea_pedido_venta");
                 int idProducto = result.getInt("id_producto");
                 int idPedido = result.getInt("id_pedido_venta");
                 Double importeTotalLinea = result.getDouble("precio_total_linea_pedido_venta");
                 Double cantidad = result.getDouble("unidades");
 
-                Producto prod = Producto.obtenerProductoPorId(idProducto);                  
-                //LineaPedidoVenta linea = new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio());
-                lineas.add(new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));  
-                
+                Producto prod = Producto.obtenerProductoPorId(idProducto);
+                lineas.add(new LineaPedidoVenta(idProducto, cantidad, importeTotalLinea, prod.getNombre(), prod.getPrecio()));
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener las lineas del pedido");
             System.out.println("Mensaje del error " + ex.getMessage());

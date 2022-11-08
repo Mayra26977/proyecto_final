@@ -24,8 +24,10 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            //ventana sin decoracion
             stage.initStyle(StageStyle.UNDECORATED); 
             stage.setScene(scene);
+            //para poder coger la ventana y arrastrala con el ratón
             root.setOnMousePressed(mouseEvent -> {
                 x = mouseEvent.getSceneX();
                 y = mouseEvent.getSceneY();
@@ -34,15 +36,15 @@ public class Main extends Application {
                 stage.setX(mouseEvent.getScreenX() - x);
                 stage.setY(mouseEvent.getScreenY() - y);
             });
+            //ventana centrada en la pantalla
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
-            System.out.println("Ocurrió un error al cargar la vista");
+            System.out.println("Ocurrió un error al cargar la ventana");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
-
     }
 
     /**

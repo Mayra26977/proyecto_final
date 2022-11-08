@@ -1,6 +1,5 @@
 package modelo;
 
-import com.mysql.cj.protocol.Resultset;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,11 +9,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
 /**
+ * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class PedidoVenta {
 
@@ -158,17 +157,20 @@ public class PedidoVenta {
         this.usuarioMod = usuarioMod;
     }
 
+    //método para insertar un pedido de venta en la base de datos
     public static boolean insertarPedidoVenta(PedidoVenta pedido, Timestamp fechaPedido, Cliente cliente, ArrayList<LineaPedidoVenta> lineas) {
         try {
             Conexion.obtenerConexion().setAutoCommit(false);
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.pedidos_ventas ( fecha, id_cliente,  usuario_aniade, fecha_aniade, total_pedido ) VALUES ( ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement(
+                    "INSERT INTO backup21_mayra.pedidos_ventas ( fecha, id_cliente,  usuario_aniade, fecha_aniade, total_pedido ) VALUES ( ?, ?, ?, ?, ?)",
+                     Statement.RETURN_GENERATED_KEYS);
             ps.setTimestamp(1, fechaPedido);
             ps.setInt(2, cliente.getIdCliente());
             ps.setInt(3, Global.usuarioLogueadoId);
             ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             ps.setDouble(5, pedido.getTotalPedido());
             ps.execute();
-            //devuelve las claves primarias que se generan del PreparedStatement
+            //devuelve las claves primarias que se generan del PreparedStatement para ponerle id al pedido de venta
             ResultSet ids = ps.getGeneratedKeys();
             int idPedido;
             if (ids.next()) {
@@ -184,7 +186,6 @@ public class PedidoVenta {
                 psLinea.setDouble(3, lineas.get(i).getImporteTotalLinea());
                 psLinea.setDouble(4, lineas.get(i).getCantidad());
                 psLinea.execute();
-
                 //actualizar la cantidad de unidades de ese producto cuando se hace una venta
                 PreparedStatement psProducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad - ?");
                 psProducto.setDouble(1, lineas.get(i).getCantidad());
@@ -206,15 +207,13 @@ public class PedidoVenta {
             }
             return false;
         }
-
     }
 
+    //método para obtener los pedidos que tienen eliminado a 0 de la base de datos
     public static ObservableList obtenerPedidos() {
         ObservableList<PedidoVenta> pedidos = FXCollections.observableArrayList();
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.pedidos_ventas WHERE eliminado = 0")) {
-
             while (result.next()) {
-
                 int id = result.getInt("id_pedido_venta");
                 Timestamp fecha = result.getTimestamp("fecha");
                 int proveedor = result.getInt("id_cliente");
@@ -231,18 +230,19 @@ public class PedidoVenta {
         return pedidos;
     }
 
+    //método para borrar el pedido de la base de datos, no se borra se le pone el eliminado a 1
     public static boolean borrarPedido(PedidoVenta pedido) {
         try {
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.pedidos_ventas SET usuario_borra = ?, fecha_borra = ?, eliminado = ? WHERE id_pedido_venta = ?");
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement(
+                    "UPDATE backup21_mayra.pedidos_ventas SET usuario_borra = ?, fecha_borra = ?, eliminado = ? WHERE id_pedido_venta = ?");
             ps.setInt(1, Global.usuarioLogueadoId);
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             ps.setBoolean(3, true);
             ps.setInt(4, pedido.getIdPedido());
             ps.execute();
+            //se actualizan las cantidades de los productos cuando se borra un pedido
             actualizarCantidades(pedido);
-
             return true;
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al borrar el pedido");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -251,18 +251,18 @@ public class PedidoVenta {
             return false;
         }
     }
-//se actualizan las cantidades del pedido cuando se borra un pedido, puesto que no se han vendido, se le suma de nuevo a la cantidad que
-    //cuando se generó el pedido de venta se le resto
 
+    //se actualizan las cantidades del pedido cuando se borra un pedido, puesto que no se han vendido, se le suma de nuevo a la cantidad que
+    //cuando se generó el pedido de venta se le resto
     private static boolean actualizarCantidades(PedidoVenta pedido) {
         try {
+            //transacción
             Conexion.obtenerConexion().setAutoCommit(false);
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("SELECT id_producto, unidades FROM backup21_mayra.linea_pedido_venta where id_pedido_venta = ?");
             ps.setInt(1, pedido.getIdPedido());
             ResultSet result = ps.executeQuery();
             while (result.next()) {
                 PreparedStatement psproducto = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET cantidad = cantidad + ? where id_producto = ?");
-
                 psproducto.setDouble(1, result.getDouble("unidades"));
                 psproducto.setInt(2, result.getInt("id_producto"));
                 psproducto.execute();
@@ -284,5 +284,4 @@ public class PedidoVenta {
             return false;
         }
     }
-
 }

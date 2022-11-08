@@ -1,5 +1,4 @@
 package modelo;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,6 +26,7 @@ public class Conexion {
 
     private static final String url = "jdbc:mysql://" + SERVIDOR + ":" + PUERTO + "/" + NOMBRE_DB;
 
+    //método para conectarte a la base de datos
     public static Connection obtenerConexion() {
         if (conexion == null) {
             try {
@@ -47,6 +47,7 @@ public class Conexion {
         return conexion;
     }
 
+    //método para cerrar la conexión con la base de datos
     public void cerrarConexion() throws SQLException {
         conexion.close();
         conexion = null;
@@ -56,5 +57,4 @@ public class Conexion {
         alert.setContentText("Conexión cerrada");
         alert.show();
     }
-
 }

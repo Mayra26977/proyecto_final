@@ -26,7 +26,7 @@ import modelo.Utils;
 /**
  * FXML Controller class
  *
- * @author maria.enriquez
+ * @author Mayra
  */
 public class ControladorTabOrdenFabricacion implements Initializable {
 
@@ -59,65 +59,79 @@ public class ControladorTabOrdenFabricacion implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         cargarTablaOfs();
     }
 
+    //metodo que te abre nueva ventana y te muestra la of seleccionada en la tabla
     @FXML
     private void ver(ActionEvent event) {
         of = tblOfs.getSelectionModel().getSelectedItem();
-
-        try {
-            loader = new FXMLLoader(getClass().getResource("/vista/vistaOrdenFabricacion.fxml"));
-            ControladorVistaOrdenFabricacion controller = new ControladorVistaOrdenFabricacion();
-            controller.setOf(of);
-            loader.setController(controller);
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println(String.format("Error creando ventana: %s", e.getMessage()));
+        if (of == null) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Orden de fabricación seleccionada");
+            alert.setHeaderText("Orden de fabricación seleccionada");
+            alert.setContentText("Debes seleccionar una orden de frabicación en la tabla para consultarla");
+            alert.showAndWait();
+        } else {
+            try {
+                loader = new FXMLLoader(getClass().getResource("/vista/vistaOrdenFabricacion.fxml"));
+                ControladorVistaOrdenFabricacion controller = new ControladorVistaOrdenFabricacion();
+                controller.setOf(of);
+                loader.setController(controller);
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                System.err.println(String.format("Error creando ventana: %s", e.getMessage()));
+            }
         }
-
     }
 
+    //método para borrar una orden de fabricación
     @FXML
     private void borrarOf(ActionEvent event) {
         OrdenFabricacion of = tblOfs.getSelectionModel().getSelectedItem();
         Alert alert;
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Borrar orden de fabricación");
-        alert.setHeaderText("Vas a borrar la orden de fabricación");
-        alert.setContentText("Estas seguro de borrar la orden de fabricación?");
-        Optional<ButtonType> action = alert.showAndWait();
-        if (OrdenFabricacion.borrarOf(of) && action.get() == ButtonType.OK) {
-
+        if (of == null) {
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Borrar orden de fabricación");
-            alert.setHeaderText("Orden de fabricación borrada");
-            alert.setContentText("La orden de fabricación se borró correctamente");
+            alert.setTitle("Orden de fabricación seleccionada");
+            alert.setHeaderText("Orden de fabricación seleccionada");
+            alert.setContentText("Debes seleccionar una orden de frabicación en la tabla para borrarla");
             alert.showAndWait();
-
         } else {
-
-            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Borrar orden de fabricación");
-            alert.setHeaderText("Orden de fabricación no borrada");
-            alert.setContentText("La orden de fabricación no se borró");
-            alert.showAndWait();
-
+            alert.setHeaderText("Vas a borrar la orden de fabricación");
+            alert.setContentText("Estas seguro de borrar la orden de fabricación?");
+            Optional<ButtonType> action = alert.showAndWait();
+            if (OrdenFabricacion.borrarOf(of) && action.get() == ButtonType.OK) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Borrar orden de fabricación");
+                alert.setHeaderText("Orden de fabricación borrada");
+                alert.setContentText("La orden de fabricación se borró correctamente");
+                alert.showAndWait();
+            } else {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Borrar orden de fabricación");
+                alert.setHeaderText("Orden de fabricación no borrada");
+                alert.setContentText("La orden de fabricación no se borró");
+                alert.showAndWait();
+            }
+            cargarTablaOfs();
         }
-        cargarTablaOfs();
     }
-
+    
+    //método para actualizar la tabla de Of
     @FXML
     private void actualizarTablaOf(ActionEvent event) {
         ofs = OrdenFabricacion.obtenerOfs();
         tblOfs.setItems(ofs);
     }
-
+    
+    //método que abre una ventana para crear un Of
     @FXML
     private void nuevo(ActionEvent event) {
         loader = new FXMLLoader(getClass().getResource("/vista/vistaOrdenFabricacion.fxml"));
@@ -128,7 +142,8 @@ public class ControladorTabOrdenFabricacion implements Initializable {
         stage.initModality(Modality.WINDOW_MODAL);
         Utils.abrirVentana(loader, stage);
     }
-
+    
+    //método que carga con los datos la tabla de Ofs
     private void cargarTablaOfs() {
         colOf.setCellValueFactory(new PropertyValueFactory("idOf"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory("fechaInicio"));
@@ -137,12 +152,4 @@ public class ControladorTabOrdenFabricacion implements Initializable {
         ofs = OrdenFabricacion.obtenerOfs();
         tblOfs.setItems(ofs);
     }
-    @FXML
-    private void refrescarTablaOf(ActionEvent event) {
-        ofs = OrdenFabricacion.obtenerOfs();
-        tblOfs.setItems(ofs);
-    }
-    
-    
-
 }

@@ -58,7 +58,6 @@ public class Producto {
         this.imagen = imagen;
         this.imagenProducto = imagenProducto;
         this.idProveedor = idProveedor;
-
     }
 
     public Producto(int IdProducto, String nombre, String descripcion, double precio, double cantidad, Image imagen, int idProveedor) {
@@ -78,7 +77,6 @@ public class Producto {
         this.cantidad = cantidad;
         this.imagenProducto = imagenRecogida;
         this.idProveedor = idProveedor;
-
     }
 
     public Producto(int IdProducto) {
@@ -214,15 +212,12 @@ public class Producto {
     public String toString() {
         return this.nombre;
     }
-    
-    
 
     //metodo para obtener todos los productos que no tienen el eliminado a 1
     public static ObservableList obtenerProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
         Image img;
         try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.producto WHERE eliminado = 0")) {
-
             while (result.next()) {
                 byte byteImage[];
                 int id = result.getInt("id_Producto");
@@ -231,6 +226,7 @@ public class Producto {
                 double precio = result.getDouble("precio");
                 double cantidad = result.getDouble("cantidad");
                 Blob imagen = result.getBlob("imagen");
+                //cuando no hay imagen en imageView se queda vacio
                 if (imagen == null) {
                     img = null;
                 } else {
@@ -251,41 +247,31 @@ public class Producto {
         return listaProductos;
     }
 
-    //metodo para obtener la id de los productos por nombre
+    //método para obtener la id de los productos por nombre
     public static int obtenerId(String producto) {
         int IdProducto = 0;
-
         try {
             try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
                     "SELECT id_producto FROM backup21_mayra.producto WHERE nombre = '" + producto + "'")) {
                 while (result.next()) {
                     IdProducto = result.getInt("id_producto");
-
                 }
             }
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener el id del producto");
             System.out.println("Mensaje del error " + ex.getMessage());
             System.out.println("Detalles del error ");
             ex.printStackTrace();
         }
-
         return IdProducto;
     }
-    //metodo insertar producto en la tabla
 
+    //metodo insertar producto en la tabla
     public static boolean insertarProducto(Producto producto) {
         try {
-
-            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("INSERT INTO backup21_mayra.producto ( nombre, descripcion, precio, cantidad, imagen, usuario_aniade, fecha_aniade,  id_proveedor ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
-//            String sql = "INSERT INTO producto (idProducto, nombre, descripcion, precio, cantidad, imagen, "
-//                    + "fechaAniade, fechaBorra, fechaMod, usuarioAniade, usuarioBorra, usuarioMod, eliminado) "
-//                    + "VALUES (NULL, '" + nombre + "', '" + descripcion + "', '" + precio
-//                    + "', '" + cantidad + "', '" + imagen + "', '"
-//                    + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', NULL, NULL, DEFAULT, " + Global.usuarioLogueadoId
-//                    + ", NULL, NULL)";
-
+            PreparedStatement ps = Conexion.obtenerConexion().prepareStatement(
+                    "INSERT INTO backup21_mayra.producto ( nombre, descripcion, precio, cantidad, imagen, usuario_aniade, fecha_aniade,  id_proveedor ) "
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setDouble(3, producto.getPrecio());
@@ -299,7 +285,6 @@ public class Producto {
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(8, producto.getIdProveedor());
             return ps.execute();
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al insertar el producto");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -307,10 +292,9 @@ public class Producto {
             ex.printStackTrace();
             return false;
         }
-
     }
-//método para convertir un tipo Image a tipo Blob para guardar la imagen en la base de datos
 
+    //método para convertir un tipo Image a tipo Blob para guardar la imagen en la base de datos
     public static Blob imagenABlob(Image i) {
         Blob blob = null;
         BufferedImage bImage = SwingFXUtils.fromFXImage(i, null);
@@ -328,18 +312,10 @@ public class Producto {
         }
         return blob;
     }
-    //metodo insertar producto en la tabla
-
+    
+    //método modificar producto en la tabla
     public static int modificarProducto(Producto producto) throws IOException {
-        Statement stmt = null;
         try {
-//            String sql = "UPDATE producto SET nombre = '" + producto.getNombre() + "', descripcion = '" + producto.getDescripcion()
-//                    + "', precio = '" + producto.getPrecio() + "' , cantidad =  '" + producto.getCantidad()
-//                    + "' imagen = '" + imagenABlob(producto.getImagenProducto()) +"', fechaMod = '" + Timestamp.valueOf(LocalDateTime.now())
-//                    + "', usuarioMod = " + Global.usuarioLogueadoId
-//                    + " WHERE idProducto = " + producto.getId_producto();
-//            stmt = Conexion.obtenerConexion().createStatement();
-//            return stmt.execute(sql);
             PreparedStatement ps = Conexion.obtenerConexion().prepareStatement("UPDATE backup21_mayra.producto SET nombre = ?, "
                     + "descripcion = ?, precio = ?, cantidad = ?, imagen = ?, fecha_mod = ?, usuario_mod = ?, id_proveedor = ? "
                     + "WHERE id_producto = ?");
@@ -352,14 +328,11 @@ public class Producto {
             } else {
                 ps.setBlob(5, imagenABlob(producto.getImagenProducto()));
             }
-
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(7, Global.usuarioLogueadoId);
             ps.setInt(8, producto.getIdProducto());
             ps.setInt(9, producto.getIdProveedor());
-
             return ps.executeUpdate();
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al actualizar el cliente");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -368,17 +341,15 @@ public class Producto {
             return 0;
         }
     }
+    
     //metodo borrar producto seleccionado en la tabla
-
     public static boolean borrarProducto(Producto producto) {
-
         try {
             int id = producto.getIdProducto();
             Statement stmt = Conexion.obtenerConexion().createStatement();
             String sql = "UPDATE backup21_mayra.producto SET fecha_borra = '" + Timestamp.valueOf(LocalDateTime.now()) + "', eliminado = '1', usuario_borra = " + Global.usuarioLogueadoId
                     + " WHERE id_producto = " + id;
             return stmt.execute(sql);
-
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al borrar el producto");
             System.out.println("Mensaje del error " + ex.getMessage());
@@ -386,14 +357,14 @@ public class Producto {
             ex.printStackTrace();
             return false;
         }
-
     }
 
+    //método para obtener los productos de un proveedor en concreto
     public static ObservableList obtenerProductosProveedor(int idProveedor) {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
         Image img;
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT * FROM backup21_mayra.producto WHERE eliminado = 0 AND id_proveedor =" + idProveedor)) {
-
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                "SELECT * FROM backup21_mayra.producto WHERE eliminado = 0 AND id_proveedor =" + idProveedor)) {
             while (result.next()) {
                 byte byteImage[];
                 int id = result.getInt("id_producto");
@@ -421,15 +392,16 @@ public class Producto {
         return listaProductos;
     }
 
+    //método para obtener el nombre y el precio de un producto por si id
     public static Producto obtenerProductoPorId(int idProducto) {
         Producto producto = null;
-        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery("SELECT nombre,precio FROM backup21_mayra.producto WHERE eliminado = 0 AND id_producto = " + idProducto)) {
-            
+        try ( ResultSet result = Conexion.obtenerConexion().createStatement().executeQuery(
+                "SELECT nombre,precio FROM backup21_mayra.producto WHERE eliminado = 0 AND id_producto = " + idProducto)) {            
             while (result.next()) {
                 String nombre = result.getString("nombre");
                 Double precio = result.getDouble("precio");
-
-                producto = new Producto(nombre,precio);
+                
+                producto = new Producto(nombre, precio);
             }
         } catch (SQLException ex) {
             System.out.println("Ocurrió un error al obtener los productos");
@@ -439,5 +411,4 @@ public class Producto {
         }
         return producto;
     }
-    
 }
