@@ -22,7 +22,7 @@ public class VistaPrincipalController implements Initializable {
     //array de tabs que se verá el rol operario
     private String[] pestaniasOperario = {"Productos", "Pedidos compra", "Orden fabricación"};
     //array de tabs que se verá el rol Administrativo
-    private String[] pestaniasAdministrativo = {"Productos", "Pedidos compra", "Pedidos venta","Facturas compra","Facturas venta","Proveedores","Clientes"};
+    private String[] pestaniasAdministrativo = {"Productos", "Pedidos compra", "Pedidos venta","Proveedores","Clientes"};
 
     /**
      * Initializes the controller class.
